@@ -39,8 +39,24 @@ export type Company = {
 const defaultColumns: ColumnDef<Company>[] = [
   {
     accessorKey: "dateOfAnalysis",
-    header: "Date of Analysis",
-    id: 'date'
+    id: 'date',
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted();
+      return (
+        <button
+          onClick={() => column.toggleSorting()}
+          style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer', background: 'none', border: 'none' }}
+        >
+          Date of Analysis {" "}
+          {isSorted === 'asc' ? "🔼" : isSorted === 'desc' ? "🔽" : '↕️'}
+        </button>
+      );
+    },
+    sortingFn: (a, b, columnId) => {
+      const dateA = new Date(a.getValue(columnId));
+      const dateB = new Date(b.getValue(columnId));
+      return dateA.getTime() - dateB.getTime();
+    },
   },
   {
     accessorKey: "isin",
