@@ -49,7 +49,7 @@ const defaultColumns: ColumnDef<Company>[] = [
   },
   {
     accessorKey: "score",
-    header: () => <>{"Score"}<div style={{fontSize: '10px'}}>{'(max 11)'}</div></>,
+    header: () => <><div style={{fontSize: '12px'}}>{"Dmitri Score"}</div><div style={{fontSize: '10px'}}>{'(max 11)'}</div></>,
     id: 'score',
     cell: info => info.getValue<number>().toFixed(2)
   },
