@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { CRITERIA, dateFormat } from '../globalVars';
+import { dateFormat } from '../globalVars';
 import { Company } from '../../table/BasicTable';
 
 const oldCompanies: Company[] = [
