@@ -63,7 +63,7 @@ export function scorePeRatio(peRatio: number, industryPeRatio: number): number {
     return 1; // Very expensive
 }
 
-export function scoreFitchAndSpRating(rating: string): number {
+export function scoreFitchAndSpRating(rating: string | 0): number {
     if (!rating) {
         return 0;
     }

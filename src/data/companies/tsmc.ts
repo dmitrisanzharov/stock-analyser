@@ -39,9 +39,9 @@ const scoreArray: ScoreArrayItem[] = [
     { criteriaId: CRITERIA.PE_RATIO, dmitriScore: scorePeRatio(21.17, 48.95) }, // max 10, args: companyPeRatio, industryPeRatio ...
     { criteriaId: CRITERIA.STOCK_GRAPH, dmitriScore: 10 }, // max 10
     { criteriaId: CRITERIA.AUDITOR, dmitriScore: 10 }, // max 10
-    { criteriaId: CRITERIA.FITCH_RATING, dmitriScore: scoreFitchAndSpRating('BBB+') }, // max 11
-    { criteriaId: CRITERIA.MOODY_RATING, dmitriScore: scoreMoodyRating('Baa2') }, // max 11
-    { criteriaId: CRITERIA.SP_RATING, dmitriScore: scoreFitchAndSpRating('BBB') }, // max 11
+    { criteriaId: CRITERIA.FITCH_RATING, dmitriScore: scoreFitchAndSpRating(0) }, // max 11
+    { criteriaId: CRITERIA.MOODY_RATING, dmitriScore: scoreMoodyRating('Aa3') }, // max 11
+    { criteriaId: CRITERIA.SP_RATING, dmitriScore: scoreFitchAndSpRating('AA-') }, // max 11
     { criteriaId: CRITERIA.DEGIRO_INCOME_STATEMENT, dmitriScore: scoreDegiroIncomeStatement(5, 5) }, // max 12
     { criteriaId: CRITERIA.YEAR_STARTED, dmitriScore: scoreYearStarted(NaN, 10) }, // max 10
     { criteriaId: CRITERIA.NUMBER_OF_EMPLOYEES, dmitriScore: scoreNumberOfEmployees(11000) }, // max 10
