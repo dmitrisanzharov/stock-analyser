@@ -151,6 +151,10 @@ export function scoreNumberOfEmployees(numEmployees: number): number {
     throw new Error(`scoreNumberOfEmployees error: invalid number of employees ${numEmployees}`);
 }
 
+export function scoreIntegrity(integrity: number): number {
+    return 10 - integrity;
+}
+
 export function yearsForEarningsMatchPrice(sharePriceInEuro: number, avgEpsIn10Years: number): number {
     const peRatio = sharePriceInEuro / avgEpsIn10Years;
 
