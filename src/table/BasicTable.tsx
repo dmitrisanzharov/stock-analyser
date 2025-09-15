@@ -131,7 +131,7 @@ const BasicTable = () => {
         </Box>
       </Box >
       <hr />
-      <Table sx={{ maxWidth: 750 }}>
+      <Table sx={{ maxWidth: 850 }}>
         <TableHead>
           {table.getHeaderGroups().map(headerGroup => (
             <TableRow key={headerGroup.id} sx={{ backgroundColor: '#f0f0f0' }}>
