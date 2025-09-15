@@ -24,6 +24,7 @@ import {
 const date_when_analyzed = '2025-08-31';
 const isin = 'US5260571048';
 const name = 'Lennar Corp (Buffet)';
+const countryDomain = 'us';
 
 // consts
 const sharePriceInEuroConst = 113.88;
@@ -74,7 +75,8 @@ const lennarCorp_Buffet: Company = {
     dateOfAnalysis: dayjs(date_when_analyzed).format(dateFormat),
     name,
     isin,
-    score: Number(companyScore.toFixed(2))
+    score: Number(companyScore.toFixed(2)),
+    country: countryDomain
 };
 
 export default lennarCorp_Buffet;

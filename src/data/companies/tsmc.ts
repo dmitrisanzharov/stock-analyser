@@ -25,6 +25,8 @@ import {
 const date_when_analyzed = '2025-09-09';
 const isin = 'US8740391003';
 const name = 'TSMC';
+const countryDomain = 'tw';
+
 
 // consts
 const sharePriceInEuroConst = 210.38;
@@ -75,7 +77,8 @@ const tsmc: Company = {
     dateOfAnalysis: dayjs(date_when_analyzed).format(dateFormat),
     name,
     isin,
-    score: Number(companyScore.toFixed(2))
+    score: Number(companyScore.toFixed(2)),
+    country: countryDomain
 };
 
 export default tsmc;

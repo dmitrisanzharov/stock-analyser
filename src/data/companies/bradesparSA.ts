@@ -25,6 +25,7 @@ import {
 const date_when_analyzed = '2025-09-15';
 const isin = 'BRBRAPACNOR5';
 const name = 'Bradespar SA';
+const countryDomain = 'br';
 
 // consts
 const sharePriceInEuroConst = 2.32;
@@ -75,7 +76,8 @@ const bradesparSA: Company = {
     dateOfAnalysis: dayjs(date_when_analyzed).format(dateFormat),
     name,
     isin,
-    score: Number(companyScore.toFixed(2))
+    score: Number(companyScore.toFixed(2)),
+    country: countryDomain
 };
 
 export default bradesparSA;

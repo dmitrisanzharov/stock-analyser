@@ -25,6 +25,7 @@ export type Company = {
   name: string,
   isin: string,
   score: number,
+  country: string
 }
 
 // const date = dayjs('2025-09-12');
@@ -57,6 +58,11 @@ const defaultColumns: ColumnDef<Company>[] = [
       const dateB = new Date(b.getValue(columnId));
       return dateA.getTime() - dateB.getTime();
     },
+  },
+  {
+    accessorKey: "country",
+    header: "Country",
+    id: 'country'
   },
   {
     accessorKey: "isin",
