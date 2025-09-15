@@ -186,7 +186,7 @@ export function scoreShareBookValue(sharePriceInEuro: number, bookValuePerShare:
     return 1; // >200%
 }
 
-export function scoreDebtToEquity(debtToEquityRatio: number): number {
+export function scoreDebtToEquity(debtToEquityRatio: number, zeroTrue?: boolean): number {
     if (debtToEquityRatio <= 40) return 10;
     if (debtToEquityRatio <= 50) return 9;
     if (debtToEquityRatio <= 60) return 8;
