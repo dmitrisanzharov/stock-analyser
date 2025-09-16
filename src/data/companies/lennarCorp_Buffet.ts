@@ -13,7 +13,6 @@ import {
     scoreDegiroIncomeStatement,
     scoreYearStarted,
     scoreNumberOfEmployees,
-    scoreIntegrity,
     scoreTradeVolume,
     yearsForEarningsMatchPrice,
     scoreShareBookValue,

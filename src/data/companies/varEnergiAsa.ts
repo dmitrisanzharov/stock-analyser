@@ -17,7 +17,6 @@ import {
     scoreTradeVolume,
     yearsForEarningsMatchPrice,
     scoreShareBookValue,
-    scoreDebtToEquity,
     scoreReturnOnEquity,
     scoreMarketCap
 } from '../../helpers/allOther';
