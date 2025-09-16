@@ -10,6 +10,7 @@ function calcTotalScore(
 ) {
     const criteriaValues = Object.values(criteriaObj);
 
+    // this tells me that one of the Companies Items is missing Value
     if (criteriaValues.length !== weights.length || weights.length !== scores.length) {
         throw new Error(
             `calcTotalValue: Array lengths mismatch. ` +
