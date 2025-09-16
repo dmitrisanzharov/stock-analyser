@@ -22,6 +22,7 @@ import {
 } from '../helpers/allOther';
 import useGetData from './hooks';
 import { InvestmentRecord } from '../types';
+import { create } from "domain";
 
 // TODO: remove useless
 export type Company = {
@@ -81,22 +82,33 @@ function dmitriScoreCustomFn(info: any) {
 
 }
 
+function createSortableHeader(name: string | React.ReactNode) {
+    return ({ column }: { column: any }) => {
+        const isSorted = column.getIsSorted();
+        return (
+            <button
+                onClick={() => column.toggleSorting()}
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    cursor: "pointer",
+                    background: "none",
+                    border: "none"
+                }}
+            >
+                {name}{" "}
+                {isSorted === "asc" ? "🔼" : isSorted === "desc" ? "🔽" : "↕️"}
+            </button>
+        );
+    };
+}
+
 const defaultColumns: ColumnDef<InvestmentRecord>[] = [
     {
         accessorKey: "date of analysis",
         id: "date",
-        header: ({ column }) => {
-            const isSorted = column.getIsSorted();
-            return (
-                <button
-                    onClick={() => column.toggleSorting()}
-                    style={{ display: "flex", alignItems: "center", gap: "4px", cursor: "pointer", background: "none", border: "none" }}
-                >
-                    Date of Analysis{" "}
-                    {isSorted === "asc" ? "🔼" : isSorted === "desc" ? "🔽" : "↕️"}
-                </button>
-            );
-        },
+        header: createSortableHeader('Date of Analysis'),
         cell: ({ getValue }) => {
             // getValue can return a string, Date, number, etc.
             const raw = getValue() as unknown;
@@ -128,7 +140,7 @@ const defaultColumns: ColumnDef<InvestmentRecord>[] = [
     },
     {
         accessorKey: "avg AI grade",
-        header: "avg AI grade",
+        header: createSortableHeader('avg AI grade'),
         id: 'aiGrade',
         cell: ({ getValue }) => getValue() ? Number(getValue<number>().toFixed(2)) : 0
     },
@@ -139,7 +151,7 @@ const defaultColumns: ColumnDef<InvestmentRecord>[] = [
     },
     {
         accessorKey: "Dmitri score by feel",
-        header: () => <><div style={{ fontSize: '12px' }}>{"Dmitri Score"}</div><div style={{ fontSize: '10px' }}>{'(max 11)'}</div></>,
+        header: createSortableHeader(<><div style={{ fontSize: '12px' }}>{"Dmitri Score"}</div><div style={{ fontSize: '10px' }}>{'(max 11)'}</div></>),
         id: 'dmitriScore',
         cell: dmitriScoreCustomFn
     }
@@ -150,7 +162,7 @@ const BasicTable = () => {
     const data = useGetData();
 
     const [sorting, setSorting] = React.useState([
-        { id: "aiGrade", desc: true },
+        { id: "dmitriScore", desc: true },
     ]);
     const [fitchAndSp, setFitchAndSp] = React.useState('');
     const [convertedFitchAndSp, setConvertedFitchAndSp] = React.useState(0);
