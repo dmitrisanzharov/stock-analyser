@@ -68,6 +68,19 @@ function parseCustomDate(value?: unknown): dayjs.Dayjs {
     return dayjs("2025-04-01");
 }
 
+function dmitriScoreCustomFn(info: any){
+    console.log('info', info);
+
+    const value = info.getValue();
+
+    if(value){
+        return Number(value.toFixed(2));
+    }
+
+    return 0;
+
+}
+
 const defaultColumns: ColumnDef<InvestmentRecord>[] = [
     {
         accessorKey: "date of analysis",
@@ -124,19 +137,17 @@ const defaultColumns: ColumnDef<InvestmentRecord>[] = [
         id: 'aiGrade',
         cell: ({getValue}) => getValue() ? Number(getValue<number>().toFixed(2)) : 0
     },
-    // {
-    //     accessorKey: "score",
-    //     header: () => <><div style={{ fontSize: '12px' }}>{"Dmitri Score"}</div><div style={{ fontSize: '10px' }}>{'(max 11)'}</div></>,
-    //     id: 'dmitriScore',
-    //     cell: info => info.getValue<number>().toFixed(2)
-    // },
+    {
+        accessorKey: "Dmitri score by feel",
+        header: () => <><div style={{ fontSize: '12px' }}>{"Dmitri Score"}</div><div style={{ fontSize: '10px' }}>{'(max 11)'}</div></>,
+        id: 'dmitriScore',
+        cell: dmitriScoreCustomFn
+    },
 ]
 
 const BasicTable = () => {
 
     const data = useGetData();
-    console.log("data: ", data);
-
 
     const [sorting, setSorting] = React.useState([
         { id: "aiGrade", desc: true },
@@ -165,11 +176,6 @@ const BasicTable = () => {
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
     })
-
-    // TODO: REMOVE THIS 
-    // return <div>
-    //     <pre>{JSON.stringify(data, null, 2)}</pre>
-    // </div>
 
     return (
         <>
