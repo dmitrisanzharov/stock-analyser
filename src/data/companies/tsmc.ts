@@ -14,6 +14,7 @@ import {
     scoreYearStarted,
     scoreNumberOfEmployees,
     scoreIntegrity,
+    scoreTradeVolume,
     yearsForEarningsMatchPrice,
     scoreShareBookValue,
     scoreDebtToEquity,
@@ -26,7 +27,6 @@ const date_when_analyzed = '2025-09-09';
 const isin = 'US8740391003';
 const name = 'TSMC';
 const countryDomain = 'tw';
-
 
 // consts
 const sharePriceInEuroConst = 210.38;
@@ -50,6 +50,7 @@ const scoreArray: ScoreArrayItem[] = [
     { criteriaId: CRITERIA.NUMBER_OF_EMPLOYEES, dmitriScore: scoreNumberOfEmployees(83825) }, // max 10
     { criteriaId: CRITERIA.INTEGRITY, dmitriScore: scoreIntegrity(3) }, // max 10
     { criteriaId: CRITERIA.HELD_BY_BIG_INVESTORS, dmitriScore: 10 }, // max 10
+    { criteriaId: CRITERIA.TRADING_VOLUME_IN_EURO, dmitriScore: scoreTradeVolume(sharePriceInEuroConst, 230.3) },
     {
         criteriaId: CRITERIA.YEARS_TO_EARNINGS_MATCH,
         dmitriScore: yearsForEarningsMatchPrice(sharePriceInEuroConst, 3.19)
@@ -59,7 +60,7 @@ const scoreArray: ScoreArrayItem[] = [
     { criteriaId: CRITERIA.EBITDA_AVG, dmitriScore: 10 }, // max 10
     { criteriaId: CRITERIA.NET_PROFIT_AVG, dmitriScore: 10 }, // max 10
     { criteriaId: CRITERIA.DEBT_EQUITY, dmitriScore: scoreDebtToEquity(21.94) }, // max 10, input as percentage: e.g. 40% input as 40
-    { criteriaId: CRITERIA.RETURN_ON_EQUITY, dmitriScore: scoreReturnOnEquity(34.20) }, // max 10, input as percentage: e.g. 1.5% input as 1.5
+    { criteriaId: CRITERIA.RETURN_ON_EQUITY, dmitriScore: scoreReturnOnEquity(34.2) }, // max 10, input as percentage: e.g. 1.5% input as 1.5
     { criteriaId: CRITERIA.MARKET_CAP, dmitriScore: scoreMarketCap(938) }, // max 10
     { criteriaId: CRITERIA.INDEX_MEMBERSHIP, dmitriScore: 3 }, // max 3
     { criteriaId: CRITERIA.HELD_BY_BILLIONAIRES, dmitriScore: 0.69 }, // max 1

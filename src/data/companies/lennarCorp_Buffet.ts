@@ -13,6 +13,8 @@ import {
     scoreDegiroIncomeStatement,
     scoreYearStarted,
     scoreNumberOfEmployees,
+    scoreIntegrity,
+    scoreTradeVolume,
     yearsForEarningsMatchPrice,
     scoreShareBookValue,
     scoreDebtToEquity,
@@ -48,6 +50,7 @@ const scoreArray: ScoreArrayItem[] = [
     { criteriaId: CRITERIA.NUMBER_OF_EMPLOYEES, dmitriScore: scoreNumberOfEmployees(11000) }, // max 10
     { criteriaId: CRITERIA.INTEGRITY, dmitriScore: 6 }, // max 10
     { criteriaId: CRITERIA.HELD_BY_BIG_INVESTORS, dmitriScore: 10 }, // max 10
+    { criteriaId: CRITERIA.TRADING_VOLUME_IN_EURO, dmitriScore: scoreTradeVolume(sharePriceInEuroConst, 68.1) },
     {
         criteriaId: CRITERIA.YEARS_TO_EARNINGS_MATCH,
         dmitriScore: yearsForEarningsMatchPrice(sharePriceInEuroConst, 8.07)
