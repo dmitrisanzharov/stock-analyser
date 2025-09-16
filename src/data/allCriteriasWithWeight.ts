@@ -16,6 +16,7 @@ const allCriteriasWithWeightArr = [
     { criteriaId: CRITERIA.NUMBER_OF_EMPLOYEES, weight: 6, maxPossibleScore: 10 },
     { criteriaId: CRITERIA.INTEGRITY, weight: 10, maxPossibleScore: 10 },
     { criteriaId: CRITERIA.HELD_BY_BIG_INVESTORS, weight: 4, maxPossibleScore: 10 },
+    { criteriaId: CRITERIA.TRADING_VOLUME_IN_EURO, weight: 8, maxPossibleScore: 10 },
     { criteriaId: CRITERIA.YEARS_TO_EARNINGS_MATCH, weight: 5, maxPossibleScore: 10 },
     { criteriaId: CRITERIA.SHARE_BOOK_VALUE, weight: 9, maxPossibleScore: 10 },
     { criteriaId: CRITERIA.EQUITY_AVG, weight: 10, maxPossibleScore: 10 },
@@ -31,7 +32,7 @@ const allCriteriasWithWeightArr = [
     { criteriaId: CRITERIA.PAST_PERFORMANCE, weight: 2, maxPossibleScore: 6 },
     { criteriaId: CRITERIA.FINANCIAL_HEALTH, weight: 2, maxPossibleScore: 6 },
     { criteriaId: CRITERIA.DIVIDENDS, weight: 2, maxPossibleScore: 6 },
-    { criteriaId: CRITERIA.MANAGEMENT, weight: 2, maxPossibleScore: 6 },
+    { criteriaId: CRITERIA.MANAGEMENT, weight: 2, maxPossibleScore: 6 }
 ];
 
 export default allCriteriasWithWeightArr;

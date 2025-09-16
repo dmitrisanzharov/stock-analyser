@@ -155,6 +155,22 @@ export function scoreIntegrity(integrity: number): number {
     return 10 - integrity;
 }
 
+export function scoreTradeVolume(sharePriceInEuro: number, volumeInMillions: number): number {
+    const turnover = sharePriceInEuro * volumeInMillions * 1_000_000; // daily € turnover
+
+    if (turnover >= 100_000_000) return 10;
+    if (turnover >= 50_000_000) return 9;
+    if (turnover >= 20_000_000) return 8;
+    if (turnover >= 10_000_000) return 7;
+    if (turnover >= 5_000_000) return 6;
+    if (turnover >= 2_000_000) return 5;
+    if (turnover >= 1_000_000) return 4;
+    if (turnover >= 500_000) return 3;
+    if (turnover >= 100_000) return 2;
+    if (turnover > 0) return 1;
+    return 0;
+}
+
 export function yearsForEarningsMatchPrice(sharePriceInEuro: number, avgEpsIn10Years: number): number {
     const peRatio = sharePriceInEuro / avgEpsIn10Years;
 

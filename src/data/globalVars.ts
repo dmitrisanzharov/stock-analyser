@@ -16,6 +16,7 @@ export const CRITERIA = {
     NUMBER_OF_EMPLOYEES: 'number of employees',
     INTEGRITY: 'Integrity: any dirt on them (1 being clean, 10 dirty)',
     HELD_BY_BIG_INVESTORS: 'is held by big Investment firms (if yes, name at least 1)',
+    TRADING_VOLUME_IN_EURO: 'trading volume in euros',
     YEARS_TO_EARNINGS_MATCH: 'years to Earnings Match share',
     SHARE_BOOK_VALUE: 'share / book value',
     EQUITY_AVG: 'equity average past 10 years in millions in euros',

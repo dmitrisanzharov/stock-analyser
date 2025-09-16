@@ -14,6 +14,7 @@ import {
     scoreYearStarted,
     scoreNumberOfEmployees,
     scoreIntegrity,
+    scoreTradeVolume,
     yearsForEarningsMatchPrice,
     scoreShareBookValue,
     scoreDebtToEquity,
