@@ -68,12 +68,12 @@ function parseCustomDate(value?: unknown): dayjs.Dayjs {
     return dayjs("2025-04-01");
 }
 
-function dmitriScoreCustomFn(info: any){
+function dmitriScoreCustomFn(info: any) {
     console.log('info', info);
 
     const value = info.getValue();
 
-    if(value){
+    if (value) {
         return Number(value.toFixed(2));
     }
 
@@ -127,22 +127,22 @@ const defaultColumns: ColumnDef<InvestmentRecord>[] = [
         id: 'isin'
     },
     {
-        accessorKey: "Company Name",
-        header: "Name",
-        id: 'name'
-    },
-    {
         accessorKey: "avg AI grade",
         header: "avg AI grade",
         id: 'aiGrade',
-        cell: ({getValue}) => getValue() ? Number(getValue<number>().toFixed(2)) : 0
+        cell: ({ getValue }) => getValue() ? Number(getValue<number>().toFixed(2)) : 0
+    },
+    {
+        accessorKey: "Company Name",
+        header: "Name",
+        id: 'name'
     },
     {
         accessorKey: "Dmitri score by feel",
         header: () => <><div style={{ fontSize: '12px' }}>{"Dmitri Score"}</div><div style={{ fontSize: '10px' }}>{'(max 11)'}</div></>,
         id: 'dmitriScore',
         cell: dmitriScoreCustomFn
-    },
+    }
 ]
 
 const BasicTable = () => {
@@ -196,7 +196,7 @@ const BasicTable = () => {
                 </Box>
             </Box >
             <hr />
-            <Table sx={{ maxWidth: 1050 }}>
+            <Table>
                 <TableHead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <TableRow key={headerGroup.id} sx={{ backgroundColor: '#f0f0f0' }}>
