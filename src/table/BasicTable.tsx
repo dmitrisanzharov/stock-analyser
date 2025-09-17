@@ -83,7 +83,7 @@ function parseCustomDate(value?: unknown): dayjs.Dayjs {
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
 
-    if(allValues['Company Name'] === 'Lennar Corp'){
+    if (allValues['Company Name'] === 'Lennar Corp') {
         console.log(criteria, ': ', currentScore, '...', 'maxScore: ', currentMaxScore)
     }
 }
@@ -97,40 +97,88 @@ function dmitriScoreCustomFn(info: any) {
     // }
 
     const item: InvestmentRecord = info.row.original;
-    // console.log("allValues: ", item);
 
     let finalScore = 0;
-    let maxScorePossible = 0; 
+    let maxScorePossible = 0;
+    // TODO: remove this, i.e. currently we are doing only LENNAR so change that
+    if (item['Company Name'] === 'Lennar Corp') {
+        console.log('============================');
+        console.log('item: ', item);
 
-    // Dividends Interest Rate
-    const dividendsInterestRateMaxScore = 10;
-    const dividendsInterestRateWeight = 4;
-    const dividendsInterestRateScore = Number(item['Yield as % (pref, degiro, 5 years)']);
-    finalScore = finalScore + dividendsInterestRateScore * dividendsInterestRateWeight;
-    maxScorePossible = maxScorePossible + dividendsInterestRateMaxScore * dividendsInterestRateWeight;
-    consoleLennar(item, finalScore, 'dividends', maxScorePossible);
+        // console.log("allValues: ", item);
 
 
-    // Payment Frequency 
-    const paymentFrequencyMaxScore = 6;
-    const pfWeight = 1;
-    const calcPf = scorePaymentFrequency(item['Number of payments per Year'] as number);
-    finalScore = finalScore + calcPf * pfWeight;
-    maxScorePossible = maxScorePossible + paymentFrequencyMaxScore * pfWeight;
-    consoleLennar(item, finalScore, 'pf', maxScorePossible);
+        // Dividends Interest Rate
+        const dividendsInterestRateMaxScore = 10;
+        const dividendsInterestRateWeight = 4;
+        const dividendsInterestRateScore = Number(item['Yield as % (pref, degiro, 5 years)']);
+        finalScore = finalScore + dividendsInterestRateScore * dividendsInterestRateWeight;
+        maxScorePossible = maxScorePossible + dividendsInterestRateMaxScore * dividendsInterestRateWeight;
+        consoleLennar(item, finalScore, 'dividends', maxScorePossible);
 
 
+        // Payment Frequency 
+        const paymentFrequencyMaxScore = 6;
+        const pfWeight = 1;
+        const calcPf = scorePaymentFrequency(item['Number of payments per Year'] as number);
+        finalScore = finalScore + calcPf * pfWeight;
+        maxScorePossible = maxScorePossible + paymentFrequencyMaxScore * pfWeight;
+        consoleLennar(item, finalScore, 'pf', maxScorePossible);
 
 
+        // Country Corruption Level
+        const countryCorruptionMaxScore = 10;
+        const ccWeight = 10;
+        const calcCC = Number(item['country corruption index (100 max)']) / 10;
+        finalScore = finalScore + calcCC * ccWeight;
+        maxScorePossible = maxScorePossible + countryCorruptionMaxScore * ccWeight;
+        consoleLennar(item, finalScore, 'cc', maxScorePossible);
 
 
+        // Degiro Category Grade
+        const degiroCategoryMaxScore = 11;
+        const dcWeight = 5;
+        const calcDC = scoreDegiroCategory(item['degiro grade | dmitri translation']);
+        finalScore = finalScore + calcDC * dcWeight;
+        maxScorePossible = maxScorePossible + degiroCategoryMaxScore * dcWeight;
+        consoleLennar(item, finalScore, 'dc', maxScorePossible);
 
 
+        // PE Ratio
+        const peRatioMaxScore = 10;
+        const peWeight = 9;
+        const calcPE = scorePeRatio(item['PE ratio'] as number, item['industry PE'] as number);
+        finalScore = finalScore + calcPE * peWeight;
+        maxScorePossible = maxScorePossible + peRatioMaxScore * peWeight;
+        consoleLennar(item, finalScore, 'pe', maxScorePossible);
 
 
+        // Stock Graph Analysis
+        const stockGraphMaxScore = 10;
+        const sgWeight = 1;
+        const calcSG = item['stock chart score'];
+        finalScore = finalScore + calcSG * sgWeight;
+        maxScorePossible = maxScorePossible + stockGraphMaxScore * sgWeight;
+        consoleLennar(item, finalScore, 'sg', maxScorePossible);
+
+
+        // Auditor
+        const auditorMaxScore = 10;
+        const auditorWeight = 10;
+        const calcAuditor = item['who is the Auditor?'] as number;
+        finalScore = finalScore + calcAuditor * auditorWeight;
+        maxScorePossible = maxScorePossible + auditorMaxScore * auditorWeight;
+        consoleLennar(item, finalScore, 'auditor', maxScorePossible);
+
+    }
     // end
+    const finalReturn = (finalScore / maxScorePossible * dmitriScoreConversionNumber).toFixed(2);
+    // console.log('============================');
+    // console.log('company name', item['Company Name']);
+    // console.log("finalReturn: ", finalReturn);
 
-    return (finalScore / maxScorePossible * dmitriScoreConversionNumber).toFixed(2);
+
+    return finalReturn;
 
 }
 
@@ -157,7 +205,7 @@ function createSortableHeader(name: string | React.ReactNode) {
 }
 
 const defaultColumns: ColumnDef<InvestmentRecord>[] = [
-        {
+    {
         accessorKey: "avg AI grade",
         header: createSortableHeader('avg AI grade'),
         id: 'aiGrade',

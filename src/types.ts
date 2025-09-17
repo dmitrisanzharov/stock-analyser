@@ -39,7 +39,7 @@ export type InvestmentRecord = {
     "moody rating": number | null;
     "s&p rating": number | null;
     "date of analysis": string | null;
-    "degiro grade | dmitri translation": string | null;
+    "degiro grade | dmitri translation": string;
     "country corruption index (100 max)": number | null;
 
     Industry: string | null;
@@ -49,9 +49,10 @@ export type InvestmentRecord = {
     ytd: number | null;
     "5 yrs": number | null;
     all: number | null;
-    "stock chart score": number | null;
+    "stock chart score": number;
 
-    "who is the Auditor?": string | null;
+    "who is the Auditor?": string | number | null;
+    "Auditor Score": number | null;
     "fitch rating or equivalent": number | null;
     "fitch outlook": string | null;
     moody: number | null;
