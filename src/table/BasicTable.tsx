@@ -1,6 +1,22 @@
 import React from "react";
 import dayjs from "dayjs";
 import {
+    scorePaymentFrequency,
+    scoreDegiroCategory,
+    scorePeRatio,
+    scoreFitchAndSpRating,
+    scoreMoodyRating,
+    scoreDegiroIncomeStatement,
+    scoreYearStarted,
+    scoreNumberOfEmployees,
+    scoreTradeVolume,
+    yearsForEarningsMatchPrice,
+    scoreShareBookValue,
+    scoreDebtToEquity,
+    scoreReturnOnEquity,
+    scoreMarketCap
+} from '../helpers/allOther';
+import {
     useReactTable,
     getCoreRowModel,
     flexRender,
@@ -16,13 +32,9 @@ import {
     Box
 } from "@mui/material";
 import allCompanies from '../data/companies/allCompanies';
-import {
-    scoreFitchAndSpRating,
-    scoreMoodyRating,
-} from '../helpers/allOther';
 import useGetData from './hooks';
 import { InvestmentRecord } from '../types';
-import { create } from "domain";
+import { dmitriScoreConversionNumber } from '../data/globalVars';
 
 // TODO: remove useless
 export type Company = {
@@ -69,16 +81,56 @@ function parseCustomDate(value?: unknown): dayjs.Dayjs {
     return dayjs("2025-04-01");
 }
 
-function dmitriScoreCustomFn(info: any) {
-    console.log('info', info);
+function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
 
+    if(allValues['Company Name'] === 'Lennar Corp'){
+        console.log(criteria, ': ', currentScore, '...', 'maxScore: ', currentMaxScore)
+    }
+}
+
+function dmitriScoreCustomFn(info: any) {
     const value = info.getValue();
 
-    if (value) {
-        return Number(value.toFixed(2));
-    }
+    // TODO: uncomment this VALUE thing
+    // if (value) {
+    //     return Number(value.toFixed(2));
+    // }
 
-    return 0;
+    const item: InvestmentRecord = info.row.original;
+    // console.log("allValues: ", item);
+
+    let finalScore = 0;
+    let maxScorePossible = 0; 
+
+    // Dividends Interest Rate
+    const dividendsInterestRateMaxScore = 10;
+    const dividendsInterestRateWeight = 4;
+    const dividendsInterestRateScore = Number(item['Yield as % (pref, degiro, 5 years)']);
+    finalScore = finalScore + dividendsInterestRateScore * dividendsInterestRateWeight;
+    maxScorePossible = maxScorePossible + dividendsInterestRateMaxScore * dividendsInterestRateWeight;
+    consoleLennar(item, finalScore, 'dividends', maxScorePossible);
+
+
+    // Payment Frequency 
+    const paymentFrequencyMaxScore = 6;
+    const pfWeight = 1;
+    const calcPf = scorePaymentFrequency(item['Number of payments per Year'] as number);
+    finalScore = finalScore + calcPf * pfWeight;
+    maxScorePossible = maxScorePossible + paymentFrequencyMaxScore * pfWeight;
+    consoleLennar(item, finalScore, 'pf', maxScorePossible);
+
+
+
+
+
+
+
+
+
+
+    // end
+
+    return (finalScore / maxScorePossible * dmitriScoreConversionNumber).toFixed(2);
 
 }
 

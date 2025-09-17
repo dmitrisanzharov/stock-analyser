@@ -17,7 +17,7 @@ export type InvestmentRecord = {
     "expected annual yield in eur": number | null;
     "Yield as % (pref, degiro, 5 years)": number | null;
     "time to double you money on dividends alone": number | null;
-    "Number of payments per Year": string | null;
+    "Number of payments per Year": string | number | null;
     "month of EX-date on Investing.com": string | null;
     ".": string | null;
 
