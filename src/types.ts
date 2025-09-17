@@ -53,11 +53,11 @@ export type InvestmentRecord = {
 
     "who is the Auditor?": string | number | null;
     "Auditor Score": number | null;
-    "fitch rating or equivalent": number | null;
+    "fitch rating or equivalent": number | null | string;
     "fitch outlook": string | null;
-    moody: number | null;
+    moody: number | null | string;
     "moody outlook": string | null;
-    "s&p": number | null;
+    "s&p": number | null | string;
     "s&p outlook": string | null;
 
     "how does their Income Statement Look on Degiro": string | null;

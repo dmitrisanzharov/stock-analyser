@@ -165,10 +165,37 @@ function dmitriScoreCustomFn(info: any) {
         // Auditor
         const auditorMaxScore = 10;
         const auditorWeight = 10;
-        const calcAuditor = item['who is the Auditor?'] as number;
+        const calcAuditor = item['Auditor Score'] as number;
         finalScore = finalScore + calcAuditor * auditorWeight;
         maxScorePossible = maxScorePossible + auditorMaxScore * auditorWeight;
         consoleLennar(item, finalScore, 'auditor', maxScorePossible);
+
+
+        // Fitch Rating
+        const fitchRatingMaxScore = 11;
+        const fitchWeight = 5;
+        const calcFitch = item['fitch rating or equivalent'] as number;
+        finalScore = finalScore + calcFitch * fitchWeight;
+        maxScorePossible = maxScorePossible + fitchRatingMaxScore * fitchWeight;
+        consoleLennar(item, finalScore, 'fitch', maxScorePossible);
+
+
+        // Moody Rating 
+        const moodyRatingMaxScore = 11;
+        const moodyWeight = 5;
+        const calcMoody = item['moody'] as number;
+        finalScore = finalScore + calcMoody * moodyWeight;
+        maxScorePossible = maxScorePossible + moodyRatingMaxScore * moodyWeight;
+        consoleLennar(item, finalScore, 'moody', maxScorePossible);
+
+
+        // SP Rating
+        const spRatingMaxScore = 11;
+        const spWeight = 5;
+        const calcSP = item['s&p'] as number;
+        finalScore = finalScore + calcSP * spWeight;
+        maxScorePossible = maxScorePossible + spRatingMaxScore * spWeight;
+        consoleLennar(item, finalScore, 'sp', maxScorePossible);
 
     }
     // end
