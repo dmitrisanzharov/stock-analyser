@@ -76,7 +76,7 @@ export type InvestmentRecord = {
     "share / book value": number | null;
     "equity average past 10 years in millions euro": number | null;
     "EBITDA average for the past 10 years in euros in millions?": number | null;
-    "annual net profit average in the past 10 years, in euros in millions? ": number | null;
+    "annual net profit average in the past 10 years, in euros in millions?": number | null;
 
     "P/E ratio": number | null;
     "Price / book": number | null;

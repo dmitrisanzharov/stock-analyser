@@ -14,6 +14,8 @@ import {
     yearsForEarningsMatchPrice,
     scoreShareBookValue,
     scoreEquityAverage,
+    scoreEBITDAAverage,
+    scoreNetProfitAverage,
     scoreDebtToEquity,
     scoreReturnOnEquity,
     scoreMarketCap
@@ -251,7 +253,7 @@ function dmitriScoreCustomFn(info: any) {
 
 
         // Trading Volume
-        const tradingVolumeMaxScore = 10;    
+        const tradingVolumeMaxScore = 10;
         const tvWeight = 7;
         const calcTV = scoreTradeVolume(sharePrice, item['avg trading volume, last 3 months in units in Millions'] as number);
         finalScore = finalScore + calcTV * tvWeight;
@@ -275,6 +277,51 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcSTB * stbWeight;
         maxScorePossible = maxScorePossible + shareToBookMaxScore * stbWeight;
         consoleLennar(item, finalScore, 'stb', maxScorePossible);
+
+
+        // Equity Average
+        const equityAverageMaxScore = 10;
+        const eaWeight = 10;
+        const calcEA = scoreEquityAverage(item['equity average past 10 years in millions euro'] as number);
+        finalScore = finalScore + calcEA * eaWeight;
+        maxScorePossible = maxScorePossible + equityAverageMaxScore * eaWeight;
+        consoleLennar(item, finalScore, 'ea', maxScorePossible);
+
+
+        // EBITDA
+        const ebitdaMaxScore = 10;
+        const ebitdaWeight = 10;
+        const calcEBITDA = scoreEBITDAAverage(item['EBITDA average for the past 10 years in euros in millions?'] as number);
+        finalScore = finalScore + calcEBITDA * ebitdaWeight;
+        maxScorePossible = maxScorePossible + ebitdaMaxScore * ebitdaWeight;
+        consoleLennar(item, finalScore, 'ebitda', maxScorePossible);
+
+
+        // Net Profit
+        const netProfitMaxScore = 10;
+        const netProfitWeight = 10;
+        const calcNetProfit = scoreNetProfitAverage(item['annual net profit average in the past 10 years, in euros in millions?'] as number);
+        finalScore = finalScore + calcNetProfit * netProfitWeight;
+        maxScorePossible = maxScorePossible + netProfitMaxScore * netProfitWeight;
+        consoleLennar(item, finalScore, 'netProfit', maxScorePossible);
+
+
+        // Debt To Equity
+        const debtToEquityMaxScore = 10;
+        const dteWeight = 10;
+        const calcDTE = scoreDebtToEquity(item['debt / equity as %'] as number);
+        finalScore = finalScore + calcDTE * dteWeight;
+        maxScorePossible = maxScorePossible + debtToEquityMaxScore * dteWeight;
+        consoleLennar(item, finalScore, 'dte', maxScorePossible);
+
+
+        // Return On Equity
+        const returnOnEquityMaxScore = 10;
+        const roeWeight = 6;
+        const calcROE = scoreReturnOnEquity(item['return on equity'] as number);
+        finalScore = finalScore + calcROE * roeWeight;
+        maxScorePossible = maxScorePossible + returnOnEquityMaxScore * roeWeight;
+        consoleLennar(item, finalScore, 'roe', maxScorePossible);
 
 
 

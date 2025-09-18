@@ -203,17 +203,45 @@ export function scoreShareBookValue(sharePriceInEuro: number, bookValuePerShare:
 }
 
 export function scoreEquityAverage(equityInMillions: number): number {
-    if (equityInMillions >= 10000) return 10;  // €10B+ : blue-chip safe
-    if (equityInMillions >= 5000) return 9;    // €5B+
-    if (equityInMillions >= 2000) return 8;    // €2B+
-    if (equityInMillions >= 1000) return 7;    // €1B+ : safe threshold
-    if (equityInMillions >= 750) return 6;     // upper mid-cap
-    if (equityInMillions >= 500) return 5;     // mid-cap borderline
-    if (equityInMillions >= 300) return 4;     // small-mid cap
-    if (equityInMillions >= 200) return 3;     // small cap
-    if (equityInMillions >= 100) return 2;     // micro cap
-    if (equityInMillions >= 50) return 1;      // micro cap
-    return 0;                                  // €1–50m: very risky
+    if (equityInMillions >= 10000) return 10; // €10B+ : blue-chip safe
+    if (equityInMillions >= 5000) return 9; // €5B+
+    if (equityInMillions >= 2000) return 8; // €2B+
+    if (equityInMillions >= 1000) return 7; // €1B+ : safe threshold
+    if (equityInMillions >= 750) return 6; // upper mid-cap
+    if (equityInMillions >= 500) return 5; // mid-cap borderline
+    if (equityInMillions >= 300) return 4; // small-mid cap
+    if (equityInMillions >= 200) return 3; // small cap
+    if (equityInMillions >= 100) return 2; // micro cap
+    if (equityInMillions >= 50) return 1; // micro cap
+    return 0; // €1–50m: very risky
+}
+
+export function scoreEBITDAAverage(ebitdaInMillions: number): number {
+    if (ebitdaInMillions <= 0) return 0; // zero or negative EBITDA: very risky
+    if (ebitdaInMillions <= 50) return 1; // €1–50m: very small, risky
+    if (ebitdaInMillions >= 5000) return 10; // €5B+ : extremely robust
+    if (ebitdaInMillions >= 2000) return 9; // €2B+
+    if (ebitdaInMillions >= 1000) return 8; // €1B+
+    if (ebitdaInMillions >= 500) return 7; // €500m+
+    if (ebitdaInMillions >= 250) return 6; // €250m+
+    if (ebitdaInMillions >= 100) return 5; // €100m+
+    if (ebitdaInMillions >= 75) return 4; // €75m+
+    if (ebitdaInMillions >= 51) return 3; // €51–74m
+    return 2; // fallback (should rarely occur)
+}
+
+export function scoreNetProfitAverage(netProfitInMillions: number): number {
+    if (netProfitInMillions <= 0) return 0; // zero or negative net profit: very risky
+    if (netProfitInMillions <= 10) return 1; // €1–10m: very small, risky
+    if (netProfitInMillions >= 2000) return 10; // €2B+ : extremely safe
+    if (netProfitInMillions >= 1000) return 9; // €1B+
+    if (netProfitInMillions >= 500) return 8; // €500m+
+    if (netProfitInMillions >= 250) return 7; // €250m+
+    if (netProfitInMillions >= 100) return 6; // €100m+
+    if (netProfitInMillions >= 50) return 5; // €50m+
+    if (netProfitInMillions >= 25) return 4; // €25m+
+    if (netProfitInMillions >= 11) return 3; // €11–24m
+    return 2; // fallback (€11m not reached, still positive)
 }
 
 export function scoreDebtToEquity(debtToEquityRatio: number): number {
