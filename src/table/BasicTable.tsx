@@ -249,7 +249,6 @@ function dmitriScoreCustomFn(info: any) {
         const sharePrice = item['Share Price in euro'] as number;
 
 
-
         // Trading Volume
         const tradingVolumeMaxScore = 10;    
         const tvWeight = 7;
@@ -259,13 +258,22 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(item, finalScore, 'tv', maxScorePossible);
 
 
-        // // Years To Earnings Match Share
-        // const yearsToEarningsMatchShareMaxScore = 10;
-        // const ytemWeight = 10;
-        // const calcYTEM = item['Years To Earnings Match Share'] as number;
-        // finalScore = finalScore + calcYTEM * ytemWeight;
-        // maxScorePossible = maxScorePossible + yearsToEarningsMatchShareMaxScore * ytemWeight;
-        // consoleLennar(item, finalScore, 'ytem', maxScorePossible);
+        // Years To Earnings Match Share
+        const yearsToEarningsMatchShareMaxScore = 10;
+        const ytemWeight = 5;
+        const calcYTEM = yearsForEarningsMatchPrice(sharePrice, item['EPS (earning per share) average for the past 10 years in euro currency'] as number);
+        finalScore = finalScore + calcYTEM * ytemWeight;
+        maxScorePossible = maxScorePossible + yearsToEarningsMatchShareMaxScore * ytemWeight;
+        consoleLennar(item, finalScore, 'ytem', maxScorePossible);
+
+
+        // Share To Book
+        const shareToBookMaxScore = 10;
+        const stbWeight = 9;
+        const calcSTB = scoreShareBookValue(sharePrice, item['share / book value'] as number);
+        finalScore = finalScore + calcSTB * stbWeight;
+        maxScorePossible = maxScorePossible + shareToBookMaxScore * stbWeight;
+        consoleLennar(item, finalScore, 'stb', maxScorePossible);
 
     }
     // end
