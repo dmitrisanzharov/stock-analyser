@@ -197,6 +197,17 @@ function dmitriScoreCustomFn(info: any) {
         maxScorePossible = maxScorePossible + spRatingMaxScore * spWeight;
         consoleLennar(item, finalScore, 'sp', maxScorePossible);
 
+
+        // Degiro Income Statement
+        const degiroIncomeStatementMaxScore = 12;
+        const disWeight = 6;
+        const calcDIS = scoreDegiroIncomeStatement(Number(item['how does their Income Statement Look on Degiro'] as number), Number(item['are assets bigger than liabilities consistently'] as number));
+        console.log("calcDIS: ", calcDIS);
+        finalScore = finalScore + calcDIS * disWeight;
+        maxScorePossible = maxScorePossible + degiroIncomeStatementMaxScore * disWeight;
+        consoleLennar(item, finalScore, 'dis', maxScorePossible);
+
+
     }
     // end
     const finalReturn = (finalScore / maxScorePossible * dmitriScoreConversionNumber).toFixed(2);

@@ -60,8 +60,8 @@ export type InvestmentRecord = {
     "s&p": number | null | string;
     "s&p outlook": string | null;
 
-    "how does their Income Statement Look on Degiro": string | null;
-    "are assets bigger than liabilities consistently": string | null;
+    "how does their Income Statement Look on Degiro": number | string | null;
+    "are assets bigger than liabilities consistently": number | string | null;
     "year started": number | null;
     "number of employees": number | null;
     "any dirt on them (0 being clean, 10 dirty)": number | null;
