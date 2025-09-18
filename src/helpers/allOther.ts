@@ -202,7 +202,21 @@ export function scoreShareBookValue(sharePriceInEuro: number, bookValuePerShare:
     return 1; // >200%
 }
 
-export function scoreDebtToEquity(debtToEquityRatio: number, zeroTrue?: boolean): number {
+export function scoreEquityAverage(equityInMillions: number): number {
+    if (equityInMillions >= 10000) return 10;  // €10B+ : blue-chip safe
+    if (equityInMillions >= 5000) return 9;    // €5B+
+    if (equityInMillions >= 2000) return 8;    // €2B+
+    if (equityInMillions >= 1000) return 7;    // €1B+ : safe threshold
+    if (equityInMillions >= 750) return 6;     // upper mid-cap
+    if (equityInMillions >= 500) return 5;     // mid-cap borderline
+    if (equityInMillions >= 300) return 4;     // small-mid cap
+    if (equityInMillions >= 200) return 3;     // small cap
+    if (equityInMillions >= 100) return 2;     // micro cap
+    if (equityInMillions >= 50) return 1;      // micro cap
+    return 0;                                  // €1–50m: very risky
+}
+
+export function scoreDebtToEquity(debtToEquityRatio: number): number {
     if (debtToEquityRatio <= 40) return 10;
     if (debtToEquityRatio <= 50) return 9;
     if (debtToEquityRatio <= 60) return 8;

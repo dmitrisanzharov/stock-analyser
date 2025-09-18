@@ -13,6 +13,7 @@ import {
     scoreTradeVolume,
     yearsForEarningsMatchPrice,
     scoreShareBookValue,
+    scoreEquityAverage,
     scoreDebtToEquity,
     scoreReturnOnEquity,
     scoreMarketCap
@@ -274,6 +275,13 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcSTB * stbWeight;
         maxScorePossible = maxScorePossible + shareToBookMaxScore * stbWeight;
         consoleLennar(item, finalScore, 'stb', maxScorePossible);
+
+
+
+
+
+
+
 
     }
     // end
