@@ -208,6 +208,14 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(item, finalScore, 'dis', maxScorePossible);
 
 
+        // Year Founded
+        const yearFoundedMaxScore = 10;
+        const yfWeight = 5;
+        const calcYF = scoreYearStarted(item['year started'] as number);
+        finalScore = finalScore + calcYF * yfWeight;
+        maxScorePossible = maxScorePossible + yearFoundedMaxScore * yfWeight;
+        consoleLennar(item, finalScore, 'yf', maxScorePossible);
+
     }
     // end
     const finalReturn = (finalScore / maxScorePossible * dmitriScoreConversionNumber).toFixed(2);
