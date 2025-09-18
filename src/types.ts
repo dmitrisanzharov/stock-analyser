@@ -65,7 +65,7 @@ export type InvestmentRecord = {
     "year started": number | null;
     "number of employees": number | null;
     "any dirt on them (0 being clean, 10 dirty)": number | null;
-    "is held by big Investment firms (if yes, name at least 1) - simply wall.str also has this info": string | null;
+    "Held By Big Investors": number | string | null;
 
     "Share Price in euro": number | null;
     "avg trading volume, last 3 months in units in Millions": number | null;

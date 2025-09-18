@@ -9,6 +9,7 @@ import {
     scoreDegiroIncomeStatement,
     scoreYearStarted,
     scoreNumberOfEmployees,
+    scoreIntegrity,
     scoreTradeVolume,
     yearsForEarningsMatchPrice,
     scoreShareBookValue,
@@ -215,6 +216,56 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcYF * yfWeight;
         maxScorePossible = maxScorePossible + yearFoundedMaxScore * yfWeight;
         consoleLennar(item, finalScore, 'yf', maxScorePossible);
+
+
+        // Number Of Employees
+        const numberOfEmployeesMaxScore = 10;
+        const neWeight = 6;
+        const calcNE = scoreNumberOfEmployees(item['number of employees'] as number);
+        finalScore = finalScore + calcNE * neWeight;
+        maxScorePossible = maxScorePossible + numberOfEmployeesMaxScore * neWeight;
+        consoleLennar(item, finalScore, 'ne', maxScorePossible);
+
+
+        // Integrity Score
+        const integrityScoreMaxScore = 10;
+        const isWeight = 10;
+        const calcIS = scoreIntegrity(item['any dirt on them (0 being clean, 10 dirty)'] as number);
+        finalScore = finalScore + calcIS * isWeight;
+        maxScorePossible = maxScorePossible + integrityScoreMaxScore * isWeight;
+        consoleLennar(item, finalScore, 'is', maxScorePossible);
+
+
+        // Held By Big Investors
+        const heldByBigInvestorsMaxScore = 10;
+        const hbiWeight = 4;
+        const calcHBI = item['Held By Big Investors'] as number;
+        finalScore = finalScore + calcHBI * hbiWeight;
+        maxScorePossible = maxScorePossible + heldByBigInvestorsMaxScore * hbiWeight;
+        consoleLennar(item, finalScore, 'hbi', maxScorePossible);
+
+
+        // Share Price
+        const sharePrice = item['Share Price in euro'] as number;
+
+
+
+        // Trading Volume
+        const tradingVolumeMaxScore = 10;    
+        const tvWeight = 7;
+        const calcTV = scoreTradeVolume(sharePrice, item['avg trading volume, last 3 months in units in Millions'] as number);
+        finalScore = finalScore + calcTV * tvWeight;
+        maxScorePossible = maxScorePossible + tradingVolumeMaxScore * tvWeight;
+        consoleLennar(item, finalScore, 'tv', maxScorePossible);
+
+
+        // // Years To Earnings Match Share
+        // const yearsToEarningsMatchShareMaxScore = 10;
+        // const ytemWeight = 10;
+        // const calcYTEM = item['Years To Earnings Match Share'] as number;
+        // finalScore = finalScore + calcYTEM * ytemWeight;
+        // maxScorePossible = maxScorePossible + yearsToEarningsMatchShareMaxScore * ytemWeight;
+        // consoleLennar(item, finalScore, 'ytem', maxScorePossible);
 
     }
     // end
