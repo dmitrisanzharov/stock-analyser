@@ -324,11 +324,85 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(item, finalScore, 'roe', maxScorePossible);
 
 
+        // Market Cap
+        const marketCapMaxScore = 10;
+        const mcWeight = 1;
+        const calcMC = scoreMarketCap(item['market cap in Billions EUR (ask AI) (i.e. hype value... total shares X current share value)'] as number);
+        finalScore = finalScore + calcMC * mcWeight;
+        maxScorePossible = maxScorePossible + marketCapMaxScore * mcWeight;
+        consoleLennar(item, finalScore, 'mc', maxScorePossible);
 
 
+        // Part Of Index
+        const partOfIndexMaxScore = 3;
+        const poimWeight = 5;
+        const calcPOIM = item['is company part of any index / index fund (e.g. MSCI world fund), grade as: 0 = No indexes hold it (worst), 1 = some indexes hold it, 2 = many indexes hold it, 3 = almost ALL hold it (the best)'] as number;
+        finalScore = finalScore + calcPOIM * poimWeight;
+        maxScorePossible = maxScorePossible + partOfIndexMaxScore * poimWeight;
+        consoleLennar(item, finalScore, 'poim', maxScorePossible);
 
 
+        // Held By Billionaires
+        const heldByBillionairesMaxScore = 1;
+        const hbbWeight = 6;
+        const calcHBB = item['is held by Billionaires? ( use percentage of total portfolios, MAX 1)'] as number;
+        finalScore = finalScore + calcHBB * hbbWeight;
+        maxScorePossible = maxScorePossible + heldByBillionairesMaxScore * hbbWeight;
+        consoleLennar(item, finalScore, 'hbb', maxScorePossible);
 
+
+        // Valuation
+        const valuationMaxScore = 6;
+        const valWeight = 2;
+        const calcVal = item['valuation, max 6'] as number;
+        finalScore = finalScore + calcVal * valWeight;
+        maxScorePossible = maxScorePossible + valuationMaxScore * valWeight;
+        consoleLennar(item, finalScore, 'val', maxScorePossible);
+
+
+        // Future Growth
+        const futureGrowthMaxScore = 6;
+        const fgWeight = 2;
+        const calcFG = item['future growth, 6 max'] as number;
+        finalScore = finalScore + calcFG * fgWeight;
+        maxScorePossible = maxScorePossible + futureGrowthMaxScore * fgWeight;
+        consoleLennar(item, finalScore, 'fg', maxScorePossible);
+
+
+        // Past Performance
+        const pastPerformanceMaxScore = 6;
+        const ppWeight = 2;
+        const calcPP = item['past performance, 6 mx'] as number;
+        finalScore = finalScore + calcPP * ppWeight;
+        maxScorePossible = maxScorePossible + pastPerformanceMaxScore * ppWeight;
+        consoleLennar(item, finalScore, 'pp', maxScorePossible);
+
+
+        // Financial Health
+        const financialHealthMaxScore = 6;
+        const fhWeight = 2;
+        const calcFH = item['financial health, max 6'] as number;
+        finalScore = finalScore + calcFH * fhWeight;
+        maxScorePossible = maxScorePossible + financialHealthMaxScore * fhWeight;
+        consoleLennar(item, finalScore, 'fh', maxScorePossible);
+
+
+        // Dividends
+        const dividendsMaxScore = 6;
+        const divWeight = 2;
+        const calcDiv = item['dividends, max 6'] as number;
+        finalScore = finalScore + calcDiv * divWeight;
+        maxScorePossible = maxScorePossible + dividendsMaxScore * divWeight;
+        consoleLennar(item, finalScore, 'div', maxScorePossible);
+
+
+        // Management
+        const managementMaxScore = 4;
+        const mgWeight = 2;
+        const calcMG = item['management, 4 max'] as number;
+        finalScore = finalScore + calcMG * mgWeight;
+        maxScorePossible = maxScorePossible + managementMaxScore * mgWeight;
+        consoleLennar(item, finalScore, 'mg', maxScorePossible);
 
     }
     // end
