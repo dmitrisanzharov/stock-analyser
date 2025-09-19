@@ -315,9 +315,9 @@ function dmitriScoreCustomFn(info: any) {
 
     // end
     const finalReturn = ((finalScore / maxScorePossible) * dmitriScoreConversionNumber).toFixed(2);
-    // console.log('============================');
-    // console.log('company name', item['Company Name']);
-    // console.log("finalReturn: ", finalReturn);
+    console.log('============================');
+    console.log('company name', item['Company Name']);
+    console.log("finalReturn: ", finalReturn);
 
     return finalReturn;
 }
