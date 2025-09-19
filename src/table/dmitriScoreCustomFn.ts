@@ -17,7 +17,7 @@ import {
     scoreMarketCap
 } from '../helpers/allOther';
 import { InvestmentRecord } from '../types';
-import { dmitriScoreConversionNumber } from '../data/globalVars';
+import { dmitriScoreConversionNumber } from '../globalVars';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === 'Lennar Corp') {
