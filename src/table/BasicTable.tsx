@@ -1,6 +1,4 @@
 import React from "react";
-import dayjs from "dayjs";
-import dmitriScoreCustomFn from './dmitriScoreCustomFn';
 import {
     useReactTable,
     getCoreRowModel,

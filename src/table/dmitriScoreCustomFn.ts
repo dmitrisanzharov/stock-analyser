@@ -26,6 +26,10 @@ function consoleLennar(allValues: InvestmentRecord, currentScore: number, criter
 }
 
 function dmitriScoreCustomFn(info: any) {
+
+    
+
+
     const value = info.getValue();
 
     if (value) {
