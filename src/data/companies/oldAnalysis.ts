@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { dateFormat } from '../globalVars';
-import { Company } from '../../table/BasicTable';
+import { Company } from '../../types';
 
 const oldCompanies: Company[] = [
     { dateOfAnalysis: dayjs('2025-07-01').format(dateFormat), name: 'Atlas Arteria Ltd', isin: 'AU0000013559', score: 7.22, country: 'au' },

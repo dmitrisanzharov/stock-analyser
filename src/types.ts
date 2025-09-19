@@ -3,6 +3,14 @@ export type ScoreArrayItem = {
     dmitriScore: number;
 }
 
+export type Company = {
+    dateOfAnalysis: string,
+    name: string,
+    isin: string,
+    score: number,
+    country: string
+}
+
 export type InvestmentRecord = {
     purchased: number;
     "Company Name": string;

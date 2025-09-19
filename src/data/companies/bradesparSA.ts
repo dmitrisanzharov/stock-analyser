@@ -1,8 +1,7 @@
 import dayjs from 'dayjs';
 import { CRITERIA, dateFormat } from '../globalVars';
-import { Company } from '../../table/BasicTable';
+import { Company, ScoreArrayItem } from '../../types';
 import allCriteriasWithWeightArr from '../allCriteriasWithWeight';
-import { ScoreArrayItem } from '../../types';
 import calcTotalScore from '../../helpers/calcTotalScore';
 import {
     scorePaymentFrequency,
