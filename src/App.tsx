@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
-import { Box, CircularProgress, Typography, Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import { ErrorBoundary } from 'react-error-boundary';
 
 // Lazy load the table
