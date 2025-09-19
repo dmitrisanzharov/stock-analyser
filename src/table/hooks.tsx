@@ -127,12 +127,12 @@ export default useGetData;
 
 
 export const defaultColumns: ColumnDef<InvestmentRecord>[] = [
-    {
-        accessorKey: "avg AI grade",
-        header: createSortableHeader('avg AI grade'),
-        id: 'aiGrade',
-        cell: ({ getValue }) => getValue() ? Number(getValue<number>().toFixed(2)) : 0
-    },
+    // {
+    //     accessorKey: "avg AI grade",
+    //     header: createSortableHeader('avg AI grade'),
+    //     id: 'aiGrade',
+    //     cell: ({ getValue }) => getValue() ? Number(getValue<number>().toFixed(2)) : 0
+    // },
     {
         accessorKey: "date of analysis",
         id: "date",
