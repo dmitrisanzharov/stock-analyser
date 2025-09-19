@@ -40,6 +40,9 @@ function dmitriScoreCustomFn(info: any) {
     let maxScorePossible = 0;
 
     if (item['Company Name'] === companyAnalyzed) {
+
+    console.log('++++++++++++++++++++++++++++');
+
         // Dividends Interest Rate
         const dividendsInterestRateMaxScore = 10;
         const dividendsInterestRateWeight = 4;
