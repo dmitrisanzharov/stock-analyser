@@ -19,7 +19,7 @@ import {
 import { InvestmentRecord } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-const companyAnalyzed = 'Danske Bank A/S';
+const companyAnalyzed = 'Ecopetrol SA';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === companyAnalyzed) {
@@ -57,7 +57,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcPf = scorePaymentFrequency(item['Number of payments per Year'] as number);
         finalScore = finalScore + calcPf * pfWeight;
         maxScorePossible = maxScorePossible + paymentFrequencyMaxScore * pfWeight;
-        consoleLennar(item, finalScore, 'pf', maxScorePossible);
+        consoleLennar(item, finalScore, 'payment frequency', maxScorePossible);
 
         // Country Corruption Level
         const countryCorruptionMaxScore = 10;
@@ -65,7 +65,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcCC = Number(item['country corruption index (100 max)']) / 10;
         finalScore = finalScore + calcCC * ccWeight;
         maxScorePossible = maxScorePossible + countryCorruptionMaxScore * ccWeight;
-        consoleLennar(item, finalScore, 'cc', maxScorePossible);
+        consoleLennar(item, finalScore, 'country corruption', maxScorePossible);
 
         // Degiro Category Grade
         const degiroCategoryMaxScore = 11;
@@ -73,7 +73,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcDC = scoreDegiroCategory(item['degiro grade | dmitri translation']);
         finalScore = finalScore + calcDC * dcWeight;
         maxScorePossible = maxScorePossible + degiroCategoryMaxScore * dcWeight;
-        consoleLennar(item, finalScore, 'dc', maxScorePossible);
+        consoleLennar(item, finalScore, 'degiro grade', maxScorePossible);
 
         // PE Ratio
         const peRatioMaxScore = 10;
@@ -81,7 +81,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcPE = scorePeRatio(item['PE ratio'] as number, item['industry PE'] as number);
         finalScore = finalScore + calcPE * peWeight;
         maxScorePossible = maxScorePossible + peRatioMaxScore * peWeight;
-        consoleLennar(item, finalScore, 'pe', maxScorePossible);
+        consoleLennar(item, finalScore, 'pe ratio', maxScorePossible);
 
         // Stock Graph Analysis
         const stockGraphMaxScore = 10;
@@ -89,7 +89,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcSG = item['stock chart score'];
         finalScore = finalScore + calcSG * sgWeight;
         maxScorePossible = maxScorePossible + stockGraphMaxScore * sgWeight;
-        consoleLennar(item, finalScore, 'sg', maxScorePossible);
+        consoleLennar(item, finalScore, 'stock graph', maxScorePossible);
 
         // Auditor
         const auditorMaxScore = 10;
@@ -133,7 +133,7 @@ function dmitriScoreCustomFn(info: any) {
         console.log('calcDIS: ', calcDIS);
         finalScore = finalScore + calcDIS * disWeight;
         maxScorePossible = maxScorePossible + degiroIncomeStatementMaxScore * disWeight;
-        consoleLennar(item, finalScore, 'dis', maxScorePossible);
+        consoleLennar(item, finalScore, 'degiro income statement', maxScorePossible);
 
         // Year Founded
         const yearFoundedMaxScore = 10;
@@ -141,7 +141,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcYF = scoreYearStarted(item['year started'] as number);
         finalScore = finalScore + calcYF * yfWeight;
         maxScorePossible = maxScorePossible + yearFoundedMaxScore * yfWeight;
-        consoleLennar(item, finalScore, 'yf', maxScorePossible);
+        consoleLennar(item, finalScore, 'year founded', maxScorePossible);
 
         // Number Of Employees
         const numberOfEmployeesMaxScore = 10;
@@ -149,7 +149,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcNE = scoreNumberOfEmployees(item['number of employees'] as number);
         finalScore = finalScore + calcNE * neWeight;
         maxScorePossible = maxScorePossible + numberOfEmployeesMaxScore * neWeight;
-        consoleLennar(item, finalScore, 'ne', maxScorePossible);
+        consoleLennar(item, finalScore, 'number of employees', maxScorePossible);
 
         // Integrity Score
         const integrityScoreMaxScore = 10;
@@ -157,7 +157,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcIS = scoreIntegrity(item['any dirt on them (0 being clean, 10 dirty)'] as number);
         finalScore = finalScore + calcIS * isWeight;
         maxScorePossible = maxScorePossible + integrityScoreMaxScore * isWeight;
-        consoleLennar(item, finalScore, 'is', maxScorePossible);
+        consoleLennar(item, finalScore, 'integrity', maxScorePossible);
 
         // Held By Big Investors
         const heldByBigInvestorsMaxScore = 10;
@@ -165,7 +165,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcHBI = item['Held By Big Investors'] as number;
         finalScore = finalScore + calcHBI * hbiWeight;
         maxScorePossible = maxScorePossible + heldByBigInvestorsMaxScore * hbiWeight;
-        consoleLennar(item, finalScore, 'hbi', maxScorePossible);
+        consoleLennar(item, finalScore, 'held by big investors', maxScorePossible);
 
         // Share Price
         const sharePrice = item['Share Price in euro'] as number;
@@ -179,7 +179,7 @@ function dmitriScoreCustomFn(info: any) {
         );
         finalScore = finalScore + calcTV * tvWeight;
         maxScorePossible = maxScorePossible + tradingVolumeMaxScore * tvWeight;
-        consoleLennar(item, finalScore, 'tv', maxScorePossible);
+        consoleLennar(item, finalScore, 'trading volume', maxScorePossible);
 
         // Years To Earnings Match Share
         const yearsToEarningsMatchShareMaxScore = 10;
@@ -190,7 +190,7 @@ function dmitriScoreCustomFn(info: any) {
         );
         finalScore = finalScore + calcYTEM * ytemWeight;
         maxScorePossible = maxScorePossible + yearsToEarningsMatchShareMaxScore * ytemWeight;
-        consoleLennar(item, finalScore, 'ytem', maxScorePossible);
+        consoleLennar(item, finalScore, 'years to earnings match share', maxScorePossible);
 
         // Share To Book
         const shareToBookMaxScore = 10;
@@ -198,7 +198,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcSTB = scoreShareBookValue(sharePrice, item['share / book value'] as number);
         finalScore = finalScore + calcSTB * stbWeight;
         maxScorePossible = maxScorePossible + shareToBookMaxScore * stbWeight;
-        consoleLennar(item, finalScore, 'stb', maxScorePossible);
+        consoleLennar(item, finalScore, 'share to book', maxScorePossible);
 
         // Equity Average
         const equityAverageMaxScore = 10;
@@ -206,7 +206,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcEA = scoreEquityAverage(item['equity average past 10 years in millions euro'] as number);
         finalScore = finalScore + calcEA * eaWeight;
         maxScorePossible = maxScorePossible + equityAverageMaxScore * eaWeight;
-        consoleLennar(item, finalScore, 'ea', maxScorePossible);
+        consoleLennar(item, finalScore, 'equity average', maxScorePossible);
 
         // EBITDA
         const ebitdaMaxScore = 10;
@@ -234,7 +234,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcDTE = scoreDebtToEquity(item['debt / equity as %'] as number);
         finalScore = finalScore + calcDTE * dteWeight;
         maxScorePossible = maxScorePossible + debtToEquityMaxScore * dteWeight;
-        consoleLennar(item, finalScore, 'dte', maxScorePossible);
+        consoleLennar(item, finalScore, 'debt to equity', maxScorePossible);
 
         // Return On Equity
         const returnOnEquityMaxScore = 10;
@@ -242,7 +242,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcROE = scoreReturnOnEquity(item['return on equity'] as number);
         finalScore = finalScore + calcROE * roeWeight;
         maxScorePossible = maxScorePossible + returnOnEquityMaxScore * roeWeight;
-        consoleLennar(item, finalScore, 'roe', maxScorePossible);
+        consoleLennar(item, finalScore, 'return on equity', maxScorePossible);
 
         // Market Cap
         const marketCapMaxScore = 10;
@@ -254,7 +254,7 @@ function dmitriScoreCustomFn(info: any) {
         );
         finalScore = finalScore + calcMC * mcWeight;
         maxScorePossible = maxScorePossible + marketCapMaxScore * mcWeight;
-        consoleLennar(item, finalScore, 'mc', maxScorePossible);
+        consoleLennar(item, finalScore, 'market cap', maxScorePossible);
 
         // Part Of Index
         const partOfIndexMaxScore = 3;
@@ -264,7 +264,7 @@ function dmitriScoreCustomFn(info: any) {
         ] as number;
         finalScore = finalScore + calcPOIM * poimWeight;
         maxScorePossible = maxScorePossible + partOfIndexMaxScore * poimWeight;
-        consoleLennar(item, finalScore, 'poim', maxScorePossible);
+        consoleLennar(item, finalScore, 'part of index', maxScorePossible);
 
         // Held By Billionaires
         const heldByBillionairesMaxScore = 1;
@@ -272,7 +272,9 @@ function dmitriScoreCustomFn(info: any) {
         const calcHBB = item['is held by Billionaires? ( use percentage of total portfolios, MAX 1)'] as number;
         finalScore = finalScore + calcHBB * hbbWeight;
         maxScorePossible = maxScorePossible + heldByBillionairesMaxScore * hbbWeight;
-        consoleLennar(item, finalScore, 'hbb', maxScorePossible);
+        consoleLennar(item, finalScore, 'held by billionaires', maxScorePossible);
+
+        // SIMPLY WALL STREET METRICS 
 
         // Valuation
         const valuationMaxScore = 6;
@@ -280,7 +282,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcVal = item['valuation, max 6'] as number;
         finalScore = finalScore + calcVal * valWeight;
         maxScorePossible = maxScorePossible + valuationMaxScore * valWeight;
-        consoleLennar(item, finalScore, 'val', maxScorePossible);
+        consoleLennar(item, finalScore, 'valuation', maxScorePossible);
 
         // Future Growth
         const futureGrowthMaxScore = 6;
@@ -288,7 +290,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcFG = item['future growth, 6 max'] as number;
         finalScore = finalScore + calcFG * fgWeight;
         maxScorePossible = maxScorePossible + futureGrowthMaxScore * fgWeight;
-        consoleLennar(item, finalScore, 'fg', maxScorePossible);
+        consoleLennar(item, finalScore, 'future growth', maxScorePossible);
 
         // Past Performance
         const pastPerformanceMaxScore = 6;
@@ -296,7 +298,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcPP = item['past performance, 6 mx'] as number;
         finalScore = finalScore + calcPP * ppWeight;
         maxScorePossible = maxScorePossible + pastPerformanceMaxScore * ppWeight;
-        consoleLennar(item, finalScore, 'pp', maxScorePossible);
+        consoleLennar(item, finalScore, 'past performance', maxScorePossible);
 
         // Financial Health
         const financialHealthMaxScore = 6;
@@ -304,7 +306,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcFH = item['financial health, max 6'] as number;
         finalScore = finalScore + calcFH * fhWeight;
         maxScorePossible = maxScorePossible + financialHealthMaxScore * fhWeight;
-        consoleLennar(item, finalScore, 'fh', maxScorePossible);
+        consoleLennar(item, finalScore, 'financial health', maxScorePossible);
 
         // Dividends
         const dividendsMaxScore = 6;
@@ -312,7 +314,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcDiv = item['dividends, max 6'] as number;
         finalScore = finalScore + calcDiv * divWeight;
         maxScorePossible = maxScorePossible + dividendsMaxScore * divWeight;
-        consoleLennar(item, finalScore, 'div', maxScorePossible);
+        consoleLennar(item, finalScore, 'dividends, simply wall st.', maxScorePossible);
 
         // Management
         const managementMaxScore = 4;
@@ -320,7 +322,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcMG = item['management, 4 max'] as number;
         finalScore = finalScore + calcMG * mgWeight;
         maxScorePossible = maxScorePossible + managementMaxScore * mgWeight;
-        consoleLennar(item, finalScore, 'mg', maxScorePossible);
+        consoleLennar(item, finalScore, 'management', maxScorePossible);
     }
 
     // end
