@@ -19,7 +19,7 @@ import {
 import { InvestmentRecord } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-const companyAnalyzed = 'Ecopetrol SA';
+const companyAnalyzed = 'Banco do Brasil SA';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === companyAnalyzed) {
@@ -330,6 +330,7 @@ function dmitriScoreCustomFn(info: any) {
     console.log('============================');
     console.log('company name', item['Company Name']);
     console.log('finalReturn: ', finalReturn);
+    console.log('maxScorePossible, should be on 22-Sep-2025: ', 1657);
 
     return finalReturn;
 }

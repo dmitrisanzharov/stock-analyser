@@ -15,6 +15,10 @@ export function scorePaymentFrequency(frequency: number): number {
         return 4; // quarterly
     }
 
+    if (frequency === 6) {
+        return 5; // every 2 months
+    }
+
     if (frequency === 12) {
         return 6; // monthly
     }
