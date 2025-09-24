@@ -92,13 +92,39 @@ function dmitriScoreCustomFn(info: any) {
         maxScorePossible = maxScorePossible + netProfitMarginMaxScore * netProfitMarginWeight;
         consoleLennar(item, finalScore, 'gross margin', maxScorePossible);
 
-        // Stock Graph Analysis
-        const stockGraphMaxScore = 10;
-        const sgWeight = 1;
-        const calcSG = item['stock chart score'];
-        finalScore = finalScore + calcSG * sgWeight;
-        maxScorePossible = maxScorePossible + stockGraphMaxScore * sgWeight;
-        consoleLennar(item, finalScore, 'stock graph', maxScorePossible);
+        // Return on Equity 5ya
+        const returnOnEquity5yaMaxScore = 10;
+        const returnOnEquity5yaWeight = 10;
+        const calcROE5ya = scoreNetProfitMargin(item['Return On Equity 5ya'] as number, item['Return On Equity 5ya (industry)'] as number);
+        finalScore = finalScore + calcROE5ya * returnOnEquity5yaWeight;
+        maxScorePossible = maxScorePossible + returnOnEquity5yaMaxScore * returnOnEquity5yaWeight;
+        consoleLennar(item, finalScore, 'return on equity 5ya', maxScorePossible);
+
+
+        // 5 Year EPS Growth
+        const epsGrowth5yaMaxScore = 10;
+        const epsGrowth5yaWeight = 10;
+        const calcEPSGrowth5ya = scoreNetProfitMargin(item['5 Year EPS Growth'] as number, item['5 Year EPS Growth (industry)'] as number);
+        finalScore = finalScore + calcEPSGrowth5ya * epsGrowth5yaWeight;
+        maxScorePossible = maxScorePossible + epsGrowth5yaMaxScore * epsGrowth5yaWeight;
+        consoleLennar(item, finalScore, '5 Year EPS Growth', maxScorePossible);
+
+        // 5 Year Sales Growth
+        const salesGrowth5yaMaxScore = 10;
+        const salesGrowth5yaWeight = 10;
+        const calcSalesGrowth5ya = scoreNetProfitMargin(item['5 Year Sales Growth'] as number, item['5 Year Sales Growth (industry)'] as number);
+        finalScore = finalScore + calcSalesGrowth5ya * salesGrowth5yaWeight;
+        maxScorePossible = maxScorePossible + salesGrowth5yaMaxScore * salesGrowth5yaWeight;
+        consoleLennar(item, finalScore, '5 Year Sales Growth', maxScorePossible);
+
+
+        // Stock Graph Analysis - redundant as of: 24-Sep-2025
+        // const stockGraphMaxScore = 10;
+        // const sgWeight = 1;
+        // const calcSG = item['stock chart score'];
+        // finalScore = finalScore + calcSG * sgWeight;
+        // maxScorePossible = maxScorePossible + stockGraphMaxScore * sgWeight;
+        // consoleLennar(item, finalScore, 'stock graph', maxScorePossible);
 
         // Auditor
         const auditorMaxScore = 10;

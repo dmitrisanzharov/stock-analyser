@@ -51,12 +51,24 @@ export type InvestmentRecord = {
     "country corruption index (100 max)": number | null;
 
     Industry: string | null;
+
     "PE ratio": number | null;
     "industry PE": number | null;
     "company to industry": number | null;
+
     "Net Profit Margin AVG 5 years": number | null;
     "Net Profit Margin AVG 5 years (industry)": number | null;
     "company to industry margin": number | null;
+
+    "Return On Equity 5ya": number | null;
+    "Return On Equity 5ya (industry)": number | null;
+
+    "5 Year EPS Growth": number | null;
+    "5 Year EPS Growth (industry)": number | null;
+
+    "5 Year Sales Growth": number | null;
+    "5 Year Sales Growth (industry)": number | null;
+
     ytd: number | null;
     "5 yrs": number | null;
     all: number | null;
