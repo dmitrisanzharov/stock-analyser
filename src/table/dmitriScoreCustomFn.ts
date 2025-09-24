@@ -2,6 +2,7 @@ import {
     scorePaymentFrequency,
     scoreDegiroCategory,
     scorePeRatio,
+    scoreGrossMargin,
     scoreDegiroIncomeStatement,
     scoreYearStarted,
     scoreNumberOfEmployees,
@@ -19,7 +20,7 @@ import {
 import { InvestmentRecord } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-const companyAnalyzed = 'African Rainbow Minerals Ltd';
+const companyAnalyzed = 'HELLENiQ ENERGY Holdings SA';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === companyAnalyzed) {
@@ -82,6 +83,14 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcPE * peWeight;
         maxScorePossible = maxScorePossible + peRatioMaxScore * peWeight;
         consoleLennar(item, finalScore, 'pe ratio', maxScorePossible);
+
+        // Gross Margin
+        const grossMarginMaxScore = 10;
+        const grossMarginWeight = 10;
+        const calcGM = scoreGrossMargin(item['Gross Margin AVG 5 years'] as number, item['Gross Margin AVG 5 years (industry)'] as number);
+        finalScore = finalScore + calcGM * grossMarginWeight;
+        maxScorePossible = maxScorePossible + grossMarginMaxScore * grossMarginWeight;
+        consoleLennar(item, finalScore, 'gross margin', maxScorePossible);
 
         // Stock Graph Analysis
         const stockGraphMaxScore = 10;
@@ -330,7 +339,7 @@ function dmitriScoreCustomFn(info: any) {
     console.log('============================');
     console.log('company name', item['Company Name']);
     console.log('finalReturn: ', finalReturn);
-    console.log('maxScorePossible, should be on 22-Sep-2025: ', 1657);
+    console.log('maxScorePossible, should be on 22-Sep-2025: ', 1757);
 
     return finalReturn;
 }

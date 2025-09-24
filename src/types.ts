@@ -54,6 +54,9 @@ export type InvestmentRecord = {
     "PE ratio": number | null;
     "industry PE": number | null;
     "company to industry": number | null;
+    "Gross Margin AVG 5 years": number | null;
+    "Gross Margin AVG 5 years (industry)": number | null;
+    "company to industry margin": number | null;
     ytd: number | null;
     "5 yrs": number | null;
     all: number | null;

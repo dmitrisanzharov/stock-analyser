@@ -190,6 +190,30 @@ export function yearsForEarningsMatchPrice(sharePriceInEuro: number, avgEpsIn10Y
     return 1; // >40
 }
 
+export function scoreGrossMargin(companyMargin: number, industryMargin: number): number {
+    if (companyMargin === industryMargin) {
+        return 5;
+    }
+
+    if (companyMargin > industryMargin) {
+        // Above industry
+        if (companyMargin >= industryMargin * 1.5) return 10; // 50% higher or more
+        if (companyMargin >= industryMargin * 1.4) return 9;
+        if (companyMargin >= industryMargin * 1.3) return 8;
+        if (companyMargin >= industryMargin * 1.2) return 7;
+        if (companyMargin >= industryMargin * 1.1) return 6;
+        return 6; // just slightly above
+    } else {
+        // Below industry
+        if (companyMargin <= industryMargin * 0.5) return 0; // 50% lower or more
+        if (companyMargin <= industryMargin * 0.6) return 1;
+        if (companyMargin <= industryMargin * 0.7) return 2;
+        if (companyMargin <= industryMargin * 0.8) return 3;
+        if (companyMargin <= industryMargin * 0.9) return 4;
+        return 4; // just slightly below
+    }
+}
+
 export function scoreShareBookValue(sharePriceInEuro: number, bookValuePerShare: number): number {
     const pbRatio = sharePriceInEuro / bookValuePerShare; // P/B ratio as a decimal
     const pbPercent = pbRatio * 100; // convert to percent for easier comparison
