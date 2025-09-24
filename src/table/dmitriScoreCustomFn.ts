@@ -389,12 +389,12 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(item, aiFinalScore, 'degiro (A = 11; B=8; C=4; D=1)', aiMaxPossible);
 
 
-        // fitchRating
-        const fitchRating: RatingType = item['fitch rating'];
-        if(typeof fitchRating === 'number') {
+        // fitchRating ai
+        const fitchRatingAi: RatingType = item['fitch rating'];
+        if(typeof fitchRatingAi === 'number') {
             const fitchRatingMaxScore = 11;
             const frWeight = 4;
-            const calcFR = fitchRating;
+            const calcFR = fitchRatingAi;
             aiFinalScore = aiFinalScore + calcFR * frWeight;
             aiMaxPossible = aiMaxPossible + fitchRatingMaxScore * frWeight;
             consoleLennar(item, aiFinalScore, 'fitch rating', aiMaxPossible);
