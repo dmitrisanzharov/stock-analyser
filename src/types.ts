@@ -29,23 +29,6 @@ export type InvestmentRecord = {
     "month of EX-date on Investing.com": string | null;
     ".": string | null;
 
-    "avg AI grade": number | null;
-    "chatGPT Grade (11 to 1)": number | null;
-    "ChatGPT Plus": number | null;
-    claude: number | null;
-    gemini: number | null;
-    copilot: number | null;
-    perplexity: number | null;
-    LeChat: number | null;
-    grok: number | null;
-    kimi: number | null;
-    deepseek: number | null;
-
-    "degiro (A = 11; B=8; C=4; D=1)": string | number | null;
-    "Dmitri score by feel": number | string;
-    "fitch rating": number | null;
-    "moody rating": number | null;
-    "s&p rating": number | null;
     "date of analysis": string | null;
     "degiro grade | dmitri translation": string;
     "country corruption index (100 max)": number | null;
@@ -119,4 +102,25 @@ export type InvestmentRecord = {
     "financial health, max 6": number | null;
     "dividends, max 6": number | null;
     "management, 4 max": number | null;
+
+    // AI analysis stuff
+    "degiro (A = 11; B=8; C=4; D=1)": string | number | null;
+    "Dmitri score by feel": number | string;
+    "fitch rating": number | null;
+    "moody rating": number | null;
+    "s&p rating": number | null;
+
+    "avg AI grade": number | null;
+    "chatGPT Grade (11 to 1)": number | null;
+    "ChatGPT Plus": number | null;
+    claude: number | null;
+    gemini: number | null;
+    copilot: number | null;
+    perplexity: number | null;
+    LeChat: number | null;
+    grok: number | null;
+    kimi: number | null;
+    deepseek: number | null;
 };
+
+export type RatingType = string | number | null;

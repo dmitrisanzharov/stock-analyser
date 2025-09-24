@@ -17,10 +17,10 @@ import {
     scoreReturnOnEquity,
     scoreMarketCap
 } from '../helpers/allOther';
-import { InvestmentRecord } from '../types';
+import { InvestmentRecord, RatingType } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-const companyAnalyzed = 'HELLENiQ ENERGY Holdings SA';
+const companyAnalyzed = 'Spark New Zealand Ltd';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === companyAnalyzed) {
@@ -31,17 +31,22 @@ function consoleLennar(allValues: InvestmentRecord, currentScore: number, criter
 function dmitriScoreCustomFn(info: any) {
     const value = info.getValue();
 
-    if (value || value === 0) {
+    const item: InvestmentRecord = info.row.original;
+
+    const companyAnalysisActive = item['Company Name'] === companyAnalyzed;
+
+    if ((value || value === 0) && !companyAnalysisActive) {
         return Number(value.toFixed(2));
     }
 
-    const item: InvestmentRecord = info.row.original;
 
     let finalScore = 0;
     let maxScorePossible = 0;
 
-    if (item['Company Name'] === companyAnalyzed) {
+    if (companyAnalysisActive) {
 
+    console.log('++++++++++++++++++++++++++++');
+    console.log('Company Name: ', companyAnalyzed);
     console.log('++++++++++++++++++++++++++++');
 
         // Dividends Interest Rate
@@ -358,10 +363,153 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcMG * mgWeight;
         maxScorePossible = maxScorePossible + managementMaxScore * mgWeight;
         consoleLennar(item, finalScore, 'management', maxScorePossible);
+
+        console.log('---------------------------------');
+        console.log('AI Analysis');
+        console.log('---------------------------------');
+
+        // AI ANALYSIS
+        let aiMaxPossible = 0;
+        let aiFinalScore = 0;
+
+        // Dmitri Score
+        const dmitriScoreMaxScore = 11;
+        const dsWeight = 10;
+        const calcDS = item['Dmitri score by feel'] as number;
+        aiFinalScore = aiFinalScore + calcDS * dsWeight;
+        aiMaxPossible = aiMaxPossible + dmitriScoreMaxScore * dsWeight;
+        consoleLennar(item, aiFinalScore, 'dmitri score', aiMaxPossible);
+
+        // degiro grade | dmitri translation
+        const degiroGradeMaxScore = 11;
+        const dgWeight = 5;
+        const calcDG = item['degiro (A = 11; B=8; C=4; D=1)'] as number;
+        aiFinalScore = aiFinalScore + calcDG * dgWeight;
+        aiMaxPossible = aiMaxPossible + degiroGradeMaxScore * dgWeight;
+        consoleLennar(item, aiFinalScore, 'degiro (A = 11; B=8; C=4; D=1)', aiMaxPossible);
+
+
+        // fitchRating
+        const fitchRating: RatingType = item['fitch rating'];
+        if(typeof fitchRating === 'number') {
+            const fitchRatingMaxScore = 11;
+            const frWeight = 4;
+            const calcFR = fitchRating;
+            aiFinalScore = aiFinalScore + calcFR * frWeight;
+            aiMaxPossible = aiMaxPossible + fitchRatingMaxScore * frWeight;
+            consoleLennar(item, aiFinalScore, 'fitch rating', aiMaxPossible);
+        }
+
+        // s&p rating
+        const spRating: RatingType = item['s&p rating'];
+        if(typeof spRating === 'number') {
+            const spRatingMaxScore = 11;
+            const srWeight = 4;
+            const calcSR = spRating;
+            aiFinalScore = aiFinalScore + calcSR * srWeight;
+            aiMaxPossible = aiMaxPossible + spRatingMaxScore * srWeight;
+            consoleLennar(item, aiFinalScore, 's&p rating', aiMaxPossible);
+        }
+
+        // moody rating
+        const moodyRating: RatingType = item['moody rating'];
+        if(typeof moodyRating === 'number') {
+            const moodyRatingMaxScore = 11;
+            const mrWeight = 4;
+            const calcMR = moodyRating;
+            aiFinalScore = aiFinalScore + calcMR * mrWeight;
+            aiMaxPossible = aiMaxPossible + moodyRatingMaxScore * mrWeight;
+            consoleLennar(item, aiFinalScore, 'moody rating', aiMaxPossible);
+        }
+
+        // chatGPT
+        const chatGPTMaxScore = 11;
+        const cgWeight = 1;
+        const calcCG = item['chatGPT Grade (11 to 1)'] as number;
+        aiFinalScore = aiFinalScore + calcCG * cgWeight;
+        aiMaxPossible = aiMaxPossible + chatGPTMaxScore * cgWeight;
+        consoleLennar(item, aiFinalScore, 'chatGPT', aiMaxPossible);
+
+        // ChatGPT Plus
+        const chatGPTPlusMaxScore = 11;
+        const cgPlusWeight = 2;
+        const calcCGPlus = item['ChatGPT Plus'] as number;
+        aiFinalScore = aiFinalScore + calcCGPlus * cgPlusWeight;
+        aiMaxPossible = aiMaxPossible + chatGPTPlusMaxScore * cgPlusWeight;
+        consoleLennar(item, aiFinalScore, 'chatGPT Plus', aiMaxPossible);
+
+        // claude
+        const claudeMaxScore = 11;
+        const clWeight = 1;
+        const calcCL = item['claude'] as number;
+        aiFinalScore = aiFinalScore + calcCL * clWeight;
+        aiMaxPossible = aiMaxPossible + claudeMaxScore * clWeight;
+        consoleLennar(item, aiFinalScore, 'claude', aiMaxPossible);
+
+        // gemini
+        const geminiMaxScore = 11;
+        const gmWeight = 1;
+        const calcGemini = item['gemini'] as number;
+        aiFinalScore = aiFinalScore + calcGemini * gmWeight;
+        aiMaxPossible = aiMaxPossible + geminiMaxScore * gmWeight;
+        consoleLennar(item, aiFinalScore, 'gemini', aiMaxPossible);
+
+        // copilot
+        const copilotMaxScore = 11;
+        const cpWeight = 1;
+        const calcCopilot = item['copilot'] as number;
+        aiFinalScore = aiFinalScore + calcCopilot * cpWeight;
+        aiMaxPossible = aiMaxPossible + copilotMaxScore * cpWeight;
+        consoleLennar(item, aiFinalScore, 'copilot', aiMaxPossible);
+
+        // perplexity
+        const perplexityMaxScore = 11;
+        const pxWeight = 1;
+        const calcPerplexity = item['perplexity'] as number;
+        aiFinalScore = aiFinalScore + calcPerplexity * pxWeight;
+        aiMaxPossible = aiMaxPossible + perplexityMaxScore * pxWeight;
+        consoleLennar(item, aiFinalScore, 'perplexity', aiMaxPossible);
+
+        // LeChatGPT
+        const leChatMaxScore = 11;
+        const lcWeight = 1;
+        const calcLeChat = item['LeChat'] as number;
+        aiFinalScore = aiFinalScore + calcLeChat * lcWeight;
+        aiMaxPossible = aiMaxPossible + leChatMaxScore * lcWeight;
+        consoleLennar(item, aiFinalScore, 'LeChat', aiMaxPossible);
+
+        // grok
+        const grokMaxScore = 11;
+        const grWeight = 1;
+        const calcGrok = item['grok'] as number;
+        aiFinalScore = aiFinalScore + calcGrok * grWeight;
+        aiMaxPossible = aiMaxPossible + grokMaxScore * grWeight;
+        consoleLennar(item, aiFinalScore, 'grok', aiMaxPossible);
+
+        // kimi
+        const kimiMaxScore = 11;
+        const kmWeight = 1;
+        const calcKimi = item['kimi'] as number;
+        aiFinalScore = aiFinalScore + calcKimi * kmWeight;
+        aiMaxPossible = aiMaxPossible + kimiMaxScore * kmWeight;
+        consoleLennar(item, aiFinalScore, 'kimi', aiMaxPossible);
+
+        // deepseek
+        const deepseekMaxScore = 11;
+        const dsAiWeight = 1;
+        const calcDeepseek = item['deepseek'] as number;
+        aiFinalScore = aiFinalScore + calcDeepseek * dsAiWeight;
+        aiMaxPossible = aiMaxPossible + deepseekMaxScore * dsAiWeight;
+        consoleLennar(item, aiFinalScore, 'deepseek', aiMaxPossible);
+
+
+
     }
 
     // end
     const finalReturn = ((finalScore / maxScorePossible) * dmitriScoreConversionNumber).toFixed(2);
+    console.log('============================');
+    console.log('FINAL SCORE');
     console.log('============================');
     console.log('company name', item['Company Name']);
     console.log('finalReturn: ', finalReturn);
