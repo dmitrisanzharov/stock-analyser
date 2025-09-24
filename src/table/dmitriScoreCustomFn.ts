@@ -502,7 +502,7 @@ function dmitriScoreCustomFn(info: any) {
         aiMaxPossible = aiMaxPossible + deepseekMaxScore * dsAiWeight;
         consoleLennar(item, aiFinalScore, 'deepseek', aiMaxPossible);
 
-
+        console.log('final AI score', ((aiFinalScore / aiMaxPossible) * dmitriScoreConversionNumber).toFixed(2));
 
     }
 
