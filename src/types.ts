@@ -69,6 +69,9 @@ export type InvestmentRecord = {
     "5 Year Sales Growth": number | null;
     "5 Year Sales Growth (industry)": number | null;
 
+    "Net Income/Employee": number | null;
+    "Net Income/Employee (industry)": number | null;
+
     ytd: number | null;
     "5 yrs": number | null;
     all: number | null;
