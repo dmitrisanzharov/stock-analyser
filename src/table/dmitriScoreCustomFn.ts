@@ -2,7 +2,7 @@ import {
     scorePaymentFrequency,
     scoreDegiroCategory,
     scorePeRatio,
-    scoreGrossMargin,
+    scoreNetProfitMargin,
     scoreDegiroIncomeStatement,
     scoreYearStarted,
     scoreNumberOfEmployees,
@@ -84,12 +84,12 @@ function dmitriScoreCustomFn(info: any) {
         maxScorePossible = maxScorePossible + peRatioMaxScore * peWeight;
         consoleLennar(item, finalScore, 'pe ratio', maxScorePossible);
 
-        // Gross Margin
-        const grossMarginMaxScore = 10;
-        const grossMarginWeight = 10;
-        const calcGM = scoreGrossMargin(item['Gross Margin AVG 5 years'] as number, item['Gross Margin AVG 5 years (industry)'] as number);
-        finalScore = finalScore + calcGM * grossMarginWeight;
-        maxScorePossible = maxScorePossible + grossMarginMaxScore * grossMarginWeight;
+        // Net Profit Margin
+        const netProfitMarginMaxScore = 10;
+        const netProfitMarginWeight = 10;
+        const calcGM = scoreNetProfitMargin(item['Net Profit Margin AVG 5 years'] as number, item['Net Profit Margin AVG 5 years (industry)'] as number);
+        finalScore = finalScore + calcGM * netProfitMarginWeight;
+        maxScorePossible = maxScorePossible + netProfitMarginMaxScore * netProfitMarginWeight;
         consoleLennar(item, finalScore, 'gross margin', maxScorePossible);
 
         // Stock Graph Analysis

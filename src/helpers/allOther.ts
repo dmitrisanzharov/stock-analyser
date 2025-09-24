@@ -190,7 +190,7 @@ export function yearsForEarningsMatchPrice(sharePriceInEuro: number, avgEpsIn10Y
     return 1; // >40
 }
 
-export function scoreGrossMargin(companyMargin: number, industryMargin: number): number {
+export function scoreNetProfitMargin(companyMargin: number, industryMargin: number): number {
     if (companyMargin === industryMargin) {
         return 5;
     }
