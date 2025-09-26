@@ -4,6 +4,7 @@ import {
     scorePeRatio,
     scoreNetProfitMargin,
     scoreDegiroIncomeStatement,
+    degiroAnalystRatingToScore,
     scoreYearStarted,
     scoreNumberOfEmployees,
     scoreIntegrity,
@@ -20,7 +21,7 @@ import {
 import { InvestmentRecord, RatingType } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-const companyAnalyzed = 'Vivendi SE';
+const companyAnalyzed = 'Sasol Ltd';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === companyAnalyzed) {
@@ -201,10 +202,17 @@ function dmitriScoreCustomFn(info: any) {
             Number(item['how does their Income Statement Look on Degiro'] as number),
             Number(item['are assets bigger than liabilities consistently'] as number)
         );
-        console.log('calcDIS: ', calcDIS);
         finalScore = finalScore + calcDIS * disWeight;
         maxScorePossible = maxScorePossible + degiroIncomeStatementMaxScore * disWeight;
         consoleLennar(item, finalScore, 'degiro income statement', maxScorePossible);
+
+        // Degiro Analysts Score
+        const degiroAnalystsScoreMaxScore = 10;
+        const dasWeight = 1;
+        const calcDAS = degiroAnalystRatingToScore(item['Degiro Analysts Score'] as number);
+        finalScore = finalScore + calcDAS * dasWeight;
+        maxScorePossible = maxScorePossible + degiroAnalystsScoreMaxScore * dasWeight;
+        consoleLennar(item, finalScore, 'degiro analysts score', maxScorePossible);
 
         // Year Founded
         const yearFoundedMaxScore = 10;

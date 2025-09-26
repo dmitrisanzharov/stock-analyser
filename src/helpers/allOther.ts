@@ -118,6 +118,13 @@ export function scoreDegiroIncomeStatement(
     return profitableYears + numberOfTimesAssetsBiggerThanLiabilities;
 }
 
+export function degiroAnalystRatingToScore(rating: number): number {
+    if (rating < 1 || rating > 5) {
+        throw new Error("Rating must be between 1 and 5");
+    }
+    return 10 - 2.5 * (rating - 1);
+}
+
 export function scoreYearStarted(yearStarted: number, alreadyKnown?: number): number {
     if (alreadyKnown) {
         return alreadyKnown;

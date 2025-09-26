@@ -70,6 +70,7 @@ export type InvestmentRecord = {
     "s&p outlook": string | null;
 
     "how does their Income Statement Look on Degiro": number | string | null;
+    "Degiro Analysts Score": number | null;
     "are assets bigger than liabilities consistently": number | string | null;
     "year started": number | null;
     "number of employees": number | null;
