@@ -88,7 +88,7 @@ function gvizTableToObjects(gviz: any, useFormatted = false) {
 }
 
 
-const useGetData = () => {
+export const useGetData = () => {
     const [data, setData] = useState([]);
 
 
@@ -123,7 +123,6 @@ const useGetData = () => {
 
 }
 
-export default useGetData;
 
 
 export const defaultColumns: ColumnDef<InvestmentRecord>[] = [

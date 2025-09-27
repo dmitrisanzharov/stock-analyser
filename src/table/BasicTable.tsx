@@ -10,12 +10,13 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import useGetData, { defaultColumns } from './hooks';
+import { useGetData, defaultColumns } from './hooks';
 
 
 const BasicTable = () => {
 
     const data = useGetData();
+    console.log("data: ", data);
 
     const [sorting, setSorting] = React.useState([
         { id: "dmitriScore", desc: true },
