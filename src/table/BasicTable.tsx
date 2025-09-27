@@ -16,7 +16,6 @@ import { useGetData, defaultColumns } from './hooks';
 const BasicTable = () => {
 
     const data = useGetData();
-    console.log("data: ", data);
 
     const [sorting, setSorting] = React.useState([
         { id: "dmitriScore", desc: true },

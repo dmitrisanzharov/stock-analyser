@@ -7,6 +7,14 @@
 - https://docs.google.com/spreadsheets/d/1VW12SI3Q3UFKWGPSXnIImWCU4ob80-pYl4YfzX6U0pA/edit?gid=873466011#gid=873466011
 
 
+## 27-Sep-2025
+- No longer use AI analyzer seriously and mostly focusing on MY analyzer
+- Moved AI analyzer to a single CELL score that will be used with Weight of 7
+    Reason is: it misses good companies and sometimes assigns strange numbers to 'uncertain' companies
+- Basically I prefer to use my own head, rather than let AI decide, for the time being
+
+
+
 ## 24-Sep-2025
 - added new criterias (all are 10 in weight):
     net profit margin 5ya

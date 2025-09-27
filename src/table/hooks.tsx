@@ -109,8 +109,13 @@ export const useGetData = () => {
             // const rows = gvizTableToObjects(gviz, true); // use formatted values instead, i.e. Currency will be: "$1,000.00" as opposed to 1000
             // console.log("rows: ", rows);
 
+            // remove "BY FEEL SCORE" items
+            let filteredRows = rows.filter((row: any) => {
+                return row['score was by feel'] !== 'yes'
+            })
 
-            setData(rows);
+
+            setData(filteredRows);
 
 
         };

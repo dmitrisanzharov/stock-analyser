@@ -122,6 +122,10 @@ export type InvestmentRecord = {
     grok: number | null;
     kimi: number | null;
     deepseek: number | null;
+
+    "investingComAnalystsScore": number | null;
+    "Pure AI Average Grade": number | null;
+    "score was by feel": string | null;
 };
 
 export type RatingType = string | number | null;
