@@ -94,7 +94,7 @@ export type InvestmentRecord = {
     "return on equity": number | null;
     "market cap in Billions EUR (ask AI) (i.e. hype value... total shares X current share value)": number | null;
 
-    "is company part of any index / index fund (e.g. MSCI world fund), grade as: 0 = No indexes hold it (worst), 1 = some indexes hold it, 2 = many indexes hold it, 3 = almost ALL hold it (the best)": number | null;
+    "indexesHoldIt": number | null;
     "is held by Billionaires? ( use percentage of total portfolios, MAX 1)": number | null;
 
     "valuation, max 6": number | null;

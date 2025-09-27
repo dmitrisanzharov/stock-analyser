@@ -21,7 +21,7 @@ import {
 import { InvestmentRecord } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-const companyAnalyzed = 'UnitedHealth Group';
+const companyAnalyzed = 'LyondellBasell Industries NV';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === companyAnalyzed) {
@@ -172,28 +172,34 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(item, finalScore, 'auditor', maxScorePossible);
 
         // Fitch Rating
-        const fitchRatingMaxScore = 11;
-        const fitchWeight = 5;
-        const calcFitch = item['fitch rating or equivalent'] as number;
-        finalScore = finalScore + calcFitch * fitchWeight;
-        maxScorePossible = maxScorePossible + fitchRatingMaxScore * fitchWeight;
-        consoleLennar(item, finalScore, 'fitch', maxScorePossible);
-
-        // Moody Rating
-        const moodyRatingMaxScore = 11;
-        const moodyWeight = 5;
-        const calcMoody = item['moody'] as number;
-        finalScore = finalScore + calcMoody * moodyWeight;
-        maxScorePossible = maxScorePossible + moodyRatingMaxScore * moodyWeight;
-        consoleLennar(item, finalScore, 'moody', maxScorePossible);
+        if (item['fitch rating or equivalent'] && typeof item['fitch rating or equivalent'] === 'number') {
+            const fitchRatingMaxScore = 11;
+            const fitchWeight = 5;
+            const calcFitch = item['fitch rating or equivalent'] as number;
+            finalScore = finalScore + calcFitch * fitchWeight;
+            maxScorePossible = maxScorePossible + fitchRatingMaxScore * fitchWeight;
+            consoleLennar(item, finalScore, 'fitch', maxScorePossible);
+        }
 
         // SP Rating
-        const spRatingMaxScore = 11;
-        const spWeight = 5;
-        const calcSP = item['s&p'] as number;
-        finalScore = finalScore + calcSP * spWeight;
-        maxScorePossible = maxScorePossible + spRatingMaxScore * spWeight;
-        consoleLennar(item, finalScore, 'sp', maxScorePossible);
+        if (item['s&p'] && typeof item['s&p'] === 'number') {
+            const spRatingMaxScore = 11;
+            const spWeight = 5;
+            const calcSP = item['s&p'] as number;
+            finalScore = finalScore + calcSP * spWeight;
+            maxScorePossible = maxScorePossible + spRatingMaxScore * spWeight;
+            consoleLennar(item, finalScore, 'sp', maxScorePossible);
+        }
+
+        // Moody Rating
+        if (item['moody'] && typeof item['moody'] === 'number') {
+            const moodyRatingMaxScore = 11;
+            const moodyWeight = 5;
+            const calcMoody = item['moody'] as number;
+            finalScore = finalScore + calcMoody * moodyWeight;
+            maxScorePossible = maxScorePossible + moodyRatingMaxScore * moodyWeight;
+            consoleLennar(item, finalScore, 'moody', maxScorePossible);
+        }
 
         // Degiro Income Statement
         const degiroIncomeStatementMaxScore = 12;
@@ -217,7 +223,7 @@ function dmitriScoreCustomFn(info: any) {
         // investingComAnalystsScore
         const investingComAnalystsScoreMaxScore = 10;
         const iasWeight = 1;
-        const calcIAS = item['investingComAnalystsScore'] as number * 10;
+        const calcIAS = (item['investingComAnalystsScore'] as number) * 10;
         finalScore = finalScore + calcIAS * iasWeight;
         maxScorePossible = maxScorePossible + investingComAnalystsScoreMaxScore * iasWeight;
         consoleLennar(item, finalScore, 'investing.com analysts score', maxScorePossible);
@@ -250,7 +256,7 @@ function dmitriScoreCustomFn(info: any) {
         const heldByBigInvestorsMaxScore = 10;
         const hbiWeight = 4;
         const calcHBI = item['Held By Big Investors'] as number;
-        console.log("calcHBI: ", calcHBI);
+        console.log('calcHBI: ', calcHBI);
         finalScore = finalScore + calcHBI * hbiWeight;
         maxScorePossible = maxScorePossible + heldByBigInvestorsMaxScore * hbiWeight;
         consoleLennar(item, finalScore, 'held by big investors', maxScorePossible);
@@ -348,7 +354,7 @@ function dmitriScoreCustomFn(info: any) {
         const partOfIndexMaxScore = 3;
         const poimWeight = 5;
         const calcPOIM = item[
-            'is company part of any index / index fund (e.g. MSCI world fund), grade as: 0 = No indexes hold it (worst), 1 = some indexes hold it, 2 = many indexes hold it, 3 = almost ALL hold it (the best)'
+            'indexesHoldIt'
         ] as number;
         finalScore = finalScore + calcPOIM * poimWeight;
         maxScorePossible = maxScorePossible + partOfIndexMaxScore * poimWeight;
@@ -412,7 +418,6 @@ function dmitriScoreCustomFn(info: any) {
         maxScorePossible = maxScorePossible + managementMaxScore * mgWeight;
         consoleLennar(item, finalScore, 'management', maxScorePossible);
 
-
         // AI score
         const aiMaxScore = 11;
         const aiWeight = 6;
@@ -420,7 +425,6 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcAI * aiWeight;
         maxScorePossible = maxScorePossible + aiMaxScore * aiWeight;
         consoleLennar(item, finalScore, 'AI score', maxScorePossible);
-
     }
 
     // end
@@ -430,7 +434,6 @@ function dmitriScoreCustomFn(info: any) {
     console.log('============================');
     console.log('company name', item['Company Name']);
     console.log('final Dmitri Score: ', finalReturn);
-    console.log('maxScorePossible, should be on 22-Sep-2025: ', 1757);
 
     return finalReturn;
 }
