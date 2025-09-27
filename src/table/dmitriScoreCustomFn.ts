@@ -21,7 +21,7 @@ import {
 import { InvestmentRecord, RatingType } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-const companyAnalyzed = 'Sasol Ltd';
+const companyAnalyzed = 'UnitedHealth Group';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === companyAnalyzed) {
