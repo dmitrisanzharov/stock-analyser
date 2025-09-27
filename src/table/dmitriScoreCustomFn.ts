@@ -420,7 +420,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // AI score
         const aiMaxScore = 11;
-        const aiWeight = 6;
+        const aiWeight = 7;
         const calcAI = item['Pure AI Average Grade'] as number;
         finalScore = finalScore + calcAI * aiWeight;
         maxScorePossible = maxScorePossible + aiMaxScore * aiWeight;
