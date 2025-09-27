@@ -106,7 +106,7 @@ export type InvestmentRecord = {
 
     // AI analysis stuff
     "degiro (A = 11; B=8; C=4; D=1)": string | number | null;
-    "Dmitri score by feel": number | string;
+    "DmitriScore": number | string;
     "fitch rating": number | null;
     "moody rating": number | null;
     "s&p rating": number | null;

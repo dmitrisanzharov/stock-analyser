@@ -13,7 +13,7 @@ export function calculateAiScoreWithWeight(item: InvestmentRecord, consoleLennar
     // Dmitri Score
     const dmitriScoreMaxScore = 11;
     const dsWeight = 10;
-    const calcDS = item['Dmitri score by feel'] as number;
+    const calcDS = item['DmitriScore'] as number;
     aiFinalScore = aiFinalScore + calcDS * dsWeight;
     aiMaxPossible = aiMaxPossible + dmitriScoreMaxScore * dsWeight;
     consoleLennar(item, aiFinalScore, 'dmitri score', aiMaxPossible);
