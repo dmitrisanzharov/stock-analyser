@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-    ColumnDef
+    ColumnDef, createColumnHelper
 } from "@tanstack/react-table";
 import { InvestmentRecord } from '../types';
 import dayjs from "dayjs";
@@ -128,22 +128,15 @@ export const useGetData = () => {
 
 }
 
+const columnHelper = createColumnHelper<InvestmentRecord>();
 
-
-export const defaultColumns: ColumnDef<InvestmentRecord>[] = [
-    // {
-    //     accessorKey: "avg AI grade",
-    //     header: createSortableHeader('avg AI grade'),
-    //     id: 'aiGrade',
-    //     cell: ({ getValue }) => getValue() ? Number(getValue<number>().toFixed(2)) : 0
-    // },
-    {
-        accessorKey: "date of analysis",
-        id: "date",
+export const defaultColumns = [
+    // Date of Analysis column with custom sorting
+    columnHelper.accessor('date of analysis', {
+        id: 'date',
         header: createSortableHeader('Date of Analysis'),
         cell: ({ getValue }) => {
-            // getValue can return a string, Date, number, etc.
-            const raw = getValue() as unknown;
+            const raw = getValue();
             const parsed = parseCustomDate(raw);
             return parsed ? parsed.format("DD-MMM-YYYY") : "-";
         },
@@ -152,33 +145,40 @@ export const defaultColumns: ColumnDef<InvestmentRecord>[] = [
             const b = parseCustomDate(rowB.getValue(columnId));
 
             if (!a && !b) return 0;
-
-            // nulls are always "greater"
             if (!a) return 1;
             if (!b) return -1;
 
             return a.valueOf() - b.valueOf();
         },
-    },
-    {
-        accessorKey: "Country",
-        header: "Country",
-        id: 'country'
-    },
-    {
-        accessorKey: "isin",
-        header: "isin",
-        id: 'isin'
-    },
-    {
-        accessorKey: "Company Name",
-        header: "Name",
-        id: 'name'
-    },
-    {
-        accessorKey: "DmitriScore",
-        header: createSortableHeader(<><div style={{ fontSize: '12px' }}>{"Dmitri Score"}</div><div style={{ fontSize: '10px' }}>{'(max 11)'}</div></>),
+    }),
+
+    // Country
+    columnHelper.accessor('Country', {
+        id: 'country',
+        header: 'Country',
+    }),
+
+    // ISIN
+    columnHelper.accessor('isin', {
+        id: 'isin',
+        header: 'ISIN',
+    }),
+
+    // Company Name
+    columnHelper.accessor('Company Name', {
+        id: 'name',
+        header: 'Name',
+    }),
+
+    // Dmitri Score
+    columnHelper.accessor('DmitriScore', {
         id: 'dmitriScore',
-        cell: dmitriScoreCustomFn
-    }
-]
+        header: createSortableHeader(
+            <>
+                <div style={{ fontSize: '12px' }}>Dmitri Score</div>
+                <div style={{ fontSize: '10px' }}>(max 11)</div>
+            </>
+        ),
+        cell: dmitriScoreCustomFn,
+    }),
+];
