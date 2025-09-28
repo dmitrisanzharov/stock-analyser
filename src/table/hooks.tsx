@@ -130,7 +130,7 @@ export const useGetData = () => {
 
 const columnHelper = createColumnHelper<InvestmentRecord>();
 
-export const defaultColumns = [
+export const defaultColumns: ColumnDef<InvestmentRecord, any>[] = [
     // Date of Analysis column with custom sorting
     columnHelper.accessor('date of analysis', {
         id: 'date',
