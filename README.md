@@ -14,7 +14,6 @@
 - Basically I prefer to use my own head, rather than let AI decide, for the time being
 
 
-
 ## 24-Sep-2025
 - added new criterias (all are 10 in weight):
     net profit margin 5ya
