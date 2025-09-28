@@ -131,6 +131,16 @@ export const useGetData = () => {
 const columnHelper = createColumnHelper<InvestmentRecord>();
 
 export const defaultColumns: ColumnDef<InvestmentRecord, any>[] = [
+
+    // Pure AI Average Grade
+    columnHelper.accessor('Pure AI Average Grade', {
+        id: 'pureAIAverageGrade',
+        header: 'Pure AI Average Grade',
+        cell: ({ getValue }) => {
+            return getValue().toFixed(2);
+        }
+    }),
+    
     // Date of Analysis column with custom sorting
     columnHelper.accessor('date of analysis', {
         id: 'date',
