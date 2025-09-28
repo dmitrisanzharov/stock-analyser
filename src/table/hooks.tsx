@@ -176,7 +176,7 @@ export const defaultColumns: ColumnDef<InvestmentRecord>[] = [
         id: 'name'
     },
     {
-        accessorKey: "Dmitri score by feel",
+        accessorKey: "DmitriScore",
         header: createSortableHeader(<><div style={{ fontSize: '12px' }}>{"Dmitri Score"}</div><div style={{ fontSize: '10px' }}>{'(max 11)'}</div></>),
         id: 'dmitriScore',
         cell: dmitriScoreCustomFn
