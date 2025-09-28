@@ -21,7 +21,7 @@ import {
 import { InvestmentRecord } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-const companyAnalyzed = '';
+const companyAnalyzed = 'Bank Polska Kasa Opieki SA';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === companyAnalyzed) {
