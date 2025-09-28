@@ -1,6 +1,7 @@
 import {
     scorePaymentFrequency,
     scoreDegiroCategory,
+    gradeAgainstEuStem,
     scorePeRatio,
     scoreNetProfitMargin,
     scoreDegiroIncomeStatement,
@@ -21,7 +22,7 @@ import {
 import { InvestmentRecord } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-const companyAnalyzed = 'Perusahaan Gas Negara Tbk PT';
+const companyAnalyzed = 'Banca Monte dei Paschi di Siena SpA';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === companyAnalyzed) {
@@ -70,7 +71,23 @@ function dmitriScoreCustomFn(info: any) {
         const calcCC = Number(item['country corruption index (100 max)']) / 10;
         finalScore = finalScore + calcCC * ccWeight;
         maxScorePossible = maxScorePossible + countryCorruptionMaxScore * ccWeight;
-        consoleLennar(item, finalScore, 'country corruption', maxScorePossible);
+        consoleLennar(item, finalScore, 'country corruption', maxScorePossible);        
+
+        // Country science score
+        const countryScienceScoreMaxScore = 10;
+        const csWeight = 10;
+        const calcCS = Number(item['Country science score']); 
+        finalScore = finalScore + calcCS * csWeight;
+        maxScorePossible = maxScorePossible + countryScienceScoreMaxScore * csWeight;
+        consoleLennar(item, finalScore, 'country science score', maxScorePossible);
+
+        // Percentage of Population in Stem
+        const percentageOfPopulationInStemMaxScore = 10;
+        const popWeight = 1;
+        const calcPOP = gradeAgainstEuStem(Number(item['Percentage of Population in Stem']));
+        finalScore = finalScore + calcPOP * popWeight;
+        maxScorePossible = maxScorePossible + percentageOfPopulationInStemMaxScore * popWeight;
+        consoleLennar(item, finalScore, 'percentage of population in stem', maxScorePossible);
 
         // Degiro Category Grade
         const degiroCategoryMaxScore = 11;
@@ -79,6 +96,7 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcDC * dcWeight;
         maxScorePossible = maxScorePossible + degiroCategoryMaxScore * dcWeight;
         consoleLennar(item, finalScore, 'degiro grade', maxScorePossible);
+
 
         // PE Ratio
         if (item['PE ratio'] && item['PE ratio'] > 0) {

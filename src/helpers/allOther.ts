@@ -310,3 +310,15 @@ export function scoreMarketCap(marketCapInBillions: number): number {
     if (marketCapInBillions >= 0.2) return 2;
     return 1; // <0.2
 }
+
+export function gradeAgainstEuStem(num: number): number {
+
+    const euStemAsPopulation = 7; 
+
+    if (num >= euStemAsPopulation) return 10;
+
+    // scale linearly from 0 → 10 between 0 and 7
+    const score = (num / euStemAsPopulation) * 10;
+
+    return score; 
+}

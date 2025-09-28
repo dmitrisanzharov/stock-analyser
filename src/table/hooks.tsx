@@ -184,18 +184,18 @@ export const defaultColumns: ColumnDef<InvestmentRecord, any>[] = [
     }),
 
     // separator
-    // {
-    //     id: 'displayOnly',
-    //     header: '.',
-    //     cell: () => '.'
-    // },
+    {
+        id: 'displayOnly',
+        header: '.',
+        cell: () => '.'
+    },
 
     // Pure AI Average Grade
-    // columnHelper.accessor('Pure AI Average Grade', {
-    //     id: 'pureAIAverageGrade',
-    //     header: 'Pure AI Average Grade',
-    //     cell: ({ getValue }) => {
-    //         return getValue().toFixed(2);
-    //     }
-    // }),
+    columnHelper.accessor('Pure AI Average Grade', {
+        id: 'pureAIAverageGrade',
+        header: createSortableHeader('Pure AI Average Grade'),
+        cell: ({ getValue }) => {
+            return Number(getValue().toFixed(2));
+        }
+    }),
 ];
