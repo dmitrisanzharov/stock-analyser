@@ -22,10 +22,10 @@ import {
 import { InvestmentRecord } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-const companyAnalyzed = '';
+export const COMPANY_ANALYZED = 'Eni SpA';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
-    if (allValues['Company Name'] === companyAnalyzed) {
+    if (allValues['Company Name'] === COMPANY_ANALYZED) {
         console.log(criteria, ': ', currentScore, '...', 'maxScore: ', currentMaxScore);
     }
 }
@@ -35,7 +35,7 @@ function dmitriScoreCustomFn(info: any) {
 
     const item: InvestmentRecord = info.row.original;
 
-    const companyAnalysisActive = item['Company Name'] === companyAnalyzed;
+    const companyAnalysisActive = item['Company Name'] === COMPANY_ANALYZED;
 
     if (value && !companyAnalysisActive) {
         return Number(value.toFixed(2));
@@ -46,7 +46,7 @@ function dmitriScoreCustomFn(info: any) {
 
     if (companyAnalysisActive) {
         console.log('++++++++++++++++++++++++++++');
-        console.log('Company Name: ', companyAnalyzed);
+        console.log('Company Name: ', COMPANY_ANALYZED);
         console.log('++++++++++++++++++++++++++++');
 
         // Dividends Interest Rate

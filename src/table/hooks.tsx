@@ -88,7 +88,7 @@ function gvizTableToObjects(gviz: any, useFormatted = false) {
 }
 
 
-export const useGetData = () => {
+export const useGetData = (filterDataOn: boolean) => {
     const [data, setData] = useState([]);
 
 
@@ -110,9 +110,9 @@ export const useGetData = () => {
             // console.log("rows: ", rows);
 
             // remove "BY FEEL SCORE" items
-            let filteredRows = rows.filter((row: any) => {
+            let filteredRows = filterDataOn ? rows.filter((row: any) => {
                 return row['score was by feel'] !== 'yes'
-            })
+            }) : rows;
 
 
             setData(filteredRows);
