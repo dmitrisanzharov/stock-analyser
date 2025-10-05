@@ -7,6 +7,12 @@
 - https://docs.google.com/spreadsheets/d/1VW12SI3Q3UFKWGPSXnIImWCU4ob80-pYl4YfzX6U0pA/edit?gid=873466011#gid=873466011
 
 
+## 5-Oct-2025
+- Added export const COMPANY_ANALYZED = 'Eni SpA';  that controls: const data = useGetData(!Boolean(COMPANY_ANALYZED)); in basic table
+- so when company is ANALYZED_ON... i.e. there is a string present in company analyzed, there is NO FILTERING OF DATA into the table
+
+
+
 ## 27-Sep-2025
 - No longer use AI analyzer seriously and mostly focusing on MY analyzer
 - Moved AI analyzer to a single CELL score that will be used with Weight of 7
