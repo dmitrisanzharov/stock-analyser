@@ -22,7 +22,7 @@ import {
 import { InvestmentRecord } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'Eni SpA';
+export const COMPANY_ANALYZED = '';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === COMPANY_ANALYZED) {
@@ -31,20 +31,20 @@ function consoleLennar(allValues: InvestmentRecord, currentScore: number, criter
 }
 
 function dmitriScoreCustomFn(info: any) {
-    const value = info.getValue();
+    const value = info.getValue(); // this is DmitriScore column
 
     const item: InvestmentRecord = info.row.original;
 
     const companyAnalysisActive = item['Company Name'] === COMPANY_ANALYZED;
 
-    if (value && !companyAnalysisActive) {
+    if ((value || value === 0) && !companyAnalysisActive) {
         return Number(value.toFixed(2));
     }
 
     let finalScore = 0;
     let maxScorePossible = 0;
 
-    if (companyAnalysisActive) {
+    if (!!companyAnalysisActive) {
         console.log('++++++++++++++++++++++++++++');
         console.log('Company Name: ', COMPANY_ANALYZED);
         console.log('++++++++++++++++++++++++++++');

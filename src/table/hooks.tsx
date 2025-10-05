@@ -195,7 +195,7 @@ export const defaultColumns: ColumnDef<InvestmentRecord, any>[] = [
         id: 'pureAIAverageGrade',
         header: createSortableHeader('Pure AI Average Grade'),
         cell: ({ getValue }) => {
-            return Number(getValue().toFixed(2));
+            return Number(getValue()?.toFixed(2));
         }
     }),
 ];
