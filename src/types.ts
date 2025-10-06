@@ -33,7 +33,8 @@ export type InvestmentRecord = {
     "degiro grade | dmitri translation": string;
     "country corruption index (100 max)": number | null;
     "Country science score": number | null;
-    "Percentage of Population in Stem": number | null;
+    "Percentage of Population in Stem in Workforce": number | null;
+    "WhiteSmartAsianIndex (max 100)": number | null;
 
     Industry: string | null;
 

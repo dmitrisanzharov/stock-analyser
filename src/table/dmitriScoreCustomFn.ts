@@ -22,7 +22,7 @@ import {
 import { InvestmentRecord } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = '';
+export const COMPANY_ANALYZED = 'OCI NV';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === COMPANY_ANALYZED) {
@@ -81,13 +81,21 @@ function dmitriScoreCustomFn(info: any) {
         maxScorePossible = maxScorePossible + countryScienceScoreMaxScore * csWeight;
         consoleLennar(item, finalScore, 'country science score', maxScorePossible);
 
-        // Percentage of Population in Stem
+        // Percentage of Population in Stem in Workforce
         const percentageOfPopulationInStemMaxScore = 10;
-        const popWeight = 1;
-        const calcPOP = gradeAgainstEuStem(Number(item['Percentage of Population in Stem']));
+        const popWeight = 2;
+        const calcPOP = gradeAgainstEuStem(Number(item['Percentage of Population in Stem in Workforce']));
         finalScore = finalScore + calcPOP * popWeight;
         maxScorePossible = maxScorePossible + percentageOfPopulationInStemMaxScore * popWeight;
-        consoleLennar(item, finalScore, 'percentage of population in stem', maxScorePossible);
+        consoleLennar(item, finalScore, 'Percentage of Population in Stem in Workforce', maxScorePossible);
+
+        // WhiteSmartAsianIndex (max 100)
+        const whiteSmartAsianIndexMaxScore = 10;
+        const wsaiWeight = 10;
+        const calcWSAI = (Number(item['WhiteSmartAsianIndex (max 100)']) / 10);
+        finalScore = finalScore + calcWSAI * wsaiWeight;
+        maxScorePossible = maxScorePossible + whiteSmartAsianIndexMaxScore * wsaiWeight;
+        consoleLennar(item, finalScore, 'WhiteSmartAsianIndex', maxScorePossible);
 
         // Degiro Category Grade
         const degiroCategoryMaxScore = 11;
