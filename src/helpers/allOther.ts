@@ -122,7 +122,7 @@ export function degiroAnalystRatingToScore(rating: number): number {
     if (rating < 1 || rating > 5) {
         throw new Error('Rating must be between 1 and 5');
     }
-    return 10 - 2.5 * (rating - 1);
+    return 10 - 2.5 * (rating - 1); // 1 → 10, 2 → 7.5, 3 → 5, 4 → 2.5, 5 → 0
 }
 
 export function scoreYearStarted(yearStarted: number, alreadyKnown?: number): number {
