@@ -115,6 +115,7 @@ export type InvestmentRecord = {
 
     "avg AI grade": number | null;
     "chatGPT Grade (11 to 1)": number | null;
+    "Gemini Pro (RM email)": number | null;
     "ChatGPT Plus": number | null;
     claude: number | null;
     gemini: number | null;
