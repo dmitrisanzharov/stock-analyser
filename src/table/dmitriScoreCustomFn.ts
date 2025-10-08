@@ -248,7 +248,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // investingComAnalystsScore
         const investingComAnalystsScoreMaxScore = 10;
-        const iasWeight = 1;
+        const iasWeight = 4;
         const calcIAS = (item['investingComAnalystsScore'] as number) * 10;
         finalScore = finalScore + calcIAS * iasWeight;
         maxScorePossible = maxScorePossible + investingComAnalystsScoreMaxScore * iasWeight;
