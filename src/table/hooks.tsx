@@ -122,7 +122,7 @@ export const useGetData = (filterDataOn: boolean) => {
 
 
         fetchSheet();
-    }, []);
+    }, [filterDataOn]);
 
     return data;
 
