@@ -116,14 +116,15 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(item, finalScore, 'degiro grade', maxScorePossible);
 
         // PE Ratio
-        if (item['PE ratio'] && item['PE ratio'] > 0) {
-            const peRatioMaxScore = 10;
-            const peWeight = 9;
-            const calcPE = scorePeRatio(item['PE ratio'] as number, item['industry PE'] as number);
-            finalScore = finalScore + calcPE * peWeight;
-            maxScorePossible = maxScorePossible + peRatioMaxScore * peWeight;
-            consoleLennar(item, finalScore, 'pe ratio', maxScorePossible);
-        }
+        const itemPeRatio = item['PE ratio'];
+        const noPeRatio = (itemPeRatio === null || itemPeRatio === 'not available');
+
+        const peRatioMaxScore = 10;
+        const peWeight = 9;
+        const calcPE = noPeRatio ? 0 : scorePeRatio(item['PE ratio'] as number, item['industry PE'] as number);
+        finalScore = finalScore + calcPE * peWeight;
+        maxScorePossible = maxScorePossible + peRatioMaxScore * peWeight;
+        consoleLennar(item, finalScore, 'pe ratio', maxScorePossible);
 
         // Net Profit Margin
         if (item['Net Profit Margin AVG 5 years'] && item['Net Profit Margin AVG 5 years'] > 0) {
