@@ -35,6 +35,7 @@ export type InvestmentRecord = {
     "Country science score": number | null;
     "Percentage of Population in Stem in Workforce": number | null;
     "WhiteSmartAsianIndex (max 100)": number | null;
+    "CompanyMonopolyPowerAndMoat": number | null;
 
     Industry: string | null;
 

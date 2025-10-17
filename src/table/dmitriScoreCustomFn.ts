@@ -71,12 +71,12 @@ function dmitriScoreCustomFn(info: any) {
         const calcCC = Number(item['country corruption index (100 max)']) / 10;
         finalScore = finalScore + calcCC * ccWeight;
         maxScorePossible = maxScorePossible + countryCorruptionMaxScore * ccWeight;
-        consoleLennar(item, finalScore, 'country corruption', maxScorePossible);        
+        consoleLennar(item, finalScore, 'country corruption', maxScorePossible);
 
         // Country science score
         const countryScienceScoreMaxScore = 10;
         const csWeight = 10;
-        const calcCS = Number(item['Country science score']); 
+        const calcCS = Number(item['Country science score']);
         finalScore = finalScore + calcCS * csWeight;
         maxScorePossible = maxScorePossible + countryScienceScoreMaxScore * csWeight;
         consoleLennar(item, finalScore, 'country science score', maxScorePossible);
@@ -92,10 +92,20 @@ function dmitriScoreCustomFn(info: any) {
         // WhiteSmartAsianIndex (max 100)
         const whiteSmartAsianIndexMaxScore = 10;
         const wsaiWeight = 10;
-        const calcWSAI = (Number(item['WhiteSmartAsianIndex (max 100)']) / 10);
+        const calcWSAI = Number(item['WhiteSmartAsianIndex (max 100)']) / 10;
         finalScore = finalScore + calcWSAI * wsaiWeight;
         maxScorePossible = maxScorePossible + whiteSmartAsianIndexMaxScore * wsaiWeight;
         consoleLennar(item, finalScore, 'WhiteSmartAsianIndex', maxScorePossible);
+
+        // CompanyMonopolyPowerAndMoat
+        if (item['CompanyMonopolyPowerAndMoat'] !== null) {
+            const companyMonopolyPowerAndMoatMaxScore = 10;
+            const cmpWeight = 10;
+            const calcCMP = Number(item['CompanyMonopolyPowerAndMoat']);
+            finalScore = finalScore + calcCMP * cmpWeight;
+            maxScorePossible = maxScorePossible + companyMonopolyPowerAndMoatMaxScore * cmpWeight;
+            consoleLennar(item, finalScore, 'CompanyMonopolyPowerAndMoat', maxScorePossible);
+        }
 
         // Degiro Category Grade
         const degiroCategoryMaxScore = 11;
@@ -104,7 +114,6 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcDC * dcWeight;
         maxScorePossible = maxScorePossible + degiroCategoryMaxScore * dcWeight;
         consoleLennar(item, finalScore, 'degiro grade', maxScorePossible);
-
 
         // PE Ratio
         if (item['PE ratio'] && item['PE ratio'] > 0) {
@@ -379,9 +388,7 @@ function dmitriScoreCustomFn(info: any) {
         // Part Of Index
         const partOfIndexMaxScore = 3;
         const poimWeight = 5;
-        const calcPOIM = item[
-            'indexesHoldIt'
-        ] as number;
+        const calcPOIM = item['indexesHoldIt'] as number;
         finalScore = finalScore + calcPOIM * poimWeight;
         maxScorePossible = maxScorePossible + partOfIndexMaxScore * poimWeight;
         consoleLennar(item, finalScore, 'part of index', maxScorePossible);
