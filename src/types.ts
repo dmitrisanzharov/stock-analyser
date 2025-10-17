@@ -43,20 +43,20 @@ export type InvestmentRecord = {
     "industry PE": number | null;
     "company to industry": number | null;
 
-    "Net Profit Margin AVG 5 years": number | null;
+    "Net Profit Margin AVG 5 years": number | null | "not available";
     "Net Profit Margin AVG 5 years (industry)": number | null;
     "company to industry margin": number | null;
 
-    "Return On Equity 5ya": number | null;
+    "Return On Equity 5ya": number | null | "not available";
     "Return On Equity 5ya (industry)": number | null;
 
-    "5 Year EPS Growth": number | null;
+    "5 Year EPS Growth": number | null | "not available";
     "5 Year EPS Growth (industry)": number | null;
 
-    "5 Year Sales Growth": number | null;
+    "5 Year Sales Growth": number | null | "not available";
     "5 Year Sales Growth (industry)": number | null;
 
-    "Net Income/Employee": number | null;
+    "Net Income/Employee": number | null | "not available";
     "Net Income/Employee (industry)": number | null;
 
     ytd: number | null;
