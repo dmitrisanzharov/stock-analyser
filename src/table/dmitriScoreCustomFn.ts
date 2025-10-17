@@ -22,7 +22,7 @@ import {
 import { InvestmentRecord } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = '';
+export const COMPANY_ANALYZED = 'dummy';
 
 function consoleLennar(allValues: InvestmentRecord, currentScore: number, criteria: string, currentMaxScore: number) {
     if (allValues['Company Name'] === COMPANY_ANALYZED) {
@@ -117,8 +117,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // PE Ratio
         const itemPeRatio = item['PE ratio'];
-        const noPeRatio = (itemPeRatio === null || itemPeRatio === 'not available');
-
+        const noPeRatio = itemPeRatio === null || itemPeRatio === 'not available';
         const peRatioMaxScore = 10;
         const peWeight = 9;
         const calcPE = noPeRatio ? 0 : scorePeRatio(item['PE ratio'] as number, item['industry PE'] as number);
@@ -127,69 +126,76 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(item, finalScore, 'pe ratio', maxScorePossible);
 
         // Net Profit Margin
-        if (item['Net Profit Margin AVG 5 years'] && item['Net Profit Margin AVG 5 years'] > 0) {
-            const netProfitMarginMaxScore = 10;
-            const netProfitMarginWeight = 10;
-            const calcGM = scoreNetProfitMargin(
-                item['Net Profit Margin AVG 5 years'] as number,
-                item['Net Profit Margin AVG 5 years (industry)'] as number
-            );
-            finalScore = finalScore + calcGM * netProfitMarginWeight;
-            maxScorePossible = maxScorePossible + netProfitMarginMaxScore * netProfitMarginWeight;
-            consoleLennar(item, finalScore, 'gross margin', maxScorePossible);
-        }
+        const itemNetProfitMargin = item['Net Profit Margin AVG 5 years'];
+        const noNetProfitMargin = itemNetProfitMargin === null || itemNetProfitMargin === 'not available';
+        const netProfitMarginMaxScore = 10;
+        const netProfitMarginWeight = 10;
+        const calcGM = noNetProfitMargin
+            ? 0
+            : scoreNetProfitMargin(
+                  item['Net Profit Margin AVG 5 years'] as number,
+                  item['Net Profit Margin AVG 5 years (industry)'] as number
+              );
+        finalScore = finalScore + calcGM * netProfitMarginWeight;
+        maxScorePossible = maxScorePossible + netProfitMarginMaxScore * netProfitMarginWeight;
+        consoleLennar(item, finalScore, 'gross margin', maxScorePossible);
 
         // Return on Equity 5ya
-        if (item['Return On Equity 5ya'] && item['Return On Equity 5ya'] > 0) {
-            const returnOnEquity5yaMaxScore = 10;
-            const returnOnEquity5yaWeight = 10;
-            const calcROE5ya = scoreNetProfitMargin(
-                item['Return On Equity 5ya'] as number,
-                item['Return On Equity 5ya (industry)'] as number
-            );
-            finalScore = finalScore + calcROE5ya * returnOnEquity5yaWeight;
-            maxScorePossible = maxScorePossible + returnOnEquity5yaMaxScore * returnOnEquity5yaWeight;
-            consoleLennar(item, finalScore, 'return on equity 5ya', maxScorePossible);
-        }
+        const itemReturnOnEquity5ya = item['Return On Equity 5ya'];
+        const noReturnOnEquity5ya = itemReturnOnEquity5ya === null || itemReturnOnEquity5ya === 'not available';
+        const returnOnEquity5yaMaxScore = 10;
+        const returnOnEquity5yaWeight = 10;
+        const calcROE5ya = noReturnOnEquity5ya
+            ? 0
+            : scoreNetProfitMargin(
+                  item['Return On Equity 5ya'] as number,
+                  item['Return On Equity 5ya (industry)'] as number
+              );
+        finalScore = finalScore + calcROE5ya * returnOnEquity5yaWeight;
+        maxScorePossible = maxScorePossible + returnOnEquity5yaMaxScore * returnOnEquity5yaWeight;
+        consoleLennar(item, finalScore, 'return on equity 5ya', maxScorePossible);
 
         // 5 Year EPS Growth
-        if (item['5 Year EPS Growth'] && item['5 Year EPS Growth'] > 0) {
-            const epsGrowth5yaMaxScore = 10;
-            const epsGrowth5yaWeight = 10;
-            const calcEPSGrowth5ya = scoreNetProfitMargin(
-                item['5 Year EPS Growth'] as number,
-                item['5 Year EPS Growth (industry)'] as number
-            );
-            finalScore = finalScore + calcEPSGrowth5ya * epsGrowth5yaWeight;
-            maxScorePossible = maxScorePossible + epsGrowth5yaMaxScore * epsGrowth5yaWeight;
-            consoleLennar(item, finalScore, '5 Year EPS Growth', maxScorePossible);
-        }
+        const item5YearEPSGrowth = item['5 Year EPS Growth'];
+        const no5YearEPSGrowth = item5YearEPSGrowth === null || item5YearEPSGrowth === 'not available';
+        const epsGrowth5yaMaxScore = 10;
+        const epsGrowth5yaWeight = 10;
+        const calcEPSGrowth5ya = no5YearEPSGrowth
+            ? 0
+            : scoreNetProfitMargin(item['5 Year EPS Growth'] as number, item['5 Year EPS Growth (industry)'] as number);
+        finalScore = finalScore + calcEPSGrowth5ya * epsGrowth5yaWeight;
+        maxScorePossible = maxScorePossible + epsGrowth5yaMaxScore * epsGrowth5yaWeight;
+        consoleLennar(item, finalScore, '5 Year EPS Growth', maxScorePossible);
 
         // 5 Year Sales Growth
-        if (item['5 Year Sales Growth'] && item['5 Year Sales Growth'] > 0) {
-            const salesGrowth5yaMaxScore = 10;
-            const salesGrowth5yaWeight = 10;
-            const calcSalesGrowth5ya = scoreNetProfitMargin(
-                item['5 Year Sales Growth'] as number,
-                item['5 Year Sales Growth (industry)'] as number
-            );
-            finalScore = finalScore + calcSalesGrowth5ya * salesGrowth5yaWeight;
-            maxScorePossible = maxScorePossible + salesGrowth5yaMaxScore * salesGrowth5yaWeight;
-            consoleLennar(item, finalScore, '5 Year Sales Growth', maxScorePossible);
-        }
+        const item5YearSalesGrowth = item['5 Year Sales Growth'];
+        const no5YearSalesGrowth = item5YearSalesGrowth === null || item5YearSalesGrowth === 'not available';
+        const salesGrowth5yaMaxScore = 10;
+        const salesGrowth5yaWeight = 10;
+        const calcSalesGrowth5ya = no5YearSalesGrowth
+            ? 0
+            : scoreNetProfitMargin(
+                  item['5 Year Sales Growth'] as number,
+                  item['5 Year Sales Growth (industry)'] as number
+              );
+        finalScore = finalScore + calcSalesGrowth5ya * salesGrowth5yaWeight;
+        maxScorePossible = maxScorePossible + salesGrowth5yaMaxScore * salesGrowth5yaWeight;
+        consoleLennar(item, finalScore, '5 Year Sales Growth', maxScorePossible);
 
         // Net Income/Employee
-        if (item['Net Income/Employee'] && item['Net Income/Employee'] > 0) {
-            const netIncomeEmployeeMaxScore = 10;
-            const netIncomeEmployeeWeight = 10;
-            const calcNetIncomeEmployee = scoreNetProfitMargin(
-                item['Net Income/Employee'] as number,
-                item['Net Income/Employee (industry)'] as number
-            );
-            finalScore = finalScore + calcNetIncomeEmployee * netIncomeEmployeeWeight;
-            maxScorePossible = maxScorePossible + netIncomeEmployeeMaxScore * netIncomeEmployeeWeight;
-            consoleLennar(item, finalScore, 'net income/employee', maxScorePossible);
-        }
+        const itemNetIncomeEmployee = item['Net Income/Employee'];
+        const noNetIncomeEmployee = itemNetIncomeEmployee === null || itemNetIncomeEmployee === 'not available';
+        const netIncomeEmployeeMaxScore = 10;
+        const netIncomeEmployeeWeight = 10;
+        const calcNetIncomeEmployee = noNetIncomeEmployee
+            ? 0
+            : scoreNetProfitMargin(
+                  item['Net Income/Employee'] as number,
+                  item['Net Income/Employee (industry)'] as number
+              );
+        finalScore = finalScore + calcNetIncomeEmployee * netIncomeEmployeeWeight;
+        maxScorePossible = maxScorePossible + netIncomeEmployeeMaxScore * netIncomeEmployeeWeight;
+        consoleLennar(item, finalScore, 'net income/employee', maxScorePossible);
 
         // Stock Graph Analysis - redundant as of: 24-Sep-2025
         // const stockGraphMaxScore = 10;
