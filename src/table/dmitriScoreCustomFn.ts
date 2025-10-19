@@ -35,12 +35,13 @@ function consoleLennar(
     if (allValues['Company Name'] === COMPANY_ANALYZED) {
         const skippedString = 'SKIPPED';
 
+        // NOTE: Here we check for ALLOWED TYPES... Number | null | 'na';  exception are Degiro Grades
         const degiroGradesArray = ['A', 'B', 'C', 'D'];
         
-        const good = itemValue === null || (typeof itemValue === 'number' || itemValue === 0) || degiroGradesArray.includes(itemValue);
+        const allowedValuesAndTypes = itemValue === null || (typeof itemValue === 'number' || itemValue === 0) || degiroGradesArray.includes(itemValue);
 
 
-        const skip = good ? '' : skippedString;
+        const skip = allowedValuesAndTypes ? '' : skippedString;
         console.log(criteria, ': ', currentScore, '...', 'maxScore: ', currentMaxScore, skip);
 
         if(skip === skippedString){
