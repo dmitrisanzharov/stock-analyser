@@ -73,21 +73,22 @@ function dmitriScoreCustomFn(info: any) {
         console.log('============================');
 
         // Dividends Interest Rate
-        const dividendsInterestRate = item['Yield as % (pref, degiro, 5 years)'];
+        const dividendsInterestRateItem = item['Yield as % (pref, degiro, 5 years)'];
         const dividendsInterestRateMaxScore = 10;
         const dividendsInterestRateWeight = 4;
-        const dividendsInterestRateScore = Number(dividendsInterestRate);
+        const dividendsInterestRateScore = Number(dividendsInterestRateItem);
         finalScore = finalScore + dividendsInterestRateScore * dividendsInterestRateWeight;
         maxScorePossible = maxScorePossible + dividendsInterestRateMaxScore * dividendsInterestRateWeight;
-        consoleLennar(item, finalScore, 'dividends', maxScorePossible, dividendsInterestRate);
+        consoleLennar(item, finalScore, 'dividends', maxScorePossible, dividendsInterestRateItem);
 
         // Payment Frequency
+        const paymentFrequencyItem = item['Number of payments per Year'];
         const paymentFrequencyMaxScore = 6;
         const pfWeight = 1;
-        const calcPf = scorePaymentFrequency(item['Number of payments per Year'] as number);
+        const calcPf = scorePaymentFrequency(paymentFrequencyItem as number);
         finalScore = finalScore + calcPf * pfWeight;
         maxScorePossible = maxScorePossible + paymentFrequencyMaxScore * pfWeight;
-        consoleLennar(item, finalScore, 'payment frequency', maxScorePossible, item['Number of payments per Year']);
+        consoleLennar(item, finalScore, 'payment frequency', maxScorePossible, paymentFrequencyItem);
 
         // Country Corruption Level
         const countryCorruptionMaxScore = 10;
