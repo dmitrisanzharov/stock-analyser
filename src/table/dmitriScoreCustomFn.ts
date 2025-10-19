@@ -73,12 +73,13 @@ function dmitriScoreCustomFn(info: any) {
         console.log('============================');
 
         // Dividends Interest Rate
+        const dividendsInterestRate = item['Yield as % (pref, degiro, 5 years)'];
         const dividendsInterestRateMaxScore = 10;
         const dividendsInterestRateWeight = 4;
-        const dividendsInterestRateScore = Number(item['Yield as % (pref, degiro, 5 years)']);
+        const dividendsInterestRateScore = Number(dividendsInterestRate);
         finalScore = finalScore + dividendsInterestRateScore * dividendsInterestRateWeight;
         maxScorePossible = maxScorePossible + dividendsInterestRateMaxScore * dividendsInterestRateWeight;
-        consoleLennar(item, finalScore, 'dividends', maxScorePossible, dividendsInterestRateScore);
+        consoleLennar(item, finalScore, 'dividends', maxScorePossible, dividendsInterestRate);
 
         // Payment Frequency
         const paymentFrequencyMaxScore = 6;
