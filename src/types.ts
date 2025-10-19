@@ -11,14 +11,10 @@ export type Company = {
     country: string
 }
 
-export type NotApplicableFields = null | 'not applicable' | 'N/A' | 'N.A.' | 'not available' | 'na';
+export type NotApplicableFields = null | 'na';
 
 export const notApplicableFieldsConst: NotApplicableFields[] = [
     null,
-    'not applicable',
-    'N/A',
-    'N.A.',
-    'not available',
     'na'
 ];
 

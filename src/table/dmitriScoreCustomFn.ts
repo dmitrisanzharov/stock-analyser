@@ -37,7 +37,7 @@ function consoleLennar(
 
         const degiroGradesArray = ['A', 'B', 'C', 'D'];
         
-        const good = ['not available', 'not applicable', null, 'N/A', 'N.A.', 'na', ...degiroGradesArray].includes(itemValue) || (typeof itemValue === 'number' || itemValue === 0);
+        const good = itemValue === null || (typeof itemValue === 'number' || itemValue === 0) || degiroGradesArray.includes(itemValue);
 
 
         const skip = good ? '' : skippedString;
@@ -67,6 +67,9 @@ function dmitriScoreCustomFn(info: any) {
         console.log('++++++++++++++++++++++++++++');
         console.log('Company Name: ', COMPANY_ANALYZED);
         console.log('++++++++++++++++++++++++++++');
+
+        console.log('main ITEM: ', item);
+        console.log('============================');
 
         // Dividends Interest Rate
         const dividendsInterestRateMaxScore = 10;
@@ -160,7 +163,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // PE Ratio
         const itemPeRatio = item['PE ratio'];
-        const noPeRatio = itemPeRatio === null || itemPeRatio === 'not available';
+        const noPeRatio = itemPeRatio === null || itemPeRatio === 'na';
         const peRatioMaxScore = 10;
         const peWeight = 9;
         const calcPE = noPeRatio ? 0 : scorePeRatio(item['PE ratio'] as number, item['industry PE'] as number);
@@ -170,7 +173,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // Net Profit Margin
         const itemNetProfitMargin = item['Net Profit Margin AVG 5 years'];
-        const noNetProfitMargin = itemNetProfitMargin === null || itemNetProfitMargin === 'not available';
+        const noNetProfitMargin = itemNetProfitMargin === null || itemNetProfitMargin === 'na';
         const netProfitMarginMaxScore = 10;
         const netProfitMarginWeight = 10;
         const calcGM = noNetProfitMargin
@@ -185,7 +188,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // Return on Equity 5ya
         const itemReturnOnEquity5ya = item['Return On Equity 5ya'];
-        const noReturnOnEquity5ya = itemReturnOnEquity5ya === null || itemReturnOnEquity5ya === 'not available';
+        const noReturnOnEquity5ya = itemReturnOnEquity5ya === null || itemReturnOnEquity5ya === 'na';
         const returnOnEquity5yaMaxScore = 10;
         const returnOnEquity5yaWeight = 10;
         const calcROE5ya = noReturnOnEquity5ya
@@ -200,7 +203,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // 5 Year EPS Growth
         const item5YearEPSGrowth = item['5 Year EPS Growth'];
-        const no5YearEPSGrowth = item5YearEPSGrowth === null || item5YearEPSGrowth === 'not available';
+        const no5YearEPSGrowth = item5YearEPSGrowth === null || item5YearEPSGrowth === 'na';
         const epsGrowth5yaMaxScore = 10;
         const epsGrowth5yaWeight = 10;
         const calcEPSGrowth5ya = no5YearEPSGrowth
@@ -212,7 +215,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // 5 Year Sales Growth
         const item5YearSalesGrowth = item['5 Year Sales Growth'];
-        const no5YearSalesGrowth = item5YearSalesGrowth === null || item5YearSalesGrowth === 'not available';
+        const no5YearSalesGrowth = item5YearSalesGrowth === null || item5YearSalesGrowth === 'na';
         const salesGrowth5yaMaxScore = 10;
         const salesGrowth5yaWeight = 10;
         const calcSalesGrowth5ya = no5YearSalesGrowth
@@ -227,7 +230,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // Net Income/Employee
         const itemNetIncomeEmployee = item['Net Income/Employee'];
-        const noNetIncomeEmployee = itemNetIncomeEmployee === null || itemNetIncomeEmployee === 'not available';
+        const noNetIncomeEmployee = itemNetIncomeEmployee === null || itemNetIncomeEmployee === 'na';
         const netIncomeEmployeeMaxScore = 10;
         const netIncomeEmployeeWeight = 10;
         const calcNetIncomeEmployee = noNetIncomeEmployee
