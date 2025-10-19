@@ -16,7 +16,6 @@ import {
     scoreEBITDAAverage,
     scoreNetProfitAverage,
     scoreDebtToEquity,
-    scoreReturnOnEquity,
     scoreMarketCap,
     growthScore5Years,
     growthScore5YearsDividends
@@ -34,8 +33,19 @@ function consoleLennar(
     itemValue: any
 ) {
     if (allValues['Company Name'] === COMPANY_ANALYZED) {
-        const skip = itemValue !== null && itemValue !== undefined && itemValue !== '' ? '' : 'SKIPPED';
+        const skippedString = 'SKIPPED';
+
+        const degiroGradesArray = ['A', 'B', 'C', 'D'];
+        
+        const good = ['not available', 'not applicable', null, 'N/A', 'N.A.', 'na', ...degiroGradesArray].includes(itemValue) || (typeof itemValue === 'number' || itemValue === 0);
+
+
+        const skip = good ? '' : skippedString;
         console.log(criteria, ': ', currentScore, '...', 'maxScore: ', currentMaxScore, skip);
+
+        if(skip === skippedString){
+            throw new Error('SKIPPED in: ' + criteria);
+        }
     }
 }
 
@@ -346,7 +356,7 @@ function dmitriScoreCustomFn(info: any) {
         // Held By Big Investors
         const heldByBigInvestorsMaxScore = 10;
         const hbiWeight = 4;
-        const calcHBI = item['Held By Big Investors'] as number;
+        const calcHBI = Number(item['Held By Big Investors']) as number;
         finalScore = finalScore + calcHBI * hbiWeight;
         maxScorePossible = maxScorePossible + heldByBigInvestorsMaxScore * hbiWeight;
         consoleLennar(item, finalScore, 'held by big investors', maxScorePossible, calcHBI);
@@ -415,7 +425,7 @@ function dmitriScoreCustomFn(info: any) {
         // Debt To Equity
         const debtToEquityMaxScore = 10;
         const dteWeight = 10;
-        const calcDTE = scoreDebtToEquity(item['debt / equity as %'] as number);
+        const calcDTE = typeof item['debt / equity as %'] === 'number' ? scoreDebtToEquity(item['debt / equity as %'] as number) : 0;
         finalScore = finalScore + calcDTE * dteWeight;
         maxScorePossible = maxScorePossible + debtToEquityMaxScore * dteWeight;
         consoleLennar(item, finalScore, 'debt to equity', maxScorePossible, calcDTE);

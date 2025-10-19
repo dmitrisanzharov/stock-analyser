@@ -298,6 +298,11 @@ export function scoreNetProfitAverage(netProfitInMillions: number): number {
 }
 
 export function scoreDebtToEquity(debtToEquityRatio: number): number {
+
+    if(typeof debtToEquityRatio !== 'number'){
+        return 'na' as any;
+    }
+
     if (debtToEquityRatio <= 40) return 10;
     if (debtToEquityRatio <= 50) return 9;
     if (debtToEquityRatio <= 60) return 8;
