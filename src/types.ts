@@ -13,6 +13,14 @@ export type Company = {
 
 export type NotApplicableFields = null | 'not applicable' | 'N/A' | 'N.A.' | 'not available';
 
+export const notApplicableFieldsConst: NotApplicableFields[] = [
+    null,
+    'not applicable',
+    'N/A',
+    'N.A.',
+    'not available',
+];
+
 export type InvestmentRecord = {
     purchased: number;
     "Company Name": string;
@@ -64,8 +72,11 @@ export type InvestmentRecord = {
 
 
     // 5 Year Performance
-
-
+    "startDate_16/10/2020": number | NotApplicableFields;
+    "endDate_16/10/2025": number | NotApplicableFields;
+    "dividendsReceived_till_16/10/2025": number | NotApplicableFields;
+    "finalGrowth_till_16/10/2025": number | NotApplicableFields;
+    "dividendsAsPercentageOfTotalGrowth_till_16/10/2025": number | NotApplicableFields;
 
 
     ytd: number | null;

@@ -67,6 +67,23 @@ export function scorePeRatio(peRatio: number, industryPeRatio: number): number {
     return 1; // Very expensive
 }
 
+
+export function growthScore5Years(finalGrowth: number): number {
+    if (finalGrowth <= 1) return 0;
+    if (finalGrowth >= 2) return 10;
+    // Linear interpolation between 1 and 2
+    return (finalGrowth - 1) * 10;
+}
+
+
+export function growthScore5YearsDividends(itemTotalGrowth5yaDividends: number): number {
+    if (itemTotalGrowth5yaDividends <= 0) return 0;
+    if (itemTotalGrowth5yaDividends >= 0.25) return 10;
+    // Spread 0 → 10 linearly between 0 → 0.25
+    return (itemTotalGrowth5yaDividends / 0.25) * 10;
+}
+
+
 export function scoreFitchAndSpRating(rating: string | 0): number {
     if (!rating) {
         return 0;

@@ -17,9 +17,11 @@ import {
     scoreNetProfitAverage,
     scoreDebtToEquity,
     scoreReturnOnEquity,
-    scoreMarketCap
+    scoreMarketCap,
+    growthScore5Years,
+    growthScore5YearsDividends
 } from '../helpers/allOther';
-import { InvestmentRecord } from '../types';
+import { InvestmentRecord, notApplicableFieldsConst, NotApplicableFields } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
 export const COMPANY_ANALYZED = 'dummy';
@@ -204,6 +206,29 @@ function dmitriScoreCustomFn(info: any) {
         // finalScore = finalScore + calcSG * sgWeight;
         // maxScorePossible = maxScorePossible + stockGraphMaxScore * sgWeight;
         // consoleLennar(item, finalScore, 'stock graph', maxScorePossible);
+
+
+        // 5 Year Growth Analysis - Total (Capital Gains + Dividends) 
+        const itemTotalGrowth5ya = item['finalGrowth_till_16/10/2025'];
+        const noItemTotalGrowth5ya: boolean = notApplicableFieldsConst.includes(itemNetProfitMargin as NotApplicableFields);
+        const totalGrowth5yaMaxScore = 10;
+        const totalGrowth5yaWeight = 10;
+        const calcTotalGrowth5ya = noItemTotalGrowth5ya ? 0 : growthScore5Years(itemTotalGrowth5ya as number);
+        finalScore = finalScore + calcTotalGrowth5ya * totalGrowth5yaWeight;
+        maxScorePossible = maxScorePossible + totalGrowth5yaMaxScore * totalGrowth5yaWeight;
+        consoleLennar(item, finalScore, 'total growth 5ya', maxScorePossible);
+
+
+        // 5 Year Growth Analysis - Dividends
+        const itemTotalGrowth5yaDividends = item['dividendsAsPercentageOfTotalGrowth_till_16/10/2025'];
+        const noItemTotalGrowth5yaDividends: boolean = notApplicableFieldsConst.includes(itemNetProfitMargin as NotApplicableFields);
+        const totalGrowth5yaMaxScoreDividends = 10;
+        const totalGrowth5yaWeightDividends = 10;
+        const calcTotalGrowth5yaDividends = noItemTotalGrowth5yaDividends ? 0 : growthScore5YearsDividends(itemTotalGrowth5yaDividends as number);
+        finalScore = finalScore + calcTotalGrowth5yaDividends * totalGrowth5yaWeightDividends;
+        maxScorePossible = maxScorePossible + totalGrowth5yaMaxScoreDividends * totalGrowth5yaWeightDividends;
+        consoleLennar(item, finalScore, 'dividends growth 5ya', maxScorePossible);
+
 
         // Auditor
         const auditorMaxScore = 10;
