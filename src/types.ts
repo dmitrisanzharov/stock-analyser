@@ -11,6 +11,8 @@ export type Company = {
     country: string
 }
 
+export type NotApplicableFields = null | 'not applicable' | 'N/A' | 'N.A.' | 'not available';
+
 export type InvestmentRecord = {
     purchased: number;
     "Company Name": string;
@@ -39,25 +41,32 @@ export type InvestmentRecord = {
 
     Industry: string | null;
 
-    "PE ratio": number | null | "not available";
+    // RATIOS
+    "PE ratio": number | null | NotApplicableFields;
     "industry PE": number | null;
     "company to industry": number | null;
 
-    "Net Profit Margin AVG 5 years": number | null | "not available";
+    "Net Profit Margin AVG 5 years": number | null | NotApplicableFields;
     "Net Profit Margin AVG 5 years (industry)": number | null;
     "company to industry margin": number | null;
 
-    "Return On Equity 5ya": number | null | "not available";
+    "Return On Equity 5ya": number | null | NotApplicableFields;
     "Return On Equity 5ya (industry)": number | null;
 
-    "5 Year EPS Growth": number | null | "not available";
+    "5 Year EPS Growth": number | null | NotApplicableFields;
     "5 Year EPS Growth (industry)": number | null;
 
-    "5 Year Sales Growth": number | null | "not available";
+    "5 Year Sales Growth": number | null | NotApplicableFields;
     "5 Year Sales Growth (industry)": number | null;
 
-    "Net Income/Employee": number | null | "not available";
+    "Net Income/Employee": number | null | NotApplicableFields;
     "Net Income/Employee (industry)": number | null;
+
+
+    // 5 Year Performance
+
+
+
 
     ytd: number | null;
     "5 yrs": number | null;
