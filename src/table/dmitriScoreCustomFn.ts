@@ -24,7 +24,7 @@ import {
 import { InvestmentRecord, notApplicableFieldsConst, NotApplicableFields, NOT_APPLICABLE_STRING } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'Banca Monte dei Paschi di Siena SpA';
+export const COMPANY_ANALYZED = 'Microsoft';
 
 function consoleLennar(
     allValues: InvestmentRecord,
@@ -40,7 +40,6 @@ function consoleLennar(
         const degiroGradesArray = ['A', 'B', 'C', 'D'];
 
         const allowedValuesAndTypes =
-            itemValue === null ||
             typeof itemValue === 'number' ||
             itemValue === 0 ||
             degiroGradesArray.includes(itemValue);
