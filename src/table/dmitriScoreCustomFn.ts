@@ -18,7 +18,8 @@ import {
     scoreDebtToEquity,
     scoreMarketCap,
     growthScore5Years,
-    growthScore5YearsDividends
+    growthScore5YearsDividends,
+    scoreCurrentRatioCompany
 } from '../helpers/allOther';
 import { InvestmentRecord, notApplicableFieldsConst, NotApplicableFields, NOT_APPLICABLE_STRING } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
@@ -454,7 +455,7 @@ function dmitriScoreCustomFn(info: any) {
         if (currentRatioCompanyItem !== NOT_APPLICABLE_STRING) {
             const currentRatioCompanyMaxScore = 10;
             const crcWeight = 3;
-            const calcCRC = Number(currentRatioCompanyItem as number);
+            const calcCRC = scoreCurrentRatioCompany(currentRatioCompanyItem as number | null, item['currentRatioIndustry'] as number | null);
             finalScore = finalScore + calcCRC * crcWeight;
             maxScorePossible = maxScorePossible + currentRatioCompanyMaxScore * crcWeight;
             consoleLennar(item, finalScore, 'current ratio company', maxScorePossible, currentRatioCompanyItem);
