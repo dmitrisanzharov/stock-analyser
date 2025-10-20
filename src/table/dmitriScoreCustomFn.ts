@@ -20,7 +20,7 @@ import {
     growthScore5Years,
     growthScore5YearsDividends
 } from '../helpers/allOther';
-import { InvestmentRecord, notApplicableFieldsConst, NotApplicableFields } from '../types';
+import { InvestmentRecord, notApplicableFieldsConst, NotApplicableFields, NOT_APPLICABLE_STRING } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
 export const COMPANY_ANALYZED = 'Banca Monte dei Paschi di Siena SpA';
@@ -448,6 +448,17 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcDTE * dteWeight;
         maxScorePossible = maxScorePossible + debtToEquityMaxScore * dteWeight;
         consoleLennar(item, finalScore, 'debt to equity', maxScorePossible, debtToEquityMaxScoreItem);
+
+        // currentRatioCompany
+        const currentRatioCompanyItem = item['currentRatioCompany'];
+        if (currentRatioCompanyItem !== NOT_APPLICABLE_STRING) {
+            const currentRatioCompanyMaxScore = 10;
+            const crcWeight = 3;
+            const calcCRC = Number(currentRatioCompanyItem as number);
+            finalScore = finalScore + calcCRC * crcWeight;
+            maxScorePossible = maxScorePossible + currentRatioCompanyMaxScore * crcWeight;
+            consoleLennar(item, finalScore, 'current ratio company', maxScorePossible, currentRatioCompanyItem);
+        }
 
         // Market Cap
         const marketCapItem =

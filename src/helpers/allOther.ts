@@ -67,7 +67,6 @@ export function scorePeRatio(peRatio: number, industryPeRatio: number): number {
     return 1; // Very expensive
 }
 
-
 export function growthScore5Years(finalGrowth: number): number {
     if (finalGrowth <= 1) return 0;
     if (finalGrowth >= 2) return 10;
@@ -75,14 +74,12 @@ export function growthScore5Years(finalGrowth: number): number {
     return (finalGrowth - 1) * 10;
 }
 
-
 export function growthScore5YearsDividends(itemTotalGrowth5yaDividends: number): number {
     if (itemTotalGrowth5yaDividends <= 0) return 0;
     if (itemTotalGrowth5yaDividends >= 0.25) return 10;
     // Spread 0 → 10 linearly between 0 → 0.25
     return (itemTotalGrowth5yaDividends / 0.25) * 10;
 }
-
 
 export function scoreFitchAndSpRating(rating: string | 0): number {
     if (!rating) {
@@ -298,8 +295,7 @@ export function scoreNetProfitAverage(netProfitInMillions: number): number {
 }
 
 export function scoreDebtToEquity(debtToEquityRatio: number): number {
-
-    if(typeof debtToEquityRatio !== 'number'){
+    if (typeof debtToEquityRatio !== 'number') {
         return 'na' as any;
     }
 
@@ -320,6 +316,28 @@ export function scoreReturnOnEquity(roePercent: number): number {
     return roePercent;
 }
 
+export function scoreCurrentRatioCompany(currentRatio: number | null, industryRatio: number | null): number {
+    if (
+        currentRatio == null ||
+        industryRatio == null ||
+        isNaN(currentRatio) ||
+        isNaN(industryRatio) ||
+        industryRatio <= 0
+    ) {
+        return 0;
+    }
+
+    const ratio = currentRatio / industryRatio;
+
+    if (ratio < 0.4) return 0; // critically low liquidity
+    if (ratio < 0.7) return 3; // weak
+    if (ratio < 0.9) return 5; // below average
+    if (ratio < 1.3) return 10; // healthy (optimal zone)
+    if (ratio < 1.8) return 7; // slightly too liquid
+    if (ratio < 3.0) return 4; // overly conservative
+    return 2; // excessive, inefficient liquidity
+}
+
 export function scoreMarketCap(marketCapInBillions: number): number {
     if (marketCapInBillions >= 1.0) return 10;
     if (marketCapInBillions >= 0.9) return 9;
@@ -334,13 +352,12 @@ export function scoreMarketCap(marketCapInBillions: number): number {
 }
 
 export function gradeAgainstEuStem(num: number): number {
-
-    const euStemAsPopulation = 7; 
+    const euStemAsPopulation = 7;
 
     if (num >= euStemAsPopulation) return 10;
 
     // scale linearly from 0 → 10 between 0 and 7
     const score = (num / euStemAsPopulation) * 10;
 
-    return score; 
+    return score;
 }
