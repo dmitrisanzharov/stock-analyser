@@ -19,7 +19,7 @@ export type NotApplicableFields = null | typeof NA_STRING | typeof NOT_APPLICABL
 export const notApplicableFieldsConst: NotApplicableFields[] = [null, NA_STRING, NOT_APPLICABLE_STRING];
 
 export type RatingsType = number | typeof NOT_APPLICABLE_STRING;
-export type RatingsOutlookType = 'positive' | 'stable' | 'negative';
+export type RatingsOutlookType = 'positive' | 'stable' | 'negative' | 'developing';
 
 export type FitchRatingType =
     | 'AAA'

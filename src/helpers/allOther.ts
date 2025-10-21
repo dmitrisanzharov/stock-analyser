@@ -1,4 +1,4 @@
-import { FitchRatingType } from '../types';
+import { FitchRatingType, RatingsOutlookType } from '../types';
 
 export function scorePaymentFrequency(frequency: number): number {
     if (frequency === 1) {
@@ -395,5 +395,20 @@ export function scoreFitchRating(rating: FitchRatingType, fromSp?: boolean): num
     } else {
         const fitchVsSp: string = fromSp ? 'S&P' : 'Fitch';
         throw new Error('error in ' + fitchVsSp);
+    }
+}
+
+export const outlookMap: Record<RatingsOutlookType, number> = {
+    positive: 3, // Best outlook
+    stable: 2, // Neutral / normal
+    negative: 1, // Weak outlook (but still non-negative)
+    developing: 2 // Midpoint / uncertain, same weight as Stable
+};
+
+export function RatingOutlook(outlook: RatingsOutlookType): number {
+    if (outlookMap.hasOwnProperty(outlook)) {
+        return outlookMap[outlook];
+    } else {
+        throw new Error('error in RatingOutlook');
     }
 }

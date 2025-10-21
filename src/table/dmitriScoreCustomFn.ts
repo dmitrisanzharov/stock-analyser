@@ -22,20 +22,23 @@ import {
     scoreCurrentRatioCompany,
     scoreFitchRating,
     FITCH_RATING_MAP,
-    DEGIRO_CATEGORIES_ARRAY
+    DEGIRO_CATEGORIES_ARRAY,
+    RatingOutlook,
+    outlookMap
 } from '../helpers/allOther';
 import {
     InvestmentRecord,
     notApplicableFieldsConst,
     NotApplicableFields,
     NOT_APPLICABLE_STRING,
-    FitchRatingType
+    FitchRatingType,
+    RatingsOutlookType
 } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
 export const COMPANY_ANALYZED = 'generalTestCompany';
 
-const allowedArrayItems = [...Object.keys(FITCH_RATING_MAP), ...DEGIRO_CATEGORIES_ARRAY];
+const allowedArrayItems = [...Object.keys(FITCH_RATING_MAP), ...DEGIRO_CATEGORIES_ARRAY, ...Object.keys(outlookMap)];
 
 function consoleLennar(
     allValues: InvestmentRecord,
@@ -287,9 +290,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // Fitch Rating
         const fitchRatingMaxScoreItem = item['fitch rating'];
-        console.log("fitchRatingMaxScoreItem: ", fitchRatingMaxScoreItem);
         const isFitchRatingApplicable = item['fitchRatingApplicable'];
-        console.log("isFitchRatingApplicable: ", isFitchRatingApplicable);
         if (isFitchRatingApplicable) {
             const fitchRatingMaxScore = 11;
             const fitchWeight = 5;
@@ -297,6 +298,17 @@ function dmitriScoreCustomFn(info: any) {
             finalScore = finalScore + calcFitch * fitchWeight;
             maxScorePossible = maxScorePossible + fitchRatingMaxScore * fitchWeight;
             consoleLennar(item, finalScore, 'Fitch Rating', maxScorePossible, fitchRatingMaxScoreItem);
+        }
+
+        // Fitch Outlook
+        const fitchOutlookItem = item['fitch outlook'];
+        if(isFitchRatingApplicable){
+            const fitchOutlookMaxScore = 10;
+            const fitchOutlookWeight = 5;
+            const calcFitchOutlook = RatingOutlook(fitchOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcFitchOutlook * fitchOutlookWeight;
+            maxScorePossible = maxScorePossible + fitchOutlookMaxScore * fitchOutlookWeight;
+            consoleLennar(item, finalScore, 'Fitch Outlook', maxScorePossible, fitchOutlookItem);
         }
 
         // SP Rating
