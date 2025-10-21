@@ -20,12 +20,22 @@ import {
     growthScore5Years,
     growthScore5YearsDividends,
     scoreCurrentRatioCompany,
-    scoreFitchRating
+    scoreFitchRating,
+    FITCH_RATING_MAP,
+    DEGIRO_CATEGORIES_ARRAY
 } from '../helpers/allOther';
-import { InvestmentRecord, notApplicableFieldsConst, NotApplicableFields, NOT_APPLICABLE_STRING, FitchRatingType } from '../types';
+import {
+    InvestmentRecord,
+    notApplicableFieldsConst,
+    NotApplicableFields,
+    NOT_APPLICABLE_STRING,
+    FitchRatingType
+} from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
 export const COMPANY_ANALYZED = 'generalTestCompany';
+
+const allowedArrayItems = [...Object.keys(FITCH_RATING_MAP), ...DEGIRO_CATEGORIES_ARRAY];
 
 function consoleLennar(
     allValues: InvestmentRecord,
@@ -38,10 +48,9 @@ function consoleLennar(
         const skippedString = 'SKIPPED';
 
         // NOTE: Here we check for ALLOWED TYPES... Number | 'na' | 0 | notApplicable;  exception are Degiro Grades
-        const degiroGradesArray = ['A', 'B', 'C', 'D'];
 
         const allowedValuesAndTypes =
-            typeof itemValue === 'number' || itemValue === 0 || degiroGradesArray.includes(itemValue);
+            typeof itemValue === 'number' || itemValue === 0 || allowedArrayItems.includes(itemValue);
 
         const skip = allowedValuesAndTypes ? '' : skippedString;
         console.log(criteria, ': ', currentScore, '...', 'maxScore: ', currentMaxScore, skip);
@@ -50,7 +59,7 @@ function consoleLennar(
             throw new Error('SKIPPED in: ' + criteria);
         }
     }
-}
+};
 
 function dmitriScoreCustomFn(info: any) {
     const value = info.getValue(); // this is DmitriScore column
@@ -72,6 +81,7 @@ function dmitriScoreCustomFn(info: any) {
         console.log('++++++++++++++++++++++++++++');
 
         console.log('main ITEM: ', item);
+        console.log('fitch: ', item['fitch rating']);
         console.log('============================');
 
         // Dividends Interest Rate
@@ -276,8 +286,11 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(item, finalScore, 'auditor', maxScorePossible, auditorItem);
 
         // Fitch Rating
-        const fitchRatingMaxScoreItem = item['fitch rating or equivalent'];
-        if (fitchRatingMaxScoreItem !== NOT_APPLICABLE_STRING) {
+        const fitchRatingMaxScoreItem = item['fitch rating'];
+        console.log("fitchRatingMaxScoreItem: ", fitchRatingMaxScoreItem);
+        const isFitchRatingApplicable = item['fitchRatingApplicable'];
+        console.log("isFitchRatingApplicable: ", isFitchRatingApplicable);
+        if (isFitchRatingApplicable) {
             const fitchRatingMaxScore = 11;
             const fitchWeight = 5;
             const calcFitch = scoreFitchRating(fitchRatingMaxScoreItem as FitchRatingType);
@@ -288,10 +301,11 @@ function dmitriScoreCustomFn(info: any) {
 
         // SP Rating
         const spRatingItem = item['s&p'];
-        if (spRatingItem !== NOT_APPLICABLE_STRING) {
+        const isSpApplicable = item['spApplicable'];
+        if (isSpApplicable) {
             const spRatingMaxScore = 11;
             const spWeight = 5;
-            const calcSP = typeof spRatingItem === 'number' ? (spRatingItem as number) : 0;
+            const calcSP = scoreFitchRating(spRatingItem as FitchRatingType, true);
             finalScore = finalScore + calcSP * spWeight;
             maxScorePossible = maxScorePossible + spRatingMaxScore * spWeight;
             consoleLennar(item, finalScore, 'sp', maxScorePossible, spRatingItem);

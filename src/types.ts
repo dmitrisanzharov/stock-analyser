@@ -19,7 +19,7 @@ export type NotApplicableFields = null | typeof NA_STRING | typeof NOT_APPLICABL
 export const notApplicableFieldsConst: NotApplicableFields[] = [null, NA_STRING, NOT_APPLICABLE_STRING];
 
 export type RatingsType = number | typeof NOT_APPLICABLE_STRING;
-export type RatingsOutlookType = 'positive' | 'stable' | 'negative' | typeof NOT_APPLICABLE_STRING;
+export type RatingsOutlookType = 'positive' | 'stable' | 'negative';
 
 export type FitchRatingType =
     | 'AAA'
@@ -115,14 +115,16 @@ export type InvestmentRecord = {
     'Auditor Score': number | null;
 
     // Credit Ratings
-    'fitch rating or equivalent': FitchRatingType | typeof NOT_APPLICABLE_STRING;
+    fitchRatingApplicable: boolean;
+    'fitch rating': FitchRatingType;
     'fitch outlook': RatingsOutlookType;
+
+    spApplicable: boolean;
+    's&p': RatingsType;
+    's&p outlook': RatingsType;
 
     moody: RatingsType;
     'moody outlook': RatingsOutlookType;
-
-    's&p': RatingsType;
-    's&p outlook': RatingsType;
 
     'Scope Ratings GmbH': RatingsType;
     'Scope Ratings GmbH Outlook': RatingsOutlookType;
@@ -166,9 +168,6 @@ export type InvestmentRecord = {
     // AI analysis stuff
     'degiro (A = 11; B=8; C=4; D=1)': string | number | null;
     DmitriScore: number | string;
-    'fitch rating': number | null;
-    'moody rating': number | null;
-    's&p rating': number | null;
 
     'avg AI grade': number | null;
     'chatGPT Grade (11 to 1)': number | null;

@@ -28,6 +28,7 @@ export function scorePaymentFrequency(frequency: number): number {
     throw new Error(`scorePaymentFrequency error: unsupported frequency ${frequency}`);
 }
 
+export const DEGIRO_CATEGORIES_ARRAY = ['A', 'B', 'C', 'D'];
 export function scoreDegiroCategory(category: string): number {
     const cat = category.toUpperCase();
 
@@ -364,35 +365,35 @@ export function gradeAgainstEuStem(num: number): number {
     return score;
 }
 
-export function scoreFitchRating(rating: FitchRatingType): number {
-    const ratingsMap: Record<FitchRatingType, number> = {
-        AAA: 11,
-        'AA+': 10,
-        AA: 9,
-        'AA-': 8,
-        'A+': 7,
-        A: 6,
-        'A-': 5,
-        'BBB+': 4,
-        BBB: 3,
-        'BBB-': 2,
-        'BB+': 1,
-        BB: 0,
-        'BB-': 0,
-        'B+': 0,
-        B: 0,
-        'B-': 0,
-        'CCC+': 0,
-        CCC: 0,
-        'CCC-': 0,
-        CC: 0,
-        C: 0,
-        D: 0
-    };
-
-    if (ratingsMap.hasOwnProperty(rating)) {
-        return ratingsMap[rating];
+export const FITCH_RATING_MAP: Record<FitchRatingType, number> = {
+    AAA: 11,
+    'AA+': 10,
+    AA: 9,
+    'AA-': 8,
+    'A+': 7,
+    A: 6,
+    'A-': 5,
+    'BBB+': 4,
+    BBB: 3,
+    'BBB-': 2,
+    'BB+': 1,
+    BB: 0,
+    'BB-': 0,
+    'B+': 0,
+    B: 0,
+    'B-': 0,
+    'CCC+': 0,
+    CCC: 0,
+    'CCC-': 0,
+    CC: 0,
+    C: 0,
+    D: 0
+};
+export function scoreFitchRating(rating: FitchRatingType, fromSp?: boolean): number {
+    if (FITCH_RATING_MAP.hasOwnProperty(rating)) {
+        return FITCH_RATING_MAP[rating];
     } else {
-        throw new Error('error in FitchRating');
+        const fitchVsSp: string = fromSp ? 'S&P' : 'Fitch';
+        throw new Error('error in ' + fitchVsSp);
     }
 }
