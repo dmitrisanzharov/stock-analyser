@@ -1,4 +1,4 @@
-import { FitchRatingType, RatingsOutlookType, MoodyRatingType } from '../types';
+import { FitchRatingType, RatingsOutlookType, MoodyRatingType, CreditreformRatingType } from '../types';
 
 export function scorePaymentFrequency(frequency: number): number {
     if (frequency === 1) {
@@ -442,5 +442,28 @@ export function scoreMoodyRatingV2(rating: MoodyRatingType): number {
         return MOODY_RATING_MAP[rating];
     } else {
         throw new Error('error in MoodyRating');
+    }
+}
+
+// Creditreform Long-Term Issuer Ratings
+// Map Creditreform Ratings to numeric scores
+export const CREDITREFORM_RATING_MAP: Record<CreditreformRatingType, number> = {
+    AAA: 11, // Highest credit quality
+    AA: 10,
+    A: 9,
+    BBB: 8,
+    BB: 6,
+    B: 4,
+    C: 2,
+    SD: 0, // Selective Default
+    D: 0 // Default
+};
+
+// Function to score Creditreform Ratings
+export function scoreCreditreformRating(rating: CreditreformRatingType): number {
+    if (CREDITREFORM_RATING_MAP.hasOwnProperty(rating)) {
+        return CREDITREFORM_RATING_MAP[rating];
+    } else {
+        throw new Error('Invalid Creditreform Rating');
     }
 }

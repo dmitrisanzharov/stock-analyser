@@ -68,6 +68,8 @@ export type MoodyRatingType =
     | 'Ca'
     | 'C';
 
+export type CreditreformRatingType = 'AAA' | 'AA' | 'A' | 'BBB' | 'BB' | 'B' | 'C' | 'SD' | 'D';
+
 export type InvestmentRecord = {
     purchased: number;
     'Company Name': string;
@@ -155,9 +157,12 @@ export type InvestmentRecord = {
     'Scope Ratings GmbH Outlook': RatingsOutlookType;
 
     isDBRSMorningstarApplicable: boolean;
-    "DBRS Morningstar Rating": RatingsType;
-    "DBRS Morningstar Outlook": RatingsOutlookType;
+    'DBRS Morningstar Rating': RatingsType;
+    'DBRS Morningstar Outlook': RatingsOutlookType;
 
+    isCreditreformRatingAGApplicable: boolean;
+    'Creditreform Rating AG': CreditreformRatingType;
+    'Creditreform Rating AG Outlook': RatingsOutlookType;
 
     // -----------------------------------
 

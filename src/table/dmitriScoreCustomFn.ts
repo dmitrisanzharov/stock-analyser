@@ -27,7 +27,8 @@ import {
     outlookMap,
     OUTLOOK_MAX_SCORE,
     scoreMoodyRatingV2,
-    MOODY_RATING_MAP
+    MOODY_RATING_MAP,
+    scoreCreditreformRating
 } from '../helpers/allOther';
 import {
     InvestmentRecord,
@@ -36,7 +37,8 @@ import {
     NOT_APPLICABLE_STRING,
     FitchRatingType,
     RatingsOutlookType,
-    MoodyRatingType
+    MoodyRatingType,
+    CreditreformRatingType
 } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
@@ -410,7 +412,7 @@ function dmitriScoreCustomFn(info: any) {
         const isDBRSMorningstarApplicable = item['isDBRSMorningstarApplicable'];
         if (isDBRSMorningstarApplicable) {
             const dbrsMorningstarRatingMaxScore = 11;
-            const dbrsMorningstarWeight = 2;
+            const dbrsMorningstarWeight = 5;
             const calcDBRSMorningstar = scoreFitchRating(
                 dbrsMorningstarRatingItem as FitchRatingType,
                 'DBRS Morningstar Rating'
@@ -426,11 +428,44 @@ function dmitriScoreCustomFn(info: any) {
         const dbrsMorningstarOutlookItem = item['DBRS Morningstar Outlook'];
         if (isDBRSMorningstarApplicable) {
             const dbrsMorningstarOutlookMaxScore = OUTLOOK_MAX_SCORE;
-            const dbrsMorningstarOutlookWeight = 2;
+            const dbrsMorningstarOutlookWeight = 5;
             const calcDBRSMorningstarOutlook = ratingOutlook(dbrsMorningstarOutlookItem as RatingsOutlookType);
             finalScore = finalScore + calcDBRSMorningstarOutlook * dbrsMorningstarOutlookWeight;
             maxScorePossible = maxScorePossible + dbrsMorningstarOutlookMaxScore * dbrsMorningstarOutlookWeight;
             consoleLennar(item, finalScore, 'DBRS Morningstar Outlook', maxScorePossible, dbrsMorningstarOutlookItem);
+        }
+
+        // Creditreform Rating AG
+        const creditreformRatingAGItem = item['Creditreform Rating AG'];
+        const isCreditreformRatingAGApplicable = item['isCreditreformRatingAGApplicable'];
+        if (isCreditreformRatingAGApplicable) {
+            const creditreformRatingAGMaxScore = 11;
+            const creditreformRatingAGWeight = 5;
+            const calcCreditreformRatingAG = scoreCreditreformRating(creditreformRatingAGItem as CreditreformRatingType);
+            finalScore = finalScore + calcCreditreformRatingAG * creditreformRatingAGWeight;
+            maxScorePossible = maxScorePossible + creditreformRatingAGMaxScore * creditreformRatingAGWeight;
+            consoleLennar(item, finalScore, 'Creditreform Rating AG', maxScorePossible, creditreformRatingAGItem);
+        } else if (isCreditreformRatingAGApplicable === null) {
+            throw new Error('isCreditreformRatingAGApplicable = empty field');
+        }
+
+        // Creditreform Rating AG Outlook
+        const creditreformRatingAGOutlookItem = item['Creditreform Rating AG Outlook'];
+        if (isCreditreformRatingAGApplicable) {
+            const creditreformRatingAGOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const creditreformRatingAGOutlookWeight = 5;
+            const calcCreditreformRatingAGOutlook = ratingOutlook(
+                creditreformRatingAGOutlookItem as RatingsOutlookType
+            );
+            finalScore = finalScore + calcCreditreformRatingAGOutlook * creditreformRatingAGOutlookWeight;
+            maxScorePossible = maxScorePossible + creditreformRatingAGOutlookMaxScore * creditreformRatingAGOutlookWeight;
+            consoleLennar(
+                item,
+                finalScore,
+                'Creditreform Rating AG Outlook',
+                maxScorePossible,
+                creditreformRatingAGOutlookItem
+            );
         }
 
         // Degiro Income Statement
