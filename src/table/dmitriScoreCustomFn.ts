@@ -23,8 +23,9 @@ import {
     scoreFitchRating,
     FITCH_RATING_MAP,
     DEGIRO_CATEGORIES_ARRAY,
-    RatingOutlook,
-    outlookMap
+    ratingOutlook,
+    outlookMap,
+    OUTLOOK_MAX_SCORE
 } from '../helpers/allOther';
 import {
     InvestmentRecord,
@@ -303,9 +304,9 @@ function dmitriScoreCustomFn(info: any) {
         // Fitch Outlook
         const fitchOutlookItem = item['fitch outlook'];
         if(isFitchRatingApplicable){
-            const fitchOutlookMaxScore = 10;
+            const fitchOutlookMaxScore = OUTLOOK_MAX_SCORE;
             const fitchOutlookWeight = 5;
-            const calcFitchOutlook = RatingOutlook(fitchOutlookItem as RatingsOutlookType);
+            const calcFitchOutlook = ratingOutlook(fitchOutlookItem as RatingsOutlookType);
             finalScore = finalScore + calcFitchOutlook * fitchOutlookWeight;
             maxScorePossible = maxScorePossible + fitchOutlookMaxScore * fitchOutlookWeight;
             consoleLennar(item, finalScore, 'Fitch Outlook', maxScorePossible, fitchOutlookItem);
@@ -321,6 +322,17 @@ function dmitriScoreCustomFn(info: any) {
             finalScore = finalScore + calcSP * spWeight;
             maxScorePossible = maxScorePossible + spRatingMaxScore * spWeight;
             consoleLennar(item, finalScore, 'sp', maxScorePossible, spRatingItem);
+        }
+
+        // SP Outlook
+        const spOutlookItem = item['s&p outlook'];
+        if(isSpApplicable){
+            const spOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const spOutlookWeight = 5;
+            const calcSPOutlook = ratingOutlook(spOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcSPOutlook * spOutlookWeight;
+            maxScorePossible = maxScorePossible + spOutlookMaxScore * spOutlookWeight;
+            consoleLennar(item, finalScore, 'sp outlook', maxScorePossible, spOutlookItem);
         }
 
         // Moody Rating

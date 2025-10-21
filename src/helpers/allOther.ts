@@ -398,14 +398,15 @@ export function scoreFitchRating(rating: FitchRatingType, fromSp?: boolean): num
     }
 }
 
+export const OUTLOOK_MAX_SCORE = 2;
 export const outlookMap: Record<RatingsOutlookType, number> = {
-    positive: 3, // Best outlook
-    stable: 2, // Neutral / normal
-    negative: 1, // Weak outlook (but still non-negative)
-    developing: 2 // Midpoint / uncertain, same weight as Stable
+    positive: OUTLOOK_MAX_SCORE, // Best outlook
+    stable: 1, // Neutral / normal
+    negative: 0, // Weak outlook (but still non-negative)
+    developing: 0 // Midpoint / uncertain, same weight as Stable
 };
 
-export function RatingOutlook(outlook: RatingsOutlookType): number {
+export function ratingOutlook(outlook: RatingsOutlookType): number {
     if (outlookMap.hasOwnProperty(outlook)) {
         return outlookMap[outlook];
     } else {
