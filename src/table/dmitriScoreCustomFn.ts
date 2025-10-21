@@ -302,10 +302,12 @@ function dmitriScoreCustomFn(info: any) {
         if (isFitchRatingApplicable) {
             const fitchRatingMaxScore = 11;
             const fitchWeight = 5;
-            const calcFitch = scoreFitchRating(fitchRatingMaxScoreItem as FitchRatingType);
+            const calcFitch = scoreFitchRating(fitchRatingMaxScoreItem as FitchRatingType, 'Fitch');
             finalScore = finalScore + calcFitch * fitchWeight;
             maxScorePossible = maxScorePossible + fitchRatingMaxScore * fitchWeight;
             consoleLennar(item, finalScore, 'Fitch Rating', maxScorePossible, fitchRatingMaxScoreItem);
+        } else if (isFitchRatingApplicable === null) {
+            throw new Error('isFitchRatingApplicable = empty field');
         }
 
         // Fitch Outlook
@@ -325,10 +327,12 @@ function dmitriScoreCustomFn(info: any) {
         if (isSpApplicable) {
             const spRatingMaxScore = 11;
             const spWeight = 5;
-            const calcSP = scoreFitchRating(spRatingItem as FitchRatingType, true);
+            const calcSP = scoreFitchRating(spRatingItem as FitchRatingType, 'SP');
             finalScore = finalScore + calcSP * spWeight;
             maxScorePossible = maxScorePossible + spRatingMaxScore * spWeight;
             consoleLennar(item, finalScore, 'sp', maxScorePossible, spRatingItem);
+        } else if (isSpApplicable === null) {
+            throw new Error('isSpApplicable = empty field');
         }
 
         // SP Outlook
@@ -352,6 +356,8 @@ function dmitriScoreCustomFn(info: any) {
             finalScore = finalScore + calcMoody * moodyWeight;
             maxScorePossible = maxScorePossible + moodyRatingMaxScore * moodyWeight;
             consoleLennar(item, finalScore, 'moody', maxScorePossible, moodyRatingItem);
+        } else if (isMoodyApplicable === null) {
+            throw new Error('isMoodyApplicable = empty field');
         }
 
         // Moody Outlook
@@ -363,6 +369,68 @@ function dmitriScoreCustomFn(info: any) {
             finalScore = finalScore + calcMoodyOutlook * moodyOutlookWeight;
             maxScorePossible = maxScorePossible + moodyOutlookMaxScore * moodyOutlookWeight;
             consoleLennar(item, finalScore, 'moody outlook', maxScorePossible, moodyOutlookItem);
+        }
+
+        // Scope Ratings GmbH
+        const scopeRatingsGmbHItem = item['Scope Ratings GmbH'];
+        const isScopeRatingsGmbHApplicable = item['isScopeRatingGmbHApplicable'];
+        if (isScopeRatingsGmbHApplicable) {
+            const scopeRatingsGmbHMaxScore = 11;
+            const scopeRatingsGmbHWeight = 5;
+            const calcScopeRatingsGmbH = scoreFitchRating(
+                scopeRatingsGmbHItem as FitchRatingType,
+                'Scope Ratings GmbH'
+            );
+            finalScore = finalScore + calcScopeRatingsGmbH * scopeRatingsGmbHWeight;
+            maxScorePossible = maxScorePossible + scopeRatingsGmbHMaxScore * scopeRatingsGmbHWeight;
+            consoleLennar(item, finalScore, 'Scope Ratings GmbH', maxScorePossible, scopeRatingsGmbHItem);
+        } else if (isScopeRatingsGmbHApplicable === null) {
+            throw new Error('isScopeRatingGmbHApplicable = empty field');
+        }
+
+        // Scope Ratings GmbH Outlook
+        const scopeRatingsGmbHOutlookItem = item['Scope Ratings GmbH Outlook'];
+        if (isScopeRatingsGmbHApplicable) {
+            const scopeRatingsGmbHOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const scopeRatingsGmbHOutlookWeight = 5;
+            const calcScopeRatingsGmbHOutlook = ratingOutlook(scopeRatingsGmbHOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcScopeRatingsGmbHOutlook * scopeRatingsGmbHOutlookWeight;
+            maxScorePossible = maxScorePossible + scopeRatingsGmbHOutlookMaxScore * scopeRatingsGmbHOutlookWeight;
+            consoleLennar(
+                item,
+                finalScore,
+                'Scope Ratings GmbH Outlook',
+                maxScorePossible,
+                scopeRatingsGmbHOutlookItem
+            );
+        }
+
+        // DBRS Morningstar Rating
+        const dbrsMorningstarRatingItem = item['DBRS Morningstar Rating'];
+        const isDBRSMorningstarApplicable = item['isDBRSMorningstarApplicable'];
+        if (isDBRSMorningstarApplicable) {
+            const dbrsMorningstarRatingMaxScore = 11;
+            const dbrsMorningstarWeight = 2;
+            const calcDBRSMorningstar = scoreFitchRating(
+                dbrsMorningstarRatingItem as FitchRatingType,
+                'DBRS Morningstar Rating'
+            );
+            finalScore = finalScore + calcDBRSMorningstar * dbrsMorningstarWeight;
+            maxScorePossible = maxScorePossible + dbrsMorningstarRatingMaxScore * dbrsMorningstarWeight;
+            consoleLennar(item, finalScore, 'DBRS Morningstar Rating', maxScorePossible, dbrsMorningstarRatingItem);
+        } else if (isDBRSMorningstarApplicable === null) {
+            throw new Error('isDBRSMorningstarApplicable = empty field');
+        }
+
+        // DBRS Morningstar Outlook
+        const dbrsMorningstarOutlookItem = item['DBRS Morningstar Outlook'];
+        if (isDBRSMorningstarApplicable) {
+            const dbrsMorningstarOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const dbrsMorningstarOutlookWeight = 2;
+            const calcDBRSMorningstarOutlook = ratingOutlook(dbrsMorningstarOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcDBRSMorningstarOutlook * dbrsMorningstarOutlookWeight;
+            maxScorePossible = maxScorePossible + dbrsMorningstarOutlookMaxScore * dbrsMorningstarOutlookWeight;
+            consoleLennar(item, finalScore, 'DBRS Morningstar Outlook', maxScorePossible, dbrsMorningstarOutlookItem);
         }
 
         // Degiro Income Statement

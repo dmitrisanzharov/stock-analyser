@@ -389,12 +389,11 @@ export const FITCH_RATING_MAP: Record<FitchRatingType, number> = {
     C: 0,
     D: 0
 };
-export function scoreFitchRating(rating: FitchRatingType, fromSp?: boolean): number {
+export function scoreFitchRating(rating: FitchRatingType, creditRatingProvider: string): number {
     if (FITCH_RATING_MAP.hasOwnProperty(rating)) {
         return FITCH_RATING_MAP[rating];
     } else {
-        const fitchVsSp: string = fromSp ? 'S&P' : 'Fitch';
-        throw new Error('error in ' + fitchVsSp);
+        throw new Error('error in ' + creditRatingProvider);
     }
 }
 

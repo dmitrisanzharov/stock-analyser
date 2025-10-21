@@ -150,8 +150,14 @@ export type InvestmentRecord = {
     moody: RatingsType;
     'moody outlook': RatingsOutlookType;
 
+    isScopeRatingGmbHApplicable: boolean;
     'Scope Ratings GmbH': RatingsType;
     'Scope Ratings GmbH Outlook': RatingsOutlookType;
+
+    isDBRSMorningstarApplicable: boolean;
+    "DBRS Morningstar Rating": RatingsType;
+    "DBRS Morningstar Outlook": RatingsOutlookType;
+
 
     // -----------------------------------
 
