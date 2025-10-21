@@ -468,6 +468,31 @@ function dmitriScoreCustomFn(info: any) {
             );
         }
 
+        // ARC Ratings, S.A.
+        const arcRatingsItem = item['ARC Ratings, S.A.'];
+        const isArcRatingsApplicable = item['isARCRatings,S.A.Applicable'];
+        if (isArcRatingsApplicable) {
+            const arcRatingsMaxScore = 11;
+            const arcRatingsWeight = 5;
+            const calcArcRatings = scoreFitchRating(arcRatingsItem as FitchRatingType, 'ARC Ratings, S.A.');
+            finalScore = finalScore + calcArcRatings * arcRatingsWeight;
+            maxScorePossible = maxScorePossible + arcRatingsMaxScore * arcRatingsWeight;
+            consoleLennar(item, finalScore, 'ARC Ratings, S.A.', maxScorePossible, arcRatingsItem);
+        } else if (isArcRatingsApplicable === null) {
+            throw new Error('isARCRatings,S.A.Applicable = empty field');
+        }
+
+        // ARC Ratings, S.A. Outlook
+        const arcRatingsOutlookItem = item['ARC Ratings, S.A. Outlook'];
+        if (isArcRatingsApplicable) {
+            const arcRatingsOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const arcRatingsOutlookWeight = 5;
+            const calcArcRatingsOutlook = ratingOutlook(arcRatingsOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcArcRatingsOutlook * arcRatingsOutlookWeight;
+            maxScorePossible = maxScorePossible + arcRatingsOutlookMaxScore * arcRatingsOutlookWeight;
+            consoleLennar(item, finalScore, 'ARC Ratings, S.A. Outlook', maxScorePossible, arcRatingsOutlookItem);
+        }
+
         // Degiro Income Statement
         const degiroIncomeStatementItem = item['how does their Income Statement Look on Degiro'];
         const degiroIncomeStatementMaxScore = 12;

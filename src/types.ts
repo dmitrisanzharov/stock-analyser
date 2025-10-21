@@ -164,6 +164,10 @@ export type InvestmentRecord = {
     'Creditreform Rating AG': CreditreformRatingType;
     'Creditreform Rating AG Outlook': RatingsOutlookType;
 
+    'isARCRatings,S.A.Applicable': boolean;
+    'ARC Ratings, S.A.': RatingsType;
+    'ARC Ratings, S.A. Outlook': RatingsOutlookType;
+
     // -----------------------------------
 
     'how does their Income Statement Look on Degiro': number | string | null;
