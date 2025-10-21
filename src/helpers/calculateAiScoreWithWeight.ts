@@ -1,5 +1,7 @@
-import { InvestmentRecord, RatingType } from '../types';
+import { InvestmentRecord } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
+
+type RatingType = string | number | null;
 
 export function calculateAiScoreWithWeight(item: InvestmentRecord, consoleLennar: any) {
     console.log('---------------------------------');

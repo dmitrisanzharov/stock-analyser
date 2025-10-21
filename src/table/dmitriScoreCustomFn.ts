@@ -19,12 +19,13 @@ import {
     scoreMarketCap,
     growthScore5Years,
     growthScore5YearsDividends,
-    scoreCurrentRatioCompany
+    scoreCurrentRatioCompany,
+    scoreFitchRating
 } from '../helpers/allOther';
-import { InvestmentRecord, notApplicableFieldsConst, NotApplicableFields, NOT_APPLICABLE_STRING } from '../types';
+import { InvestmentRecord, notApplicableFieldsConst, NotApplicableFields, NOT_APPLICABLE_STRING, FitchRatingType } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'Microsoft';
+export const COMPANY_ANALYZED = 'generalTestCompany';
 
 function consoleLennar(
     allValues: InvestmentRecord,
@@ -279,7 +280,7 @@ function dmitriScoreCustomFn(info: any) {
         if (fitchRatingMaxScoreItem !== NOT_APPLICABLE_STRING) {
             const fitchRatingMaxScore = 11;
             const fitchWeight = 5;
-            const calcFitch = typeof fitchRatingMaxScoreItem === 'number' ? (fitchRatingMaxScoreItem as number) : 0;
+            const calcFitch = scoreFitchRating(fitchRatingMaxScoreItem as FitchRatingType);
             finalScore = finalScore + calcFitch * fitchWeight;
             maxScorePossible = maxScorePossible + fitchRatingMaxScore * fitchWeight;
             consoleLennar(item, finalScore, 'Fitch Rating', maxScorePossible, fitchRatingMaxScoreItem);
@@ -306,7 +307,7 @@ function dmitriScoreCustomFn(info: any) {
             maxScorePossible = maxScorePossible + moodyRatingMaxScore * moodyWeight;
             consoleLennar(item, finalScore, 'moody', calcMoody, moodyRatingItem);
         }
-        
+
         // Degiro Income Statement
         const degiroIncomeStatementItem = item['how does their Income Statement Look on Degiro'];
         const degiroIncomeStatementMaxScore = 12;

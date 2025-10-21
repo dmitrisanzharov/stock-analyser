@@ -1,3 +1,5 @@
+import { FitchRatingType } from '../types';
+
 export function scorePaymentFrequency(frequency: number): number {
     if (frequency === 1) {
         return 1; // annually
@@ -360,4 +362,37 @@ export function gradeAgainstEuStem(num: number): number {
     const score = (num / euStemAsPopulation) * 10;
 
     return score;
+}
+
+export function scoreFitchRating(rating: FitchRatingType): number {
+    const ratingsMap: Record<FitchRatingType, number> = {
+        AAA: 11,
+        'AA+': 10,
+        AA: 9,
+        'AA-': 8,
+        'A+': 7,
+        A: 6,
+        'A-': 5,
+        'BBB+': 4,
+        BBB: 3,
+        'BBB-': 2,
+        'BB+': 1,
+        BB: 0,
+        'BB-': 0,
+        'B+': 0,
+        B: 0,
+        'B-': 0,
+        'CCC+': 0,
+        CCC: 0,
+        'CCC-': 0,
+        CC: 0,
+        C: 0,
+        D: 0
+    };
+
+    if (ratingsMap.hasOwnProperty(rating)) {
+        return ratingsMap[rating];
+    } else {
+        throw new Error('error in FitchRating');
+    }
 }

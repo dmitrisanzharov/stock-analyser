@@ -21,6 +21,30 @@ export const notApplicableFieldsConst: NotApplicableFields[] = [null, NA_STRING,
 export type RatingsType = number | typeof NOT_APPLICABLE_STRING;
 export type RatingsOutlookType = 'positive' | 'stable' | 'negative' | typeof NOT_APPLICABLE_STRING;
 
+export type FitchRatingType =
+    | 'AAA'
+    | 'AA+'
+    | 'AA'
+    | 'AA-'
+    | 'A+'
+    | 'A'
+    | 'A-'
+    | 'BBB+'
+    | 'BBB'
+    | 'BBB-'
+    | 'BB+'
+    | 'BB'
+    | 'BB-'
+    | 'B+'
+    | 'B'
+    | 'B-'
+    | 'CCC+'
+    | 'CCC'
+    | 'CCC-'
+    | 'CC'
+    | 'C'
+    | 'D';
+
 export type InvestmentRecord = {
     purchased: number;
     'Company Name': string;
@@ -91,7 +115,7 @@ export type InvestmentRecord = {
     'Auditor Score': number | null;
 
     // Credit Ratings
-    'fitch rating or equivalent': RatingsType;
+    'fitch rating or equivalent': FitchRatingType | typeof NOT_APPLICABLE_STRING;
     'fitch outlook': RatingsOutlookType;
 
     moody: RatingsType;
@@ -102,8 +126,6 @@ export type InvestmentRecord = {
 
     'Scope Ratings GmbH': RatingsType;
     'Scope Ratings GmbH Outlook': RatingsOutlookType;
-
-
 
     // -----------------------------------
 
@@ -165,5 +187,3 @@ export type InvestmentRecord = {
     'Pure AI Average Grade': number | null;
     'score was by feel': string | null;
 };
-
-export type RatingType = string | number | null;
