@@ -18,6 +18,9 @@ export type NotApplicableFields = null | typeof NA_STRING | typeof NOT_APPLICABL
 
 export const notApplicableFieldsConst: NotApplicableFields[] = [null, NA_STRING, NOT_APPLICABLE_STRING];
 
+export type RatingsType = number | typeof NOT_APPLICABLE_STRING;
+export type RatingsOutlookType = 'positive' | 'stable' | 'negative' | typeof NOT_APPLICABLE_STRING;
+
 export type InvestmentRecord = {
     purchased: number;
     'Company Name': string;
@@ -86,12 +89,23 @@ export type InvestmentRecord = {
 
     'who is the Auditor?': string | number | null;
     'Auditor Score': number | null;
-    'fitch rating or equivalent': number | null | string;
-    'fitch outlook': string | null;
-    moody: number | null | string;
-    'moody outlook': string | null;
-    's&p': number | null | string;
-    's&p outlook': string | null;
+
+    // Credit Ratings
+    'fitch rating or equivalent': RatingsType;
+    'fitch outlook': RatingsOutlookType;
+
+    moody: RatingsType;
+    'moody outlook': RatingsOutlookType;
+
+    's&p': RatingsType;
+    's&p outlook': RatingsType;
+
+    'Scope Ratings GmbH': RatingsType;
+    'Scope Ratings GmbH Outlook': RatingsOutlookType;
+
+
+
+    // -----------------------------------
 
     'how does their Income Statement Look on Degiro': number | string | null;
     'Degiro Analysts Score': number | null;

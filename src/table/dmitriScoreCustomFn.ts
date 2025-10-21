@@ -36,13 +36,11 @@ function consoleLennar(
     if (allValues['Company Name'] === COMPANY_ANALYZED) {
         const skippedString = 'SKIPPED';
 
-        // NOTE: Here we check for ALLOWED TYPES... Number | null | 'na';  exception are Degiro Grades
+        // NOTE: Here we check for ALLOWED TYPES... Number | 'na' | 0 | notApplicable;  exception are Degiro Grades
         const degiroGradesArray = ['A', 'B', 'C', 'D'];
 
         const allowedValuesAndTypes =
-            typeof itemValue === 'number' ||
-            itemValue === 0 ||
-            degiroGradesArray.includes(itemValue);
+            typeof itemValue === 'number' || itemValue === 0 || degiroGradesArray.includes(itemValue);
 
         const skip = allowedValuesAndTypes ? '' : skippedString;
         console.log(criteria, ': ', currentScore, '...', 'maxScore: ', currentMaxScore, skip);
@@ -278,31 +276,37 @@ function dmitriScoreCustomFn(info: any) {
 
         // Fitch Rating
         const fitchRatingMaxScoreItem = item['fitch rating or equivalent'];
-        const fitchRatingMaxScore = 11;
-        const fitchWeight = 5;
-        const calcFitch = typeof fitchRatingMaxScoreItem === 'number' ? (fitchRatingMaxScoreItem as number) : 0;
-        finalScore = finalScore + calcFitch * fitchWeight;
-        maxScorePossible = maxScorePossible + fitchRatingMaxScore * fitchWeight;
-        consoleLennar(item, finalScore, 'Fitch Rating', maxScorePossible, fitchRatingMaxScoreItem);
+        if (fitchRatingMaxScoreItem !== NOT_APPLICABLE_STRING) {
+            const fitchRatingMaxScore = 11;
+            const fitchWeight = 5;
+            const calcFitch = typeof fitchRatingMaxScoreItem === 'number' ? (fitchRatingMaxScoreItem as number) : 0;
+            finalScore = finalScore + calcFitch * fitchWeight;
+            maxScorePossible = maxScorePossible + fitchRatingMaxScore * fitchWeight;
+            consoleLennar(item, finalScore, 'Fitch Rating', maxScorePossible, fitchRatingMaxScoreItem);
+        }
 
         // SP Rating
         const spRatingItem = item['s&p'];
-        const spRatingMaxScore = 11;
-        const spWeight = 5;
-        const calcSP = typeof spRatingItem === 'number' ? (spRatingItem as number) : 0;
-        finalScore = finalScore + calcSP * spWeight;
-        maxScorePossible = maxScorePossible + spRatingMaxScore * spWeight;
-        consoleLennar(item, finalScore, 'sp', maxScorePossible, spRatingItem);
+        if (spRatingItem !== NOT_APPLICABLE_STRING) {
+            const spRatingMaxScore = 11;
+            const spWeight = 5;
+            const calcSP = typeof spRatingItem === 'number' ? (spRatingItem as number) : 0;
+            finalScore = finalScore + calcSP * spWeight;
+            maxScorePossible = maxScorePossible + spRatingMaxScore * spWeight;
+            consoleLennar(item, finalScore, 'sp', maxScorePossible, spRatingItem);
+        }
 
         // Moody Rating
         const moodyRatingItem = item['moody'];
-        const moodyRatingMaxScore = 11;
-        const moodyWeight = 5;
-        const calcMoody = typeof moodyRatingItem === 'number' ? (moodyRatingItem as number) : 0;
-        finalScore = finalScore + calcMoody * moodyWeight;
-        maxScorePossible = maxScorePossible + moodyRatingMaxScore * moodyWeight;
-        consoleLennar(item, finalScore, 'moody', calcMoody, moodyRatingItem);
-
+        if (moodyRatingItem !== NOT_APPLICABLE_STRING) {
+            const moodyRatingMaxScore = 11;
+            const moodyWeight = 5;
+            const calcMoody = typeof moodyRatingItem === 'number' ? (moodyRatingItem as number) : 0;
+            finalScore = finalScore + calcMoody * moodyWeight;
+            maxScorePossible = maxScorePossible + moodyRatingMaxScore * moodyWeight;
+            consoleLennar(item, finalScore, 'moody', calcMoody, moodyRatingItem);
+        }
+        
         // Degiro Income Statement
         const degiroIncomeStatementItem = item['how does their Income Statement Look on Degiro'];
         const degiroIncomeStatementMaxScore = 12;
@@ -454,7 +458,10 @@ function dmitriScoreCustomFn(info: any) {
         if (currentRatioCompanyItem !== NOT_APPLICABLE_STRING) {
             const currentRatioCompanyMaxScore = 10;
             const crcWeight = 3;
-            const calcCRC = scoreCurrentRatioCompany(currentRatioCompanyItem as number | null, item['currentRatioIndustry'] as number | null);
+            const calcCRC = scoreCurrentRatioCompany(
+                currentRatioCompanyItem as number | null,
+                item['currentRatioIndustry'] as number | null
+            );
             finalScore = finalScore + calcCRC * crcWeight;
             maxScorePossible = maxScorePossible + currentRatioCompanyMaxScore * crcWeight;
             consoleLennar(item, finalScore, 'current ratio company', maxScorePossible, currentRatioCompanyItem);
