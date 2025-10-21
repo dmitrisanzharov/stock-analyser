@@ -45,6 +45,29 @@ export type FitchRatingType =
     | 'C'
     | 'D';
 
+export type MoodyRatingType =
+    | 'Aaa'
+    | 'Aa1'
+    | 'Aa2'
+    | 'Aa3'
+    | 'A1'
+    | 'A2'
+    | 'A3'
+    | 'Baa1'
+    | 'Baa2'
+    | 'Baa3'
+    | 'Ba1'
+    | 'Ba2'
+    | 'Ba3'
+    | 'B1'
+    | 'B2'
+    | 'B3'
+    | 'Caa1'
+    | 'Caa2'
+    | 'Caa3'
+    | 'Ca'
+    | 'C';
+
 export type InvestmentRecord = {
     purchased: number;
     'Company Name': string;
@@ -123,6 +146,7 @@ export type InvestmentRecord = {
     's&p': RatingsType;
     's&p outlook': RatingsType;
 
+    moodyApplicable: boolean;
     moody: RatingsType;
     'moody outlook': RatingsOutlookType;
 

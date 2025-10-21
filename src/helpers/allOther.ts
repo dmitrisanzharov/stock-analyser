@@ -1,4 +1,4 @@
-import { FitchRatingType, RatingsOutlookType } from '../types';
+import { FitchRatingType, RatingsOutlookType, MoodyRatingType } from '../types';
 
 export function scorePaymentFrequency(frequency: number): number {
     if (frequency === 1) {
@@ -411,5 +411,37 @@ export function ratingOutlook(outlook: RatingsOutlookType): number {
         return outlookMap[outlook];
     } else {
         throw new Error('error in RatingOutlook');
+    }
+}
+
+export const MOODY_RATING_MAP: Record<MoodyRatingType, number> = {
+    Aaa: 11,
+    Aa1: 10,
+    Aa2: 9,
+    Aa3: 8,
+    A1: 7,
+    A2: 6,
+    A3: 5,
+    Baa1: 4,
+    Baa2: 3,
+    Baa3: 2,
+    Ba1: 1,
+    Ba2: 0,
+    Ba3: 0,
+    B1: 0,
+    B2: 0,
+    B3: 0,
+    Caa1: 0,
+    Caa2: 0,
+    Caa3: 0,
+    Ca: 0,
+    C: 0
+};
+
+export function scoreMoodyRatingV2(rating: MoodyRatingType): number {
+    if (MOODY_RATING_MAP.hasOwnProperty(rating)) {
+        return MOODY_RATING_MAP[rating];
+    } else {
+        throw new Error('error in MoodyRating');
     }
 }

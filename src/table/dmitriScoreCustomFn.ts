@@ -25,7 +25,9 @@ import {
     DEGIRO_CATEGORIES_ARRAY,
     ratingOutlook,
     outlookMap,
-    OUTLOOK_MAX_SCORE
+    OUTLOOK_MAX_SCORE,
+    scoreMoodyRatingV2,
+    MOODY_RATING_MAP
 } from '../helpers/allOther';
 import {
     InvestmentRecord,
@@ -33,13 +35,19 @@ import {
     NotApplicableFields,
     NOT_APPLICABLE_STRING,
     FitchRatingType,
-    RatingsOutlookType
+    RatingsOutlookType,
+    MoodyRatingType
 } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
 export const COMPANY_ANALYZED = 'generalTestCompany';
 
-const allowedArrayItems = [...Object.keys(FITCH_RATING_MAP), ...DEGIRO_CATEGORIES_ARRAY, ...Object.keys(outlookMap)];
+const allowedArrayItems = [
+    ...Object.keys(FITCH_RATING_MAP),
+    ...DEGIRO_CATEGORIES_ARRAY,
+    ...Object.keys(outlookMap),
+    ...Object.keys(MOODY_RATING_MAP)
+];
 
 function consoleLennar(
     allValues: InvestmentRecord,
@@ -63,7 +71,7 @@ function consoleLennar(
             throw new Error('SKIPPED in: ' + criteria);
         }
     }
-};
+}
 
 function dmitriScoreCustomFn(info: any) {
     const value = info.getValue(); // this is DmitriScore column
@@ -85,7 +93,6 @@ function dmitriScoreCustomFn(info: any) {
         console.log('++++++++++++++++++++++++++++');
 
         console.log('main ITEM: ', item);
-        console.log('fitch: ', item['fitch rating']);
         console.log('============================');
 
         // Dividends Interest Rate
@@ -303,7 +310,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // Fitch Outlook
         const fitchOutlookItem = item['fitch outlook'];
-        if(isFitchRatingApplicable){
+        if (isFitchRatingApplicable) {
             const fitchOutlookMaxScore = OUTLOOK_MAX_SCORE;
             const fitchOutlookWeight = 5;
             const calcFitchOutlook = ratingOutlook(fitchOutlookItem as RatingsOutlookType);
@@ -326,7 +333,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // SP Outlook
         const spOutlookItem = item['s&p outlook'];
-        if(isSpApplicable){
+        if (isSpApplicable) {
             const spOutlookMaxScore = OUTLOOK_MAX_SCORE;
             const spOutlookWeight = 5;
             const calcSPOutlook = ratingOutlook(spOutlookItem as RatingsOutlookType);
@@ -337,13 +344,25 @@ function dmitriScoreCustomFn(info: any) {
 
         // Moody Rating
         const moodyRatingItem = item['moody'];
-        if (moodyRatingItem !== NOT_APPLICABLE_STRING) {
+        const isMoodyApplicable = item['moodyApplicable'];
+        if (isMoodyApplicable) {
             const moodyRatingMaxScore = 11;
             const moodyWeight = 5;
-            const calcMoody = typeof moodyRatingItem === 'number' ? (moodyRatingItem as number) : 0;
+            const calcMoody = scoreMoodyRatingV2(moodyRatingItem as MoodyRatingType);
             finalScore = finalScore + calcMoody * moodyWeight;
             maxScorePossible = maxScorePossible + moodyRatingMaxScore * moodyWeight;
-            consoleLennar(item, finalScore, 'moody', calcMoody, moodyRatingItem);
+            consoleLennar(item, finalScore, 'moody', maxScorePossible, moodyRatingItem);
+        }
+
+        // Moody Outlook
+        const moodyOutlookItem = item['moody outlook'];
+        if (isMoodyApplicable) {
+            const moodyOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const moodyOutlookWeight = 5;
+            const calcMoodyOutlook = ratingOutlook(moodyOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcMoodyOutlook * moodyOutlookWeight;
+            maxScorePossible = maxScorePossible + moodyOutlookMaxScore * moodyOutlookWeight;
+            consoleLennar(item, finalScore, 'moody outlook', maxScorePossible, moodyOutlookItem);
         }
 
         // Degiro Income Statement
