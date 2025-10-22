@@ -42,7 +42,7 @@ import {
 } from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'generalTestCompany';
+export const COMPANY_ANALYZED = 'Alibaba Group Holding Ltd';
 
 const allowedArrayItems = [
     ...Object.keys(FITCH_RATING_MAP),
@@ -181,6 +181,15 @@ function dmitriScoreCustomFn(info: any) {
         maxScorePossible = maxScorePossible + degiroCategoryMaxScore * dcWeight;
         consoleLennar(item, finalScore, 'degiro grade', maxScorePossible, degiroCategoryItem);
 
+        // Auditor
+        const auditorItem = item['Auditor Score'];
+        const auditorMaxScore = 10;
+        const auditorWeight = 10;
+        const calcAuditor = auditorItem as number;
+        finalScore = finalScore + calcAuditor * auditorWeight;
+        maxScorePossible = maxScorePossible + auditorMaxScore * auditorWeight;
+        consoleLennar(item, finalScore, 'auditor', maxScorePossible, auditorItem);
+
         // PE Ratio
         const itemPeRatio = item['PE ratio'];
         const noPeRatio = itemPeRatio === null || itemPeRatio === 'na';
@@ -263,6 +272,30 @@ function dmitriScoreCustomFn(info: any) {
         maxScorePossible = maxScorePossible + netIncomeEmployeeMaxScore * netIncomeEmployeeWeight;
         consoleLennar(item, finalScore, 'net income/employee', maxScorePossible, itemNetIncomeEmployee);
 
+        // currentRatioCompany
+        const currentRatioCompanyItem = item['currentRatioCompany'];
+        if (currentRatioCompanyItem !== NOT_APPLICABLE_STRING) {
+            const currentRatioCompanyMaxScore = 10;
+            const crcWeight = 3;
+            const calcCRC = scoreCurrentRatioCompany(
+                currentRatioCompanyItem as number | null,
+                item['currentRatioIndustry'] as number | null
+            );
+            finalScore = finalScore + calcCRC * crcWeight;
+            maxScorePossible = maxScorePossible + currentRatioCompanyMaxScore * crcWeight;
+            consoleLennar(item, finalScore, 'current ratio company', maxScorePossible, currentRatioCompanyItem);
+        }
+
+        // Debt To Equity
+        const debtToEquityMaxScoreItem = item['debt / equity as %'];
+        const debtToEquityMaxScore = 10;
+        const dteWeight = 10;
+        const calcDTE =
+            typeof debtToEquityMaxScoreItem === 'number' ? scoreDebtToEquity(debtToEquityMaxScoreItem as number) : 0;
+        finalScore = finalScore + calcDTE * dteWeight;
+        maxScorePossible = maxScorePossible + debtToEquityMaxScore * dteWeight;
+        consoleLennar(item, finalScore, 'debt to equity', maxScorePossible, debtToEquityMaxScoreItem);
+
         // 5 Year Growth Analysis - Total (Capital Gains + Dividends)
         const itemTotalGrowth5ya = item['finalGrowth_till_16/10/2025'];
         const noItemTotalGrowth5ya: boolean = notApplicableFieldsConst.includes(
@@ -288,15 +321,6 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcTotalGrowth5yaDividends * totalGrowth5yaWeightDividends;
         maxScorePossible = maxScorePossible + totalGrowth5yaMaxScoreDividends * totalGrowth5yaWeightDividends;
         consoleLennar(item, finalScore, 'dividends growth 5ya', maxScorePossible, itemTotalGrowth5yaDividends);
-
-        // Auditor
-        const auditorItem = item['Auditor Score'];
-        const auditorMaxScore = 10;
-        const auditorWeight = 10;
-        const calcAuditor = auditorItem as number;
-        finalScore = finalScore + calcAuditor * auditorWeight;
-        maxScorePossible = maxScorePossible + auditorMaxScore * auditorWeight;
-        consoleLennar(item, finalScore, 'auditor', maxScorePossible, auditorItem);
 
         // Fitch Rating
         const fitchRatingMaxScoreItem = item['fitch rating'];
@@ -650,30 +674,6 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcNetProfit * netProfitWeight;
         maxScorePossible = maxScorePossible + netProfitMaxScore * netProfitWeight;
         consoleLennar(item, finalScore, 'netProfit', maxScorePossible, netProfitMaxScoreItem);
-
-        // Debt To Equity
-        const debtToEquityMaxScoreItem = item['debt / equity as %'];
-        const debtToEquityMaxScore = 10;
-        const dteWeight = 10;
-        const calcDTE =
-            typeof debtToEquityMaxScoreItem === 'number' ? scoreDebtToEquity(debtToEquityMaxScoreItem as number) : 0;
-        finalScore = finalScore + calcDTE * dteWeight;
-        maxScorePossible = maxScorePossible + debtToEquityMaxScore * dteWeight;
-        consoleLennar(item, finalScore, 'debt to equity', maxScorePossible, debtToEquityMaxScoreItem);
-
-        // currentRatioCompany
-        const currentRatioCompanyItem = item['currentRatioCompany'];
-        if (currentRatioCompanyItem !== NOT_APPLICABLE_STRING) {
-            const currentRatioCompanyMaxScore = 10;
-            const crcWeight = 3;
-            const calcCRC = scoreCurrentRatioCompany(
-                currentRatioCompanyItem as number | null,
-                item['currentRatioIndustry'] as number | null
-            );
-            finalScore = finalScore + calcCRC * crcWeight;
-            maxScorePossible = maxScorePossible + currentRatioCompanyMaxScore * crcWeight;
-            consoleLennar(item, finalScore, 'current ratio company', maxScorePossible, currentRatioCompanyItem);
-        }
 
         // Market Cap
         const marketCapItem =
