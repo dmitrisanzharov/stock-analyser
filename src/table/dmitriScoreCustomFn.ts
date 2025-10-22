@@ -379,10 +379,7 @@ function dmitriScoreCustomFn(info: any) {
         if (isScopeRatingsGmbHApplicable) {
             const scopeRatingsGmbHMaxScore = 11;
             const scopeRatingsGmbHWeight = 5;
-            const calcScopeRatingsGmbH = scoreFitchRating(
-                scopeRatingsGmbHItem as FitchRatingType,
-                'Scope Ratings GmbH'
-            );
+            const calcScopeRatingsGmbH = scoreCreditreformRating(scopeRatingsGmbHItem as CreditreformRatingType);
             finalScore = finalScore + calcScopeRatingsGmbH * scopeRatingsGmbHWeight;
             maxScorePossible = maxScorePossible + scopeRatingsGmbHMaxScore * scopeRatingsGmbHWeight;
             consoleLennar(item, finalScore, 'Scope Ratings GmbH', maxScorePossible, scopeRatingsGmbHItem);
@@ -413,10 +410,7 @@ function dmitriScoreCustomFn(info: any) {
         if (isDBRSMorningstarApplicable) {
             const dbrsMorningstarRatingMaxScore = 11;
             const dbrsMorningstarWeight = 5;
-            const calcDBRSMorningstar = scoreFitchRating(
-                dbrsMorningstarRatingItem as FitchRatingType,
-                'DBRS Morningstar Rating'
-            );
+            const calcDBRSMorningstar = scoreCreditreformRating(dbrsMorningstarRatingItem as CreditreformRatingType);
             finalScore = finalScore + calcDBRSMorningstar * dbrsMorningstarWeight;
             maxScorePossible = maxScorePossible + dbrsMorningstarRatingMaxScore * dbrsMorningstarWeight;
             consoleLennar(item, finalScore, 'DBRS Morningstar Rating', maxScorePossible, dbrsMorningstarRatingItem);
@@ -441,7 +435,9 @@ function dmitriScoreCustomFn(info: any) {
         if (isCreditreformRatingAGApplicable) {
             const creditreformRatingAGMaxScore = 11;
             const creditreformRatingAGWeight = 5;
-            const calcCreditreformRatingAG = scoreCreditreformRating(creditreformRatingAGItem as CreditreformRatingType);
+            const calcCreditreformRatingAG = scoreCreditreformRating(
+                creditreformRatingAGItem as CreditreformRatingType
+            );
             finalScore = finalScore + calcCreditreformRatingAG * creditreformRatingAGWeight;
             maxScorePossible = maxScorePossible + creditreformRatingAGMaxScore * creditreformRatingAGWeight;
             consoleLennar(item, finalScore, 'Creditreform Rating AG', maxScorePossible, creditreformRatingAGItem);
@@ -458,7 +454,8 @@ function dmitriScoreCustomFn(info: any) {
                 creditreformRatingAGOutlookItem as RatingsOutlookType
             );
             finalScore = finalScore + calcCreditreformRatingAGOutlook * creditreformRatingAGOutlookWeight;
-            maxScorePossible = maxScorePossible + creditreformRatingAGOutlookMaxScore * creditreformRatingAGOutlookWeight;
+            maxScorePossible =
+                maxScorePossible + creditreformRatingAGOutlookMaxScore * creditreformRatingAGOutlookWeight;
             consoleLennar(
                 item,
                 finalScore,
@@ -495,7 +492,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // CRIF Ratings S.r.l.
         const crifRatingsItem = item['CRIF Ratings S.r.l.'];
-        const isCrifRatingsApplicable = item["isCRIFRatingsS.r.l.Applicable"];
+        const isCrifRatingsApplicable = item['isCRIFRatingsS.r.l.Applicable'];
         if (isCrifRatingsApplicable) {
             const crifRatingsMaxScore = 11;
             const crifRatingsWeight = 5;
@@ -504,7 +501,7 @@ function dmitriScoreCustomFn(info: any) {
             maxScorePossible = maxScorePossible + crifRatingsMaxScore * crifRatingsWeight;
             consoleLennar(item, finalScore, 'CRIF Ratings S.r.l.', maxScorePossible, crifRatingsItem);
         } else if (isCrifRatingsApplicable === null) {
-            throw new Error("isCRIFRatingsS.r.l.Applicable = empty field");
+            throw new Error('isCRIFRatingsS.r.l.Applicable = empty field');
         }
 
         // CRIF Ratings S.r.l. Outlook
@@ -515,13 +512,7 @@ function dmitriScoreCustomFn(info: any) {
             const calcCrifRatingsOutlook = ratingOutlook(crifRatingsOutlookItem as RatingsOutlookType);
             finalScore = finalScore + calcCrifRatingsOutlook * crifRatingsOutlookWeight;
             maxScorePossible = maxScorePossible + crifRatingsOutlookMaxScore * crifRatingsOutlookWeight;
-            consoleLennar(
-                item,
-                finalScore,
-                'CRIF Ratings S.r.l. Outlook',
-                maxScorePossible,
-                crifRatingsOutlookItem
-            );
+            consoleLennar(item, finalScore, 'CRIF Ratings S.r.l. Outlook', maxScorePossible, crifRatingsOutlookItem);
         }
 
         // Degiro Income Statement
