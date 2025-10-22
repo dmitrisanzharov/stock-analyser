@@ -19,12 +19,37 @@ import {
     scoreMarketCap,
     growthScore5Years,
     growthScore5YearsDividends,
-    scoreCurrentRatioCompany
+    scoreCurrentRatioCompany,
+    scoreFitchRating,
+    FITCH_RATING_MAP,
+    DEGIRO_CATEGORIES_ARRAY,
+    ratingOutlook,
+    outlookMap,
+    OUTLOOK_MAX_SCORE,
+    scoreMoodyRatingV2,
+    MOODY_RATING_MAP,
+    scoreCreditreformRating
 } from '../helpers/allOther';
-import { InvestmentRecord, notApplicableFieldsConst, NotApplicableFields, NOT_APPLICABLE_STRING } from '../types';
+import {
+    InvestmentRecord,
+    notApplicableFieldsConst,
+    NotApplicableFields,
+    NOT_APPLICABLE_STRING,
+    FitchRatingType,
+    RatingsOutlookType,
+    MoodyRatingType,
+    CreditreformRatingType
+} from '../types';
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'Microsoft';
+export const COMPANY_ANALYZED = 'generalTestCompany';
+
+const allowedArrayItems = [
+    ...Object.keys(FITCH_RATING_MAP),
+    ...DEGIRO_CATEGORIES_ARRAY,
+    ...Object.keys(outlookMap),
+    ...Object.keys(MOODY_RATING_MAP)
+];
 
 function consoleLennar(
     allValues: InvestmentRecord,
@@ -37,10 +62,9 @@ function consoleLennar(
         const skippedString = 'SKIPPED';
 
         // NOTE: Here we check for ALLOWED TYPES... Number | 'na' | 0 | notApplicable;  exception are Degiro Grades
-        const degiroGradesArray = ['A', 'B', 'C', 'D'];
 
         const allowedValuesAndTypes =
-            typeof itemValue === 'number' || itemValue === 0 || degiroGradesArray.includes(itemValue);
+            typeof itemValue === 'number' || itemValue === 0 || allowedArrayItems.includes(itemValue);
 
         const skip = allowedValuesAndTypes ? '' : skippedString;
         console.log(criteria, ': ', currentScore, '...', 'maxScore: ', currentMaxScore, skip);
@@ -275,38 +299,222 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(item, finalScore, 'auditor', maxScorePossible, auditorItem);
 
         // Fitch Rating
-        const fitchRatingMaxScoreItem = item['fitch rating or equivalent'];
-        if (fitchRatingMaxScoreItem !== NOT_APPLICABLE_STRING) {
+        const fitchRatingMaxScoreItem = item['fitch rating'];
+        const isFitchRatingApplicable = item['fitchRatingApplicable'];
+        if (isFitchRatingApplicable) {
             const fitchRatingMaxScore = 11;
             const fitchWeight = 5;
-            const calcFitch = typeof fitchRatingMaxScoreItem === 'number' ? (fitchRatingMaxScoreItem as number) : 0;
+            const calcFitch = scoreFitchRating(fitchRatingMaxScoreItem as FitchRatingType, 'Fitch');
             finalScore = finalScore + calcFitch * fitchWeight;
             maxScorePossible = maxScorePossible + fitchRatingMaxScore * fitchWeight;
             consoleLennar(item, finalScore, 'Fitch Rating', maxScorePossible, fitchRatingMaxScoreItem);
+        } else if (isFitchRatingApplicable === null) {
+            throw new Error('isFitchRatingApplicable = empty field');
+        }
+
+        // Fitch Outlook
+        const fitchOutlookItem = item['fitch outlook'];
+        if (isFitchRatingApplicable) {
+            const fitchOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const fitchOutlookWeight = 5;
+            const calcFitchOutlook = ratingOutlook(fitchOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcFitchOutlook * fitchOutlookWeight;
+            maxScorePossible = maxScorePossible + fitchOutlookMaxScore * fitchOutlookWeight;
+            consoleLennar(item, finalScore, 'Fitch Outlook', maxScorePossible, fitchOutlookItem);
         }
 
         // SP Rating
         const spRatingItem = item['s&p'];
-        if (spRatingItem !== NOT_APPLICABLE_STRING) {
+        const isSpApplicable = item['spApplicable'];
+        if (isSpApplicable) {
             const spRatingMaxScore = 11;
             const spWeight = 5;
-            const calcSP = typeof spRatingItem === 'number' ? (spRatingItem as number) : 0;
+            const calcSP = scoreFitchRating(spRatingItem as FitchRatingType, 'SP');
             finalScore = finalScore + calcSP * spWeight;
             maxScorePossible = maxScorePossible + spRatingMaxScore * spWeight;
             consoleLennar(item, finalScore, 'sp', maxScorePossible, spRatingItem);
+        } else if (isSpApplicable === null) {
+            throw new Error('isSpApplicable = empty field');
+        }
+
+        // SP Outlook
+        const spOutlookItem = item['s&p outlook'];
+        if (isSpApplicable) {
+            const spOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const spOutlookWeight = 5;
+            const calcSPOutlook = ratingOutlook(spOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcSPOutlook * spOutlookWeight;
+            maxScorePossible = maxScorePossible + spOutlookMaxScore * spOutlookWeight;
+            consoleLennar(item, finalScore, 'sp outlook', maxScorePossible, spOutlookItem);
         }
 
         // Moody Rating
         const moodyRatingItem = item['moody'];
-        if (moodyRatingItem !== NOT_APPLICABLE_STRING) {
+        const isMoodyApplicable = item['moodyApplicable'];
+        if (isMoodyApplicable) {
             const moodyRatingMaxScore = 11;
             const moodyWeight = 5;
-            const calcMoody = typeof moodyRatingItem === 'number' ? (moodyRatingItem as number) : 0;
+            const calcMoody = scoreMoodyRatingV2(moodyRatingItem as MoodyRatingType);
             finalScore = finalScore + calcMoody * moodyWeight;
             maxScorePossible = maxScorePossible + moodyRatingMaxScore * moodyWeight;
-            consoleLennar(item, finalScore, 'moody', calcMoody, moodyRatingItem);
+            consoleLennar(item, finalScore, 'moody', maxScorePossible, moodyRatingItem);
+        } else if (isMoodyApplicable === null) {
+            throw new Error('isMoodyApplicable = empty field');
         }
-        
+
+        // Moody Outlook
+        const moodyOutlookItem = item['moody outlook'];
+        if (isMoodyApplicable) {
+            const moodyOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const moodyOutlookWeight = 5;
+            const calcMoodyOutlook = ratingOutlook(moodyOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcMoodyOutlook * moodyOutlookWeight;
+            maxScorePossible = maxScorePossible + moodyOutlookMaxScore * moodyOutlookWeight;
+            consoleLennar(item, finalScore, 'moody outlook', maxScorePossible, moodyOutlookItem);
+        }
+
+        // Scope Ratings GmbH
+        const scopeRatingsGmbHItem = item['Scope Ratings GmbH'];
+        const isScopeRatingsGmbHApplicable = item['isScopeRatingGmbHApplicable'];
+        if (isScopeRatingsGmbHApplicable) {
+            const scopeRatingsGmbHMaxScore = 11;
+            const scopeRatingsGmbHWeight = 5;
+            const calcScopeRatingsGmbH = scoreCreditreformRating(scopeRatingsGmbHItem as CreditreformRatingType);
+            finalScore = finalScore + calcScopeRatingsGmbH * scopeRatingsGmbHWeight;
+            maxScorePossible = maxScorePossible + scopeRatingsGmbHMaxScore * scopeRatingsGmbHWeight;
+            consoleLennar(item, finalScore, 'Scope Ratings GmbH', maxScorePossible, scopeRatingsGmbHItem);
+        } else if (isScopeRatingsGmbHApplicable === null) {
+            throw new Error('isScopeRatingGmbHApplicable = empty field');
+        }
+
+        // Scope Ratings GmbH Outlook
+        const scopeRatingsGmbHOutlookItem = item['Scope Ratings GmbH Outlook'];
+        if (isScopeRatingsGmbHApplicable) {
+            const scopeRatingsGmbHOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const scopeRatingsGmbHOutlookWeight = 5;
+            const calcScopeRatingsGmbHOutlook = ratingOutlook(scopeRatingsGmbHOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcScopeRatingsGmbHOutlook * scopeRatingsGmbHOutlookWeight;
+            maxScorePossible = maxScorePossible + scopeRatingsGmbHOutlookMaxScore * scopeRatingsGmbHOutlookWeight;
+            consoleLennar(
+                item,
+                finalScore,
+                'Scope Ratings GmbH Outlook',
+                maxScorePossible,
+                scopeRatingsGmbHOutlookItem
+            );
+        }
+
+        // DBRS Morningstar Rating
+        const dbrsMorningstarRatingItem = item['DBRS Morningstar Rating'];
+        const isDBRSMorningstarApplicable = item['isDBRSMorningstarApplicable'];
+        if (isDBRSMorningstarApplicable) {
+            const dbrsMorningstarRatingMaxScore = 11;
+            const dbrsMorningstarWeight = 5;
+            const calcDBRSMorningstar = scoreCreditreformRating(dbrsMorningstarRatingItem as CreditreformRatingType);
+            finalScore = finalScore + calcDBRSMorningstar * dbrsMorningstarWeight;
+            maxScorePossible = maxScorePossible + dbrsMorningstarRatingMaxScore * dbrsMorningstarWeight;
+            consoleLennar(item, finalScore, 'DBRS Morningstar Rating', maxScorePossible, dbrsMorningstarRatingItem);
+        } else if (isDBRSMorningstarApplicable === null) {
+            throw new Error('isDBRSMorningstarApplicable = empty field');
+        }
+
+        // DBRS Morningstar Outlook
+        const dbrsMorningstarOutlookItem = item['DBRS Morningstar Outlook'];
+        if (isDBRSMorningstarApplicable) {
+            const dbrsMorningstarOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const dbrsMorningstarOutlookWeight = 5;
+            const calcDBRSMorningstarOutlook = ratingOutlook(dbrsMorningstarOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcDBRSMorningstarOutlook * dbrsMorningstarOutlookWeight;
+            maxScorePossible = maxScorePossible + dbrsMorningstarOutlookMaxScore * dbrsMorningstarOutlookWeight;
+            consoleLennar(item, finalScore, 'DBRS Morningstar Outlook', maxScorePossible, dbrsMorningstarOutlookItem);
+        }
+
+        // Creditreform Rating AG
+        const creditreformRatingAGItem = item['Creditreform Rating AG'];
+        const isCreditreformRatingAGApplicable = item['isCreditreformRatingAGApplicable'];
+        if (isCreditreformRatingAGApplicable) {
+            const creditreformRatingAGMaxScore = 11;
+            const creditreformRatingAGWeight = 5;
+            const calcCreditreformRatingAG = scoreCreditreformRating(
+                creditreformRatingAGItem as CreditreformRatingType
+            );
+            finalScore = finalScore + calcCreditreformRatingAG * creditreformRatingAGWeight;
+            maxScorePossible = maxScorePossible + creditreformRatingAGMaxScore * creditreformRatingAGWeight;
+            consoleLennar(item, finalScore, 'Creditreform Rating AG', maxScorePossible, creditreformRatingAGItem);
+        } else if (isCreditreformRatingAGApplicable === null) {
+            throw new Error('isCreditreformRatingAGApplicable = empty field');
+        }
+
+        // Creditreform Rating AG Outlook
+        const creditreformRatingAGOutlookItem = item['Creditreform Rating AG Outlook'];
+        if (isCreditreformRatingAGApplicable) {
+            const creditreformRatingAGOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const creditreformRatingAGOutlookWeight = 5;
+            const calcCreditreformRatingAGOutlook = ratingOutlook(
+                creditreformRatingAGOutlookItem as RatingsOutlookType
+            );
+            finalScore = finalScore + calcCreditreformRatingAGOutlook * creditreformRatingAGOutlookWeight;
+            maxScorePossible =
+                maxScorePossible + creditreformRatingAGOutlookMaxScore * creditreformRatingAGOutlookWeight;
+            consoleLennar(
+                item,
+                finalScore,
+                'Creditreform Rating AG Outlook',
+                maxScorePossible,
+                creditreformRatingAGOutlookItem
+            );
+        }
+
+        // ARC Ratings, S.A.
+        const arcRatingsItem = item['ARC Ratings, S.A.'];
+        const isArcRatingsApplicable = item['isARCRatings,S.A.Applicable'];
+        if (isArcRatingsApplicable) {
+            const arcRatingsMaxScore = 11;
+            const arcRatingsWeight = 5;
+            const calcArcRatings = scoreCreditreformRating(arcRatingsItem as CreditreformRatingType);
+            finalScore = finalScore + calcArcRatings * arcRatingsWeight;
+            maxScorePossible = maxScorePossible + arcRatingsMaxScore * arcRatingsWeight;
+            consoleLennar(item, finalScore, 'ARC Ratings, S.A.', maxScorePossible, arcRatingsItem);
+        } else if (isArcRatingsApplicable === null) {
+            throw new Error('isARCRatings,S.A.Applicable = empty field');
+        }
+
+        // ARC Ratings, S.A. Outlook
+        const arcRatingsOutlookItem = item['ARC Ratings, S.A. Outlook'];
+        if (isArcRatingsApplicable) {
+            const arcRatingsOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const arcRatingsOutlookWeight = 5;
+            const calcArcRatingsOutlook = ratingOutlook(arcRatingsOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcArcRatingsOutlook * arcRatingsOutlookWeight;
+            maxScorePossible = maxScorePossible + arcRatingsOutlookMaxScore * arcRatingsOutlookWeight;
+            consoleLennar(item, finalScore, 'ARC Ratings, S.A. Outlook', maxScorePossible, arcRatingsOutlookItem);
+        }
+
+        // CRIF Ratings S.r.l.
+        const crifRatingsItem = item['CRIF Ratings S.r.l.'];
+        const isCrifRatingsApplicable = item['isCRIFRatingsS.r.l.Applicable'];
+        if (isCrifRatingsApplicable) {
+            const crifRatingsMaxScore = 11;
+            const crifRatingsWeight = 5;
+            const calcCrifRatings = scoreCreditreformRating(crifRatingsItem as CreditreformRatingType);
+            finalScore = finalScore + calcCrifRatings * crifRatingsWeight;
+            maxScorePossible = maxScorePossible + crifRatingsMaxScore * crifRatingsWeight;
+            consoleLennar(item, finalScore, 'CRIF Ratings S.r.l.', maxScorePossible, crifRatingsItem);
+        } else if (isCrifRatingsApplicable === null) {
+            throw new Error('isCRIFRatingsS.r.l.Applicable = empty field');
+        }
+
+        // CRIF Ratings S.r.l. Outlook
+        const crifRatingsOutlookItem = item['CRIF Ratings S.r.l. Outlook'];
+        if (isCrifRatingsApplicable) {
+            const crifRatingsOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const crifRatingsOutlookWeight = 5;
+            const calcCrifRatingsOutlook = ratingOutlook(crifRatingsOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcCrifRatingsOutlook * crifRatingsOutlookWeight;
+            maxScorePossible = maxScorePossible + crifRatingsOutlookMaxScore * crifRatingsOutlookWeight;
+            consoleLennar(item, finalScore, 'CRIF Ratings S.r.l. Outlook', maxScorePossible, crifRatingsOutlookItem);
+        }
+
         // Degiro Income Statement
         const degiroIncomeStatementItem = item['how does their Income Statement Look on Degiro'];
         const degiroIncomeStatementMaxScore = 12;

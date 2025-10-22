@@ -19,7 +19,56 @@ export type NotApplicableFields = null | typeof NA_STRING | typeof NOT_APPLICABL
 export const notApplicableFieldsConst: NotApplicableFields[] = [null, NA_STRING, NOT_APPLICABLE_STRING];
 
 export type RatingsType = number | typeof NOT_APPLICABLE_STRING;
-export type RatingsOutlookType = 'positive' | 'stable' | 'negative' | typeof NOT_APPLICABLE_STRING;
+export type RatingsOutlookType = 'positive' | 'stable' | 'negative' | 'developing';
+
+export type FitchRatingType =
+    | 'AAA'
+    | 'AA+'
+    | 'AA'
+    | 'AA-'
+    | 'A+'
+    | 'A'
+    | 'A-'
+    | 'BBB+'
+    | 'BBB'
+    | 'BBB-'
+    | 'BB+'
+    | 'BB'
+    | 'BB-'
+    | 'B+'
+    | 'B'
+    | 'B-'
+    | 'CCC+'
+    | 'CCC'
+    | 'CCC-'
+    | 'CC'
+    | 'C'
+    | 'D';
+
+export type MoodyRatingType =
+    | 'Aaa'
+    | 'Aa1'
+    | 'Aa2'
+    | 'Aa3'
+    | 'A1'
+    | 'A2'
+    | 'A3'
+    | 'Baa1'
+    | 'Baa2'
+    | 'Baa3'
+    | 'Ba1'
+    | 'Ba2'
+    | 'Ba3'
+    | 'B1'
+    | 'B2'
+    | 'B3'
+    | 'Caa1'
+    | 'Caa2'
+    | 'Caa3'
+    | 'Ca'
+    | 'C';
+
+export type CreditreformRatingType = 'AAA' | 'AA' | 'A' | 'BBB' | 'BB' | 'B' | 'C' | 'SD' | 'D';
 
 export type InvestmentRecord = {
     purchased: number;
@@ -91,19 +140,37 @@ export type InvestmentRecord = {
     'Auditor Score': number | null;
 
     // Credit Ratings
-    'fitch rating or equivalent': RatingsType;
+    fitchRatingApplicable: boolean;
+    'fitch rating': FitchRatingType;
     'fitch outlook': RatingsOutlookType;
 
-    moody: RatingsType;
-    'moody outlook': RatingsOutlookType;
-
+    spApplicable: boolean;
     's&p': RatingsType;
     's&p outlook': RatingsType;
 
+    moodyApplicable: boolean;
+    moody: RatingsType;
+    'moody outlook': RatingsOutlookType;
+
+    isScopeRatingGmbHApplicable: boolean;
     'Scope Ratings GmbH': RatingsType;
     'Scope Ratings GmbH Outlook': RatingsOutlookType;
 
+    isDBRSMorningstarApplicable: boolean;
+    'DBRS Morningstar Rating': RatingsType;
+    'DBRS Morningstar Outlook': RatingsOutlookType;
 
+    isCreditreformRatingAGApplicable: boolean;
+    'Creditreform Rating AG': CreditreformRatingType;
+    'Creditreform Rating AG Outlook': RatingsOutlookType;
+
+    'isARCRatings,S.A.Applicable': boolean;
+    'ARC Ratings, S.A.': RatingsType;
+    'ARC Ratings, S.A. Outlook': RatingsOutlookType;
+
+    "isCRIFRatingsS.r.l.Applicable": boolean;
+    'CRIF Ratings S.r.l.': RatingsType;
+    'CRIF Ratings S.r.l. Outlook': RatingsOutlookType;
 
     // -----------------------------------
 
@@ -144,9 +211,6 @@ export type InvestmentRecord = {
     // AI analysis stuff
     'degiro (A = 11; B=8; C=4; D=1)': string | number | null;
     DmitriScore: number | string;
-    'fitch rating': number | null;
-    'moody rating': number | null;
-    's&p rating': number | null;
 
     'avg AI grade': number | null;
     'chatGPT Grade (11 to 1)': number | null;
@@ -165,5 +229,3 @@ export type InvestmentRecord = {
     'Pure AI Average Grade': number | null;
     'score was by feel': string | null;
 };
-
-export type RatingType = string | number | null;

@@ -1,3 +1,5 @@
+import { FitchRatingType, RatingsOutlookType, MoodyRatingType, CreditreformRatingType } from '../types';
+
 export function scorePaymentFrequency(frequency: number): number {
     if (frequency === 1) {
         return 1; // annually
@@ -26,6 +28,7 @@ export function scorePaymentFrequency(frequency: number): number {
     throw new Error(`scorePaymentFrequency error: unsupported frequency ${frequency}`);
 }
 
+export const DEGIRO_CATEGORIES_ARRAY = ['A', 'B', 'C', 'D'];
 export function scoreDegiroCategory(category: string): number {
     const cat = category.toUpperCase();
 
@@ -360,4 +363,107 @@ export function gradeAgainstEuStem(num: number): number {
     const score = (num / euStemAsPopulation) * 10;
 
     return score;
+}
+
+export const FITCH_RATING_MAP: Record<FitchRatingType, number> = {
+    AAA: 11,
+    'AA+': 10,
+    AA: 9,
+    'AA-': 8,
+    'A+': 7,
+    A: 6,
+    'A-': 5,
+    'BBB+': 4,
+    BBB: 3,
+    'BBB-': 2,
+    'BB+': 1,
+    BB: 0,
+    'BB-': 0,
+    'B+': 0,
+    B: 0,
+    'B-': 0,
+    'CCC+': 0,
+    CCC: 0,
+    'CCC-': 0,
+    CC: 0,
+    C: 0,
+    D: 0
+};
+export function scoreFitchRating(rating: FitchRatingType, creditRatingProvider: string): number {
+    if (FITCH_RATING_MAP.hasOwnProperty(rating)) {
+        return FITCH_RATING_MAP[rating];
+    } else {
+        throw new Error('error in ' + creditRatingProvider);
+    }
+}
+
+export const OUTLOOK_MAX_SCORE = 2;
+export const outlookMap: Record<RatingsOutlookType, number> = {
+    positive: OUTLOOK_MAX_SCORE, // Best outlook
+    stable: 1, // Neutral / normal
+    negative: 0, // Weak outlook (but still non-negative)
+    developing: 0 // Midpoint / uncertain, same weight as Stable
+};
+
+export function ratingOutlook(outlook: RatingsOutlookType): number {
+    if (outlookMap.hasOwnProperty(outlook)) {
+        return outlookMap[outlook];
+    } else {
+        throw new Error('error in RatingOutlook');
+    }
+}
+
+export const MOODY_RATING_MAP: Record<MoodyRatingType, number> = {
+    Aaa: 11,
+    Aa1: 10,
+    Aa2: 9,
+    Aa3: 8,
+    A1: 7,
+    A2: 6,
+    A3: 5,
+    Baa1: 4,
+    Baa2: 3,
+    Baa3: 2,
+    Ba1: 1,
+    Ba2: 0,
+    Ba3: 0,
+    B1: 0,
+    B2: 0,
+    B3: 0,
+    Caa1: 0,
+    Caa2: 0,
+    Caa3: 0,
+    Ca: 0,
+    C: 0
+};
+
+export function scoreMoodyRatingV2(rating: MoodyRatingType): number {
+    if (MOODY_RATING_MAP.hasOwnProperty(rating)) {
+        return MOODY_RATING_MAP[rating];
+    } else {
+        throw new Error('error in MoodyRating');
+    }
+}
+
+// Creditreform Long-Term Issuer Ratings
+// Map Creditreform Ratings to numeric scores
+export const CREDITREFORM_RATING_MAP: Record<CreditreformRatingType, number> = {
+    AAA: 11, // Highest credit quality
+    AA: 10,
+    A: 9,
+    BBB: 8,
+    BB: 6,
+    B: 4,
+    C: 2,
+    SD: 0, // Selective Default
+    D: 0 // Default
+};
+
+// Function to score Creditreform Ratings
+export function scoreCreditreformRating(rating: CreditreformRatingType): number {
+    if (CREDITREFORM_RATING_MAP.hasOwnProperty(rating)) {
+        return CREDITREFORM_RATING_MAP[rating];
+    } else {
+        throw new Error('Invalid Creditreform Rating');
+    }
 }
