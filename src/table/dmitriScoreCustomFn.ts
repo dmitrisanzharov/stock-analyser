@@ -474,7 +474,7 @@ function dmitriScoreCustomFn(info: any) {
         if (isArcRatingsApplicable) {
             const arcRatingsMaxScore = 11;
             const arcRatingsWeight = 5;
-            const calcArcRatings = scoreFitchRating(arcRatingsItem as FitchRatingType, 'ARC Ratings, S.A.');
+            const calcArcRatings = scoreCreditreformRating(arcRatingsItem as CreditreformRatingType);
             finalScore = finalScore + calcArcRatings * arcRatingsWeight;
             maxScorePossible = maxScorePossible + arcRatingsMaxScore * arcRatingsWeight;
             consoleLennar(item, finalScore, 'ARC Ratings, S.A.', maxScorePossible, arcRatingsItem);
@@ -491,6 +491,37 @@ function dmitriScoreCustomFn(info: any) {
             finalScore = finalScore + calcArcRatingsOutlook * arcRatingsOutlookWeight;
             maxScorePossible = maxScorePossible + arcRatingsOutlookMaxScore * arcRatingsOutlookWeight;
             consoleLennar(item, finalScore, 'ARC Ratings, S.A. Outlook', maxScorePossible, arcRatingsOutlookItem);
+        }
+
+        // CRIF Ratings S.r.l.
+        const crifRatingsItem = item['CRIF Ratings S.r.l.'];
+        const isCrifRatingsApplicable = item["isCRIFRatingsS.r.l.Applicable"];
+        if (isCrifRatingsApplicable) {
+            const crifRatingsMaxScore = 11;
+            const crifRatingsWeight = 5;
+            const calcCrifRatings = scoreCreditreformRating(crifRatingsItem as CreditreformRatingType);
+            finalScore = finalScore + calcCrifRatings * crifRatingsWeight;
+            maxScorePossible = maxScorePossible + crifRatingsMaxScore * crifRatingsWeight;
+            consoleLennar(item, finalScore, 'CRIF Ratings S.r.l.', maxScorePossible, crifRatingsItem);
+        } else if (isCrifRatingsApplicable === null) {
+            throw new Error("isCRIFRatingsS.r.l.Applicable = empty field");
+        }
+
+        // CRIF Ratings S.r.l. Outlook
+        const crifRatingsOutlookItem = item['CRIF Ratings S.r.l. Outlook'];
+        if (isCrifRatingsApplicable) {
+            const crifRatingsOutlookMaxScore = OUTLOOK_MAX_SCORE;
+            const crifRatingsOutlookWeight = 5;
+            const calcCrifRatingsOutlook = ratingOutlook(crifRatingsOutlookItem as RatingsOutlookType);
+            finalScore = finalScore + calcCrifRatingsOutlook * crifRatingsOutlookWeight;
+            maxScorePossible = maxScorePossible + crifRatingsOutlookMaxScore * crifRatingsOutlookWeight;
+            consoleLennar(
+                item,
+                finalScore,
+                'CRIF Ratings S.r.l. Outlook',
+                maxScorePossible,
+                crifRatingsOutlookItem
+            );
         }
 
         // Degiro Income Statement

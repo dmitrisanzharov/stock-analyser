@@ -168,6 +168,10 @@ export type InvestmentRecord = {
     'ARC Ratings, S.A.': RatingsType;
     'ARC Ratings, S.A. Outlook': RatingsOutlookType;
 
+    "isCRIFRatingsS.r.l.Applicable": boolean;
+    'CRIF Ratings S.r.l.': RatingsType;
+    'CRIF Ratings S.r.l. Outlook': RatingsOutlookType;
+
     // -----------------------------------
 
     'how does their Income Statement Look on Degiro': number | string | null;
