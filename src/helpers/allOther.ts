@@ -467,3 +467,19 @@ export function scoreCreditreformRating(rating: CreditreformRatingType): number 
         throw new Error('Invalid Creditreform Rating');
     }
 }
+
+export function athValuationScore(currentPrice: number, allTimeHigh: number): number {
+    if (allTimeHigh <= 0) return 0; // safety check
+    const ratio = currentPrice / allTimeHigh;
+
+    // If price is higher than ATH, score is 0
+    if (ratio >= 1) return 0;
+
+    // If price is 40% or more below ATH (≤ 0.6), score is 10
+    if (ratio <= 0.6) return 10;
+
+    // Linear interpolation between 0.6 → 1.0
+    const score = ((1 - ratio) / (1 - 0.6)) * 10;
+
+    return Math.max(0, Math.min(10, score));
+}

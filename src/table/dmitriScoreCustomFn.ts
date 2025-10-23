@@ -1,4 +1,15 @@
 import {
+    InvestmentRecord,
+    notApplicableFieldsConst,
+    NotApplicableFields,
+    NOT_APPLICABLE_STRING,
+    FitchRatingType,
+    RatingsOutlookType,
+    MoodyRatingType,
+    CreditreformRatingType
+} from '../types';
+
+import {
     scorePaymentFrequency,
     scoreDegiroCategory,
     gradeAgainstEuStem,
@@ -28,18 +39,10 @@ import {
     OUTLOOK_MAX_SCORE,
     scoreMoodyRatingV2,
     MOODY_RATING_MAP,
-    scoreCreditreformRating
+    scoreCreditreformRating,
+    athValuationScore
 } from '../helpers/allOther';
-import {
-    InvestmentRecord,
-    notApplicableFieldsConst,
-    NotApplicableFields,
-    NOT_APPLICABLE_STRING,
-    FitchRatingType,
-    RatingsOutlookType,
-    MoodyRatingType,
-    CreditreformRatingType
-} from '../types';
+
 import { dmitriScoreConversionNumber } from '../globalVars';
 
 export const COMPANY_ANALYZED = 'Alibaba Group Holding Ltd';
@@ -613,6 +616,34 @@ function dmitriScoreCustomFn(info: any) {
 
         // Share Price
         const sharePrice = item['Share Price in euro'] as number;
+
+        // allTimeHigh_ATM
+        const highestSharePriceItem = item['allTimeHigh_ATM_inEuro'];
+        const highestSharePriceMaxScore = 10;
+        const hspWeight = 2;
+        const calcHSP = athValuationScore(sharePrice as number, highestSharePriceItem as number);
+        finalScore = finalScore + calcHSP * hspWeight;
+        maxScorePossible = maxScorePossible + highestSharePriceMaxScore * hspWeight;
+        consoleLennar(item, finalScore, 'highest share price', maxScorePossible, highestSharePriceItem);
+
+        // AnalystsAvgPricePredictionInEuro
+        const analystsAvgPricePredictionInEuroItem = item['AnalystsAvgPricePredictionInEuro'];
+        const analystsAvgPricePredictionInEuroMaxScore = 10;
+        const aappWeight = 5;
+        const calcAAPP = athValuationScore(
+            sharePrice as number,
+            analystsAvgPricePredictionInEuroItem as number
+        );
+        finalScore = finalScore + calcAAPP * aappWeight;
+        maxScorePossible =
+            maxScorePossible + analystsAvgPricePredictionInEuroMaxScore * aappWeight;
+        consoleLennar(
+            item,
+            finalScore,
+            'analysts avg price prediction',
+            maxScorePossible,
+            analystsAvgPricePredictionInEuroItem
+        );
 
         // Trading Volume
         const tradingVolumeItem = item['avg trading volume, last 3 months in units in Millions'];

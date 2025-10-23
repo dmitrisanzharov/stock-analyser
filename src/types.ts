@@ -183,6 +183,9 @@ export type InvestmentRecord = {
     'Held By Big Investors': number | string | null;
 
     'Share Price in euro': number | null;
+    allTimeHigh_ATM_inEuro: number; 
+    AnalystsAvgPricePredictionInEuro: number;
+
     'avg trading volume, last 3 months in units in Millions': number | null;
     'avg trading volume in euro in last 3 months in euro in millions': number | null;
     'EPS (earning per share) average for the past 10 years in euro currency': number | null;
