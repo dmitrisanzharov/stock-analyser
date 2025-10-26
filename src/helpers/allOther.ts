@@ -1,6 +1,11 @@
 import { FitchRatingType, RatingsOutlookType, MoodyRatingType, CreditreformRatingType } from '../types';
 
 export function scorePaymentFrequency(frequency: number): number {
+
+    if(frequency === 0) {
+        return 0; // no dividends
+    }
+
     if (frequency === 1) {
         return 1; // annually
     }

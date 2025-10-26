@@ -45,7 +45,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'Alibaba Group Holding Ltd';
+export const COMPANY_ANALYZED = 'Amazon';
 
 const allowedArrayItems = [
     ...Object.keys(FITCH_RATING_MAP),
