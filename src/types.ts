@@ -119,7 +119,8 @@ export type InvestmentRecord = {
     'Net Income/Employee': number | null | NotApplicableFields;
     'Net Income/Employee (industry)': number | null;
 
-    'debt / equity as %': number | null;
+    'debt / equity as %': number;
+    'debt / equity as % industry': number;
 
     currentRatioCompany: number | null | NotApplicableFields;
     currentRatioIndustry: number | null | NotApplicableFields;

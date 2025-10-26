@@ -1,8 +1,7 @@
 import { FitchRatingType, RatingsOutlookType, MoodyRatingType, CreditreformRatingType } from '../types';
 
 export function scorePaymentFrequency(frequency: number): number {
-
-    if(frequency === 0) {
+    if (frequency === 0) {
         return 0; // no dividends
     }
 
@@ -317,6 +316,41 @@ export function scoreDebtToEquity(debtToEquityRatio: number): number {
     if (debtToEquityRatio <= 120) return 3;
     if (debtToEquityRatio <= 140) return 2;
     return 1; // >140%
+}
+
+// source cloude: https://claude.ai/share/5ef3e1f0-1a2b-4f06-a18d-ed1b7ecb62db
+// chagGPT code: https://chatgpt.com/share/68fe4e52-fe28-8009-b37c-53c9811c0b55
+export function scoreDebtToEquityV2(debtToEquityRatio: number, debtToEquityRatioIndustry: number): number {
+    if (debtToEquityRatioIndustry <= 0) return 5; // fallback if industry data invalid
+
+    const ratio = debtToEquityRatio / debtToEquityRatioIndustry;
+    let score = 0;
+
+    if (ratio <= 0.7) {
+        // 30%+ below industry
+        score = 10;
+    } else if (ratio > 0.7 && ratio <= 0.9) {
+        // 10-30% below
+        score = 8 + (0.9 - ratio) / 0.2; // interpolate 8–9
+    } else if (ratio > 0.9 && ratio <= 1.1) {
+        // ±10% around industry
+        score = 6 + (1.1 - ratio) / 0.2; // interpolate 6–7
+    } else if (ratio > 1.1 && ratio <= 1.25) {
+        // 10-25% above industry
+        score = 4 + (1.25 - ratio) / 0.15; // interpolate 4–5
+    } else if (ratio > 1.25 && ratio <= 1.5) {
+        // 25-50% above
+        score = 2 + (1.5 - ratio) / 0.25; // interpolate 2–3
+    } else {
+        // ratio > 1.5, 50%+ above
+        score = 0 + Math.min((ratio - 1.5) / 1, 1); // 0–1, small increase if slightly above
+    }
+
+    // Cap between 0 and 10
+    if (score > 10) score = 10;
+    if (score < 0) score = 0;
+
+    return score;
 }
 
 export function scoreReturnOnEquity(roePercent: number): number {

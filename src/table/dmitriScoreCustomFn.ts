@@ -40,7 +40,8 @@ import {
     scoreMoodyRatingV2,
     MOODY_RATING_MAP,
     scoreCreditreformRating,
-    athValuationScore
+    athValuationScore,
+    scoreDebtToEquityV2
 } from '../helpers/allOther';
 
 import { dmitriScoreConversionNumber } from '../globalVars';
@@ -293,8 +294,9 @@ function dmitriScoreCustomFn(info: any) {
         const debtToEquityMaxScoreItem = item['debt / equity as %'];
         const debtToEquityMaxScore = 10;
         const dteWeight = 10;
-        const calcDTE =
-            typeof debtToEquityMaxScoreItem === 'number' ? scoreDebtToEquity(debtToEquityMaxScoreItem as number) : 0;
+        const calcDTE = scoreDebtToEquityV2(debtToEquityMaxScoreItem as number, item['debt / equity as % industry'] as number);
+        console.log("calcDTE: ", calcDTE);
+        
         finalScore = finalScore + calcDTE * dteWeight;
         maxScorePossible = maxScorePossible + debtToEquityMaxScore * dteWeight;
         consoleLennar(item, finalScore, 'debt to equity', maxScorePossible, debtToEquityMaxScoreItem);
