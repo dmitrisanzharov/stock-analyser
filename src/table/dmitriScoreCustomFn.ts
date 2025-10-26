@@ -408,7 +408,7 @@ function dmitriScoreCustomFn(info: any) {
         if (isScopeRatingsGmbHApplicable) {
             const scopeRatingsGmbHMaxScore = 11;
             const scopeRatingsGmbHWeight = 5;
-            const calcScopeRatingsGmbH = scoreCreditreformRating(scopeRatingsGmbHItem as CreditreformRatingType);
+            const calcScopeRatingsGmbH = scoreFitchRating(scopeRatingsGmbHItem as FitchRatingType, 'Scope Ratings GmbH');
             finalScore = finalScore + calcScopeRatingsGmbH * scopeRatingsGmbHWeight;
             maxScorePossible = maxScorePossible + scopeRatingsGmbHMaxScore * scopeRatingsGmbHWeight;
             consoleLennar(item, finalScore, 'Scope Ratings GmbH', maxScorePossible, scopeRatingsGmbHItem);
@@ -464,8 +464,9 @@ function dmitriScoreCustomFn(info: any) {
         if (isCreditreformRatingAGApplicable) {
             const creditreformRatingAGMaxScore = 11;
             const creditreformRatingAGWeight = 5;
-            const calcCreditreformRatingAG = scoreCreditreformRating(
-                creditreformRatingAGItem as CreditreformRatingType
+            const calcCreditreformRatingAG = scoreFitchRating(
+                creditreformRatingAGItem as FitchRatingType,
+                'Creditreform Rating AG'
             );
             finalScore = finalScore + calcCreditreformRatingAG * creditreformRatingAGWeight;
             maxScorePossible = maxScorePossible + creditreformRatingAGMaxScore * creditreformRatingAGWeight;
@@ -500,7 +501,7 @@ function dmitriScoreCustomFn(info: any) {
         if (isArcRatingsApplicable) {
             const arcRatingsMaxScore = 11;
             const arcRatingsWeight = 5;
-            const calcArcRatings = scoreCreditreformRating(arcRatingsItem as CreditreformRatingType);
+            const calcArcRatings = scoreFitchRating(arcRatingsItem as FitchRatingType, 'ARC Ratings, S.A.');
             finalScore = finalScore + calcArcRatings * arcRatingsWeight;
             maxScorePossible = maxScorePossible + arcRatingsMaxScore * arcRatingsWeight;
             consoleLennar(item, finalScore, 'ARC Ratings, S.A.', maxScorePossible, arcRatingsItem);
@@ -525,7 +526,7 @@ function dmitriScoreCustomFn(info: any) {
         if (isCrifRatingsApplicable) {
             const crifRatingsMaxScore = 11;
             const crifRatingsWeight = 5;
-            const calcCrifRatings = scoreCreditreformRating(crifRatingsItem as CreditreformRatingType);
+            const calcCrifRatings = scoreFitchRating(crifRatingsItem as FitchRatingType, 'CRIF Ratings S.r.l.');
             finalScore = finalScore + calcCrifRatings * crifRatingsWeight;
             maxScorePossible = maxScorePossible + crifRatingsMaxScore * crifRatingsWeight;
             consoleLennar(item, finalScore, 'CRIF Ratings S.r.l.', maxScorePossible, crifRatingsItem);
