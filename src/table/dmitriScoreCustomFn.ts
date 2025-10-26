@@ -26,7 +26,6 @@ import {
     scoreEquityAverage,
     scoreEBITDAAverage,
     scoreNetProfitAverage,
-    scoreDebtToEquity,
     scoreMarketCap,
     growthScore5Years,
     growthScore5YearsDividends,
@@ -46,7 +45,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'Amazon';
+export const COMPANY_ANALYZED = 'Alphabet (aka Google) Class A';
 
 const allowedArrayItems = [
     ...Object.keys(FITCH_RATING_MAP),
@@ -295,7 +294,6 @@ function dmitriScoreCustomFn(info: any) {
         const debtToEquityMaxScore = 10;
         const dteWeight = 10;
         const calcDTE = scoreDebtToEquityV2(debtToEquityMaxScoreItem as number, item['debt / equity as % industry'] as number);
-        console.log("calcDTE: ", calcDTE);
         
         finalScore = finalScore + calcDTE * dteWeight;
         maxScorePossible = maxScorePossible + debtToEquityMaxScore * dteWeight;
