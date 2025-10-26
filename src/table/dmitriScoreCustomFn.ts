@@ -45,7 +45,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'Alphabet (aka Google) Class A';
+export const COMPANY_ANALYZED = '';
 
 const allowedArrayItems = [
     ...Object.keys(FITCH_RATING_MAP),
