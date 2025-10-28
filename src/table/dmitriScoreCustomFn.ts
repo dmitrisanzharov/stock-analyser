@@ -48,7 +48,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = '';
+export const COMPANY_ANALYZED = 'LyondellBasell Industries NV';
 
 const allowedArrayItems = [
     ...Object.keys(FITCH_RATING_MAP),
