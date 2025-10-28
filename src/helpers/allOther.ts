@@ -532,17 +532,14 @@ export function athValuationScore(currentPrice: number, allTimeHigh: number): nu
 }
 
 export function scoreGuruFocusValuation(status: GuruFocusValuationStatus): number {
-    switch (status) {
-        case 'Fairly Valued':
-            return 1;
-        case 'Modestly Overvalued':
-        case 'Modestly Undervalued':
-            return 5;
-        case 'Significantly Overvalued':
-        case 'Significantly Undervalued':
-            return 10;
-        case 'Possible Value Trap, Think Twice':
-        default:
-            return 0;
+    if (status === 'Fairly Valued') {
+        return 1;
+    } else if (status === 'Modestly Undervalued') {
+        return 5;
+    } else if (status === 'Significantly Undervalued') {
+        return 10;
+    } else {
+        // Covers 'Possible Value Trap, Think Twice', 'Modestly Overvalued','Significantly Overvalued'
+        return 0;
     }
 }

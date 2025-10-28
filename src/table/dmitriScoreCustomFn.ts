@@ -7,7 +7,8 @@ import {
     RatingsOutlookType,
     MoodyRatingType,
     CreditreformRatingType,
-    GuruFocusValuationStatus
+    GuruFocusValuationStatus,
+    guruFocusValuationStatusesArr
 } from '../types';
 
 import {
@@ -53,7 +54,8 @@ const allowedArrayItems = [
     ...Object.keys(FITCH_RATING_MAP),
     ...DEGIRO_CATEGORIES_ARRAY,
     ...Object.keys(outlookMap),
-    ...Object.keys(MOODY_RATING_MAP)
+    ...Object.keys(MOODY_RATING_MAP),
+    ...guruFocusValuationStatusesArr
 ];
 
 function consoleLennar(

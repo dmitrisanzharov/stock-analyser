@@ -19,6 +19,15 @@ export type GuruFocusValuationStatus =
   | "Modestly Undervalued"
   | "Significantly Undervalued";
 
+export const guruFocusValuationStatusesArr: GuruFocusValuationStatus[] = [
+    "Possible Value Trap, Think Twice",
+    "Significantly Overvalued",
+    "Modestly Overvalued",
+    "Fairly Valued",
+    "Modestly Undervalued",
+    "Significantly Undervalued"
+];
+
 export const NA_STRING = 'na';
 export const NOT_APPLICABLE_STRING = 'notApplicable';
 
