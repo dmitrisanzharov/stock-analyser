@@ -75,6 +75,7 @@ export function scorePeRatio(peRatio: number, industryPeRatio: number): number {
 }
 
 export function growthScore5Years(finalGrowth: number): number {
+    // base is 200%+ growth over 5 years = 10, if 100% (ie. no growth) = 0
     if (finalGrowth <= 1) return 0;
     if (finalGrowth >= 2) return 10;
     // Linear interpolation between 1 and 2
@@ -82,6 +83,7 @@ export function growthScore5Years(finalGrowth: number): number {
 }
 
 export function growthScore5YearsDividends(itemTotalGrowth5yaDividends: number): number {
+    // base is 25%+ growth over 5 years = 10, if 0% (ie. no dividends) = 0
     if (itemTotalGrowth5yaDividends <= 0) return 0;
     if (itemTotalGrowth5yaDividends >= 0.25) return 10;
     // Spread 0 → 10 linearly between 0 → 0.25
