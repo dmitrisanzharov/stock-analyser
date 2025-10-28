@@ -11,6 +11,14 @@ export type Company = {
     country: string;
 };
 
+export type GuruFocusValuationStatus =
+  | "Possible Value Trap, Think Twice"
+  | "Significantly Overvalued"
+  | "Modestly Overvalued"
+  | "Fairly Valued"
+  | "Modestly Undervalued"
+  | "Significantly Undervalued";
+
 export const NA_STRING = 'na';
 export const NOT_APPLICABLE_STRING = 'notApplicable';
 
@@ -211,6 +219,10 @@ export type InvestmentRecord = {
     'financial health, max 6': number | null;
     'dividends, max 6': number | null;
     'management, 4 max': number | null;
+
+    // guru focus
+    GuruFocusScore: number;
+    GuruFocusValuation: GuruFocusValuationStatus;
 
     // AI analysis stuff
     'degiro (A = 11; B=8; C=4; D=1)': string | number | null;

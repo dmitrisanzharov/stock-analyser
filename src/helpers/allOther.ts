@@ -1,4 +1,10 @@
-import { FitchRatingType, RatingsOutlookType, MoodyRatingType, CreditreformRatingType } from '../types';
+import {
+    FitchRatingType,
+    RatingsOutlookType,
+    MoodyRatingType,
+    CreditreformRatingType,
+    GuruFocusValuationStatus
+} from '../types';
 
 export function scorePaymentFrequency(frequency: number): number {
     if (frequency === 0) {
@@ -523,4 +529,20 @@ export function athValuationScore(currentPrice: number, allTimeHigh: number): nu
     const score = ((1 - ratio) / (1 - 0.6)) * 10;
 
     return Math.max(0, Math.min(10, score));
+}
+
+export function scoreGuruFocusValuation(status: GuruFocusValuationStatus): number {
+    switch (status) {
+        case 'Fairly Valued':
+            return 1;
+        case 'Modestly Overvalued':
+        case 'Modestly Undervalued':
+            return 5;
+        case 'Significantly Overvalued':
+        case 'Significantly Undervalued':
+            return 10;
+        case 'Possible Value Trap, Think Twice':
+        default:
+            return 0;
+    }
 }

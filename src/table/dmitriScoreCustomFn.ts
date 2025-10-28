@@ -6,7 +6,8 @@ import {
     FitchRatingType,
     RatingsOutlookType,
     MoodyRatingType,
-    CreditreformRatingType
+    CreditreformRatingType,
+    GuruFocusValuationStatus
 } from '../types';
 
 import {
@@ -40,7 +41,8 @@ import {
     MOODY_RATING_MAP,
     scoreCreditreformRating,
     athValuationScore,
-    scoreDebtToEquityV2
+    scoreDebtToEquityV2,
+    scoreGuruFocusValuation
 } from '../helpers/allOther';
 
 import { dmitriScoreConversionNumber } from '../globalVars';
@@ -790,6 +792,24 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcMG * mgWeight;
         maxScorePossible = maxScorePossible + managementMaxScore * mgWeight;
         consoleLennar(item, finalScore, 'management', maxScorePossible, managementItem);
+
+        // GuruFocusScore
+        const guruFocusScoreItem = item['GuruFocusScore'];
+        const guruFocusScoreMaxScore = 10;
+        const gfsWeight = 5;
+        const calcGFS = (guruFocusScoreItem as number) / 10;
+        finalScore = finalScore + calcGFS * gfsWeight;
+        maxScorePossible = maxScorePossible + guruFocusScoreMaxScore * gfsWeight;
+        consoleLennar(item, finalScore, 'GuruFocus Score', maxScorePossible, guruFocusScoreItem);
+
+        // GuruFocusValuation
+        const guruFocusValuationItem = item['GuruFocusValuation'];
+        const guruFocusValuationMaxScore = 10;
+        const gfvWeight = 5;
+        const calcGFV = scoreGuruFocusValuation(guruFocusValuationItem as GuruFocusValuationStatus);
+        finalScore = finalScore + calcGFV * gfvWeight;
+        maxScorePossible = maxScorePossible + guruFocusValuationMaxScore * gfvWeight;
+        consoleLennar(item, finalScore, 'GuruFocus Valuation', maxScorePossible, guruFocusValuationItem);
 
         // AI score
         const aiMaxScoreItem = item['Pure AI Average Grade'];
