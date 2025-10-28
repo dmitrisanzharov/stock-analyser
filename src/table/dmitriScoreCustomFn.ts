@@ -47,7 +47,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = '';
+export const COMPANY_ANALYZED = 'SUPER MICRO COMPUTER INC';
 
 const allowedArrayItems = [
     ...Object.keys(FITCH_RATING_MAP),
@@ -796,7 +796,7 @@ function dmitriScoreCustomFn(info: any) {
         // GuruFocusScore
         const guruFocusScoreItem = item['GuruFocusScore'];
         const guruFocusScoreMaxScore = 10;
-        const gfsWeight = 5;
+        const gfsWeight = 2;
         const calcGFS = (guruFocusScoreItem as number) / 10;
         finalScore = finalScore + calcGFS * gfsWeight;
         maxScorePossible = maxScorePossible + guruFocusScoreMaxScore * gfsWeight;
@@ -805,7 +805,7 @@ function dmitriScoreCustomFn(info: any) {
         // GuruFocusValuation
         const guruFocusValuationItem = item['GuruFocusValuation'];
         const guruFocusValuationMaxScore = 10;
-        const gfvWeight = 5;
+        const gfvWeight = 2;
         const calcGFV = scoreGuruFocusValuation(guruFocusValuationItem as GuruFocusValuationStatus);
         finalScore = finalScore + calcGFV * gfvWeight;
         maxScorePossible = maxScorePossible + guruFocusValuationMaxScore * gfvWeight;
