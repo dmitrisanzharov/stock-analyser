@@ -48,7 +48,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'SUPER MICRO COMPUTER INC';
+export const COMPANY_ANALYZED = '';
 
 const allowedArrayItems = [
     ...Object.keys(FITCH_RATING_MAP),
