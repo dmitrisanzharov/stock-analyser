@@ -163,6 +163,8 @@ export type InvestmentRecord = {
 
 
     // Credit Ratings
+    noOneIsAnalysingThisCompany: boolean;
+
     fitchRatingApplicable: boolean;
     'fitch rating': FitchRatingType;
     'fitch outlook': RatingsOutlookType;
