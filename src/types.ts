@@ -157,6 +157,11 @@ export type InvestmentRecord = {
     'who is the Auditor?': string | number | null;
     'Auditor Score': number | null;
 
+    // PE ratio history; historic pe ratio
+    currentPeRatio: number;
+    peRatio10YearAvg: number;
+
+
     // Credit Ratings
     fitchRatingApplicable: boolean;
     'fitch rating': FitchRatingType;

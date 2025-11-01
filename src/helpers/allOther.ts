@@ -222,7 +222,7 @@ export function yearsForEarningsMatchPrice(sharePriceInEuro: number, avgEpsIn10Y
     if (peRatio <= 13) return 5;
     if (peRatio <= 17) return 4;
     if (peRatio <= 25) return 3;
-    if (peRatio <= 40) return 2;
+    if (peRatio <= 30) return 2;
     return 1; // >40
 }
 
@@ -542,4 +542,40 @@ export function scoreGuruFocusValuation(status: GuruFocusValuationStatus): numbe
         // Covers 'Possible Value Trap, Think Twice', 'Modestly Overvalued','Significantly Overvalued'
         return 0;
     }
+}
+
+export function scorePERatio10YearAvg(pe: number): number {
+    const maxScore = 10;
+    const minPE = 18;  // good threshold
+    const maxPE = 30;  // bad threshold, adjust if needed
+
+    if (pe <= minPE) {
+        return maxScore;
+    }
+    if (pe >= maxPE) {
+        return 0;
+    }
+
+    // linear interpolation between 18 and 30
+    return Math.round(maxScore * (maxPE - pe) / (maxPE - minPE));
+}
+
+export function scorePe5YearAvgToCurrent(currentPe: number, fiveYearAvgPe: number): number {
+    const diff = currentPe / fiveYearAvgPe;
+
+    if (diff <= 0.5) {
+        return 10;
+    }
+
+    if (diff >= 1.5) {
+        return 0;
+    }
+
+    if (diff === 1) {
+        return 5;
+    }
+
+    // Linear interpolation between 0.5 → 10 and 1.5 → 0
+    const score = 10 * (1.5 - diff); // each +0.1 diff reduces score by 1
+    return score;
 }

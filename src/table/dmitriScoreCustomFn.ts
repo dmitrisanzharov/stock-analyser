@@ -43,7 +43,9 @@ import {
     scoreCreditreformRating,
     athValuationScore,
     scoreDebtToEquityV2,
-    scoreGuruFocusValuation
+    scoreGuruFocusValuation,
+    scorePERatio10YearAvg,
+    scorePe5YearAvgToCurrent
 } from '../helpers/allOther';
 
 import { dmitriScoreConversionNumber } from '../globalVars';
@@ -197,11 +199,40 @@ function dmitriScoreCustomFn(info: any) {
         maxScorePossible = maxScorePossible + auditorMaxScore * auditorWeight;
         consoleLennar(item, finalScore, 'auditor', maxScorePossible, auditorItem);
 
+        // peRatio10YearAvg
+        const peRatio10YearAvgItem = item['peRatio10YearAvg'];
+        const peRatio10YearAvgMaxScore = 10;
+        const peRatio10YearAvgWeight = 10;
+        const calcPeRatio10YearAvg = scorePERatio10YearAvg(peRatio10YearAvgItem);
+        finalScore = finalScore + calcPeRatio10YearAvg * peRatio10YearAvgWeight;
+        maxScorePossible = maxScorePossible + peRatio10YearAvgMaxScore * peRatio10YearAvgWeight;
+        consoleLennar(item, finalScore, 'peRatio10YearAvg', maxScorePossible, peRatio10YearAvgItem);
+
+        // currentPeRatioToIndustryPeRatio
+        const currentPeRatioToIndustryPeRatioItem = item['currentPeRatio'];
+        const currentPeRatioToIndustryPeRatioMaxScore = 10;
+        const currentPeRatioToIndustryPeRatioWeight = 5;
+        const calcCurrentPeRatioToIndustryPeRatio = scorePe5YearAvgToCurrent(
+            currentPeRatioToIndustryPeRatioItem,
+            peRatio10YearAvgItem
+        );
+        finalScore = finalScore + calcCurrentPeRatioToIndustryPeRatio * currentPeRatioToIndustryPeRatioWeight;
+        maxScorePossible =
+            maxScorePossible + currentPeRatioToIndustryPeRatioMaxScore * currentPeRatioToIndustryPeRatioWeight;
+        consoleLennar(
+            item,
+            finalScore,
+            'currentPeRatioToIndustryPeRatio',
+            maxScorePossible,
+            currentPeRatioToIndustryPeRatioItem
+        );
+
+
         // PE Ratio
         const itemPeRatio = item['PE ratio'];
         const noPeRatio = itemPeRatio === null || itemPeRatio === 'na';
         const peRatioMaxScore = 10;
-        const peWeight = 9;
+        const peWeight = 1;
         const calcPE = noPeRatio ? 0 : scorePeRatio(item['PE ratio'] as number, item['industry PE'] as number);
         finalScore = finalScore + calcPE * peWeight;
         maxScorePossible = maxScorePossible + peRatioMaxScore * peWeight;
@@ -268,7 +299,7 @@ function dmitriScoreCustomFn(info: any) {
         const itemNetIncomeEmployee = item['Net Income/Employee'];
         const noNetIncomeEmployee = itemNetIncomeEmployee === null || itemNetIncomeEmployee === 'na';
         const netIncomeEmployeeMaxScore = 10;
-        const netIncomeEmployeeWeight = 10;
+        const netIncomeEmployeeWeight = 1;
         const calcNetIncomeEmployee = noNetIncomeEmployee
             ? 0
             : scoreNetProfitMargin(
