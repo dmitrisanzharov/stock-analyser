@@ -50,7 +50,9 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = '';
+export const COMPANY_ANALYZED = 'Banca Monte dei Paschi di Siena SpA';
+
+const edgeCase1NotApplicable = -10000000; // banks when they do NOT have current ratios
 
 const allowedArrayItems = [
     ...Object.keys(FITCH_RATING_MAP),
@@ -311,7 +313,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // currentRatioCompany
         const currentRatioCompanyItem = item['currentRatioCompany'];
-        if (currentRatioCompanyItem !== NOT_APPLICABLE_STRING) {
+        if (currentRatioCompanyItem !== edgeCase1NotApplicable) {
             const currentRatioCompanyMaxScore = 10;
             const crcWeight = 3;
             const calcCRC = scoreCurrentRatioCompany(
@@ -325,16 +327,18 @@ function dmitriScoreCustomFn(info: any) {
 
         // Debt To Equity
         const debtToEquityMaxScoreItem = item['debt / equity as %'];
-        const debtToEquityMaxScore = 10;
-        const dteWeight = 10;
-        const calcDTE = scoreDebtToEquityV2(
-            debtToEquityMaxScoreItem as number,
-            item['debt / equity as % industry'] as number
-        );
+        if (debtToEquityMaxScoreItem !== edgeCase1NotApplicable) {
+            const debtToEquityMaxScore = 10;
+            const dteWeight = 10;
+            const calcDTE = scoreDebtToEquityV2(
+                debtToEquityMaxScoreItem as number,
+                item['debt / equity as % industry'] as number
+            );
 
-        finalScore = finalScore + calcDTE * dteWeight;
-        maxScorePossible = maxScorePossible + debtToEquityMaxScore * dteWeight;
-        consoleLennar(item, finalScore, 'debt to equity', maxScorePossible, debtToEquityMaxScoreItem);
+            finalScore = finalScore + calcDTE * dteWeight;
+            maxScorePossible = maxScorePossible + debtToEquityMaxScore * dteWeight;
+            consoleLennar(item, finalScore, 'debt to equity', maxScorePossible, debtToEquityMaxScoreItem);
+        }
 
         // 5 Year Growth Analysis - Total (Capital Gains + Dividends)
         const itemTotalGrowth5ya = item['finalGrowth_till_16/10/2025'];
@@ -362,7 +366,6 @@ function dmitriScoreCustomFn(info: any) {
         maxScorePossible = maxScorePossible + totalGrowth5yaMaxScoreDividends * totalGrowth5yaWeightDividends;
         consoleLennar(item, finalScore, 'dividends growth 5ya', maxScorePossible, itemTotalGrowth5yaDividends);
 
-
         // noOneIsAnalysingThisCompany
         const noOneIsAnalysingThisCompanyItem = item['noOneIsAnalysingThisCompany'];
         if (noOneIsAnalysingThisCompanyItem === true) {
@@ -370,8 +373,15 @@ function dmitriScoreCustomFn(info: any) {
             const noOneIsAnalysingThisCompanyWeight = 10;
             const calcNoOneIsAnalysingThisCompany = 0;
             finalScore = finalScore + calcNoOneIsAnalysingThisCompany * noOneIsAnalysingThisCompanyWeight;
-            maxScorePossible = maxScorePossible + noOneIsAnalysingThisCompanyMaxScore * noOneIsAnalysingThisCompanyWeight;
-            consoleLennar(item, finalScore, 'no one is analysing this company', maxScorePossible, noOneIsAnalysingThisCompanyItem);
+            maxScorePossible =
+                maxScorePossible + noOneIsAnalysingThisCompanyMaxScore * noOneIsAnalysingThisCompanyWeight;
+            consoleLennar(
+                item,
+                finalScore,
+                'no one is analysing this company',
+                maxScorePossible,
+                noOneIsAnalysingThisCompanyItem
+            );
         }
 
         // Fitch Rating
