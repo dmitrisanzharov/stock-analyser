@@ -96,7 +96,7 @@ export function growthScore5YearsDividends(itemTotalGrowth5yaDividends: number):
     return (itemTotalGrowth5yaDividends / 0.25) * 10;
 }
 
-export function scoreFitchAndSpRating(rating: string | 0): number {
+export function scoreFitchAndSpRating(rating: string): number {
     if (!rating) {
         return 0;
     }
