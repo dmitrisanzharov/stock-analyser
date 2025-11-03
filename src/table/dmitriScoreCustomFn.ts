@@ -49,7 +49,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = '';
+export const COMPANY_ANALYZED = 'B&G Foods Inc';
 
 const edgeCase1NotApplicable = -10000000; // banks when they do NOT have current ratios
 
@@ -209,23 +209,23 @@ function dmitriScoreCustomFn(info: any) {
         maxScorePossible = maxScorePossible + peRatio10YearAvgMaxScore * peRatio10YearAvgWeight;
         consoleLennar(item, finalScore, 'peRatio10YearAvg', maxScorePossible, peRatio10YearAvgItem);
 
-        // currentPeRatioToIndustryPeRatio
-        const currentPeRatioToIndustryPeRatioItem = item['currentPeRatio'];
-        const currentPeRatioToIndustryPeRatioMaxScore = 10;
-        const currentPeRatioToIndustryPeRatioWeight = 5;
-        const calcCurrentPeRatioToIndustryPeRatio = scorePe5YearAvgToCurrent(
-            currentPeRatioToIndustryPeRatioItem,
+        // currentPeRatioTo10YearAvg
+        const currentPeRatioTo10YearAvgItem = item['currentPeRatio'];
+        const currentPeRatioTo10YearAvgMaxScore = 10;
+        const currentPeRatioTo10YearAvgWeight = 5;
+        const calcCurrentPeRatioTo10YearAvg = scorePe5YearAvgToCurrent(
+            currentPeRatioTo10YearAvgItem,
             peRatio10YearAvgItem
         );
-        finalScore = finalScore + calcCurrentPeRatioToIndustryPeRatio * currentPeRatioToIndustryPeRatioWeight;
+        finalScore = finalScore + calcCurrentPeRatioTo10YearAvg * currentPeRatioTo10YearAvgWeight;
         maxScorePossible =
-            maxScorePossible + currentPeRatioToIndustryPeRatioMaxScore * currentPeRatioToIndustryPeRatioWeight;
+            maxScorePossible + currentPeRatioTo10YearAvgMaxScore * currentPeRatioTo10YearAvgWeight;
         consoleLennar(
             item,
             finalScore,
-            'currentPeRatioToIndustryPeRatio',
+            'currentPeRatioTo10YearAvgItem',
             maxScorePossible,
-            currentPeRatioToIndustryPeRatioItem
+            currentPeRatioTo10YearAvgItem
         );
 
         // PE Ratio

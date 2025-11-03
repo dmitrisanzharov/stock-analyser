@@ -545,6 +545,11 @@ export function scoreGuruFocusValuation(status: GuruFocusValuationStatus): numbe
 }
 
 export function scorePERatio10YearAvg(pe: number): number {
+
+    if (pe <= 0) {
+        return 0;
+    }
+
     const maxScore = 10;
     const minPE = 18;  // good threshold
     const maxPE = 30;  // bad threshold, adjust if needed
