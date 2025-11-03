@@ -218,8 +218,7 @@ function dmitriScoreCustomFn(info: any) {
             peRatio10YearAvgItem
         );
         finalScore = finalScore + calcCurrentPeRatioTo10YearAvg * currentPeRatioTo10YearAvgWeight;
-        maxScorePossible =
-            maxScorePossible + currentPeRatioTo10YearAvgMaxScore * currentPeRatioTo10YearAvgWeight;
+        maxScorePossible = maxScorePossible + currentPeRatioTo10YearAvgMaxScore * currentPeRatioTo10YearAvgWeight;
         consoleLennar(
             item,
             finalScore,
@@ -626,10 +625,21 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(item, finalScore, 'degiro analysts score', maxScorePossible, degiroAnalystsScoreItem);
 
         // investingComAnalystsScore
+        // buy = 2, hold = 1, sell = 0;
+        // formula is: totalVotes * 2 = gives us what Should be if all votes are buy... then we look at how many voted to buy and hold, to get Ratio
+        // finally multiply by 10, to give us 'the score' from 0 to 10
         const investingComAnalystsScoreItem = item['investingComAnalystsScore'];
+        const buy_investingComAnalysts = item['buy_investingComAnalysts'];
+        const hold_investingComAnalysts = item['hold_investingComAnalysts'];
+        const sell_investingComAnalysts = item['sell_investingComAnalysts'];
+        const investingComAnalystsScoreTotalVotes =
+            buy_investingComAnalysts + hold_investingComAnalysts + sell_investingComAnalysts;
+        const buyWeightIeMax = 2;
         const investingComAnalystsScoreMaxScore = 10;
         const iasWeight = 4;
-        const calcIAS = (investingComAnalystsScoreItem as number) * 10;
+        const calcIAS =
+            (buy_investingComAnalysts * buyWeightIeMax + hold_investingComAnalysts) /
+            (investingComAnalystsScoreTotalVotes * buyWeightIeMax) * 10;
         finalScore = finalScore + calcIAS * iasWeight;
         maxScorePossible = maxScorePossible + investingComAnalystsScoreMaxScore * iasWeight;
         consoleLennar(

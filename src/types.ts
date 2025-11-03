@@ -257,7 +257,12 @@ export type InvestmentRecord = {
     kimi: number | null;
     deepseek: number | null;
 
+    // investingComAnalystsScore
+    buy_investingComAnalysts: number;
+    hold_investingComAnalysts: number;
+    sell_investingComAnalysts: number;
     investingComAnalystsScore: number | null;
+
     'Pure AI Average Grade': number | null;
     'score was by feel': string | null;
 };
