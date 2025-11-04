@@ -277,19 +277,24 @@ export function scoreNetProfitMargin(companyMargin: number, industryMargin: numb
 }
 
 export function scoreShareBookValue(sharePriceInEuro: number, bookValuePerShare: number): number {
-    const pbRatio = sharePriceInEuro / bookValuePerShare; // P/B ratio as a decimal
-    const pbPercent = pbRatio * 100; // convert to percent for easier comparison
 
-    if (pbPercent <= 50) return 10;
-    if (pbPercent <= 75) return 9;
-    if (pbPercent <= 100) return 8;
-    if (pbPercent <= 110) return 7;
-    if (pbPercent <= 120) return 6;
-    if (pbPercent <= 135) return 5;
-    if (pbPercent <= 150) return 4;
-    if (pbPercent <= 175) return 3;
-    if (pbPercent <= 200) return 2;
-    return 1; // >200%
+    if(bookValuePerShare <= 0){
+       throw new Error('Invalid book value per share, cant be Zero');
+    }
+
+    const pbRatio = sharePriceInEuro / bookValuePerShare; // P/B ratio as a decimal
+
+    if (pbRatio <= 50) return 10;
+    if (pbRatio <= 75) return 9;
+    if (pbRatio <= 100) return 8;
+    if (pbRatio <= 110) return 7;
+    if (pbRatio <= 120) return 6;
+    if (pbRatio <= 135) return 5;
+    if (pbRatio <= 150) return 4;
+    if (pbRatio <= 175) return 3;
+    if (pbRatio <= 200) return 2;
+    if (pbRatio <= 225) return 1;
+    return 0; 
 }
 
 export function scoreEquityAverage(equityInMillions: number): number {
