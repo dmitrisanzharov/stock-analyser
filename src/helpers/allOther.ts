@@ -323,42 +323,30 @@ export function scoreDebtToEquity(debtToEquityRatio: number): number {
     if (debtToEquityRatio <= 100) return 4;
     if (debtToEquityRatio <= 120) return 3;
     if (debtToEquityRatio <= 140) return 2;
-    return 1; // >140%
+    if (debtToEquityRatio <= 150) return 1;
+    return 0; // >150%
 }
 
 // source cloude: https://claude.ai/share/5ef3e1f0-1a2b-4f06-a18d-ed1b7ecb62db
 // chagGPT code: https://chatgpt.com/share/68fe4e52-fe28-8009-b37c-53c9811c0b55
 export function scoreDebtToEquityV2(debtToEquityRatio: number, debtToEquityRatioIndustry: number): number {
-    if (debtToEquityRatioIndustry <= 0) return 5; // fallback if industry data invalid
+    if (debtToEquityRatio <= 0) return 0;
+    if (debtToEquityRatioIndustry <= 0) return 0
 
     const ratio = debtToEquityRatio / debtToEquityRatioIndustry;
-    let score = 0;
 
-    if (ratio <= 0.7) {
-        // 30%+ below industry
-        score = 10;
-    } else if (ratio > 0.7 && ratio <= 0.9) {
-        // 10-30% below
-        score = 8 + (0.9 - ratio) / 0.2; // interpolate 8–9
-    } else if (ratio > 0.9 && ratio <= 1.1) {
-        // ±10% around industry
-        score = 6 + (1.1 - ratio) / 0.2; // interpolate 6–7
-    } else if (ratio > 1.1 && ratio <= 1.25) {
-        // 10-25% above industry
-        score = 4 + (1.25 - ratio) / 0.15; // interpolate 4–5
-    } else if (ratio > 1.25 && ratio <= 1.5) {
-        // 25-50% above
-        score = 2 + (1.5 - ratio) / 0.25; // interpolate 2–3
-    } else {
-        // ratio > 1.5, 50%+ above
-        score = 0 + Math.min((ratio - 1.5) / 1, 1); // 0–1, small increase if slightly above
-    }
-
-    // Cap between 0 and 10
-    if (score > 10) score = 10;
-    if (score < 0) score = 0;
-
-    return score;
+    if (ratio <= 0.7) return 10;
+    if (ratio <= 0.8) return 9;
+    if (ratio <= 0.9) return 8;
+    if (ratio <= 1.0) return 7;
+    if (ratio <= 1.1) return 6;
+    if (ratio <= 1.2) return 5;
+    if (ratio <= 1.3) return 4;
+    if (ratio <= 1.4) return 3;
+    if (ratio <= 1.5) return 2;
+    if (ratio <= 1.6) return 2;
+    if (ratio <= 1.7) return 1;
+    return 0;
 }
 
 export function scoreReturnOnEquity(roePercent: number): number {
@@ -545,14 +533,13 @@ export function scoreGuruFocusValuation(status: GuruFocusValuationStatus): numbe
 }
 
 export function scorePERatio10YearAvg(pe: number): number {
-
     if (pe <= 0) {
         return 0;
     }
 
     const maxScore = 10;
-    const minPE = 18;  // good threshold
-    const maxPE = 30;  // bad threshold, adjust if needed
+    const minPE = 18; // good threshold
+    const maxPE = 30; // bad threshold, adjust if needed
 
     if (pe <= minPE) {
         return maxScore;
@@ -562,7 +549,7 @@ export function scorePERatio10YearAvg(pe: number): number {
     }
 
     // linear interpolation between 18 and 30
-    return Math.round(maxScore * (maxPE - pe) / (maxPE - minPE));
+    return Math.round((maxScore * (maxPE - pe)) / (maxPE - minPE));
 }
 
 export function scorePe5YearAvgToCurrent(currentPe: number, fiveYearAvgPe: number): number {
@@ -586,7 +573,7 @@ export function scorePe5YearAvgToCurrent(currentPe: number, fiveYearAvgPe: numbe
 }
 
 export function dividendScore(yieldPercent: number): number {
-    if (yieldPercent <= 0) return 0;           // no dividends
-    if (yieldPercent >= 10) return 10;           // above 9% → 10
-    return yieldPercent;             // scale 0-9
+    if (yieldPercent <= 0) return 0; // no dividends
+    if (yieldPercent >= 10) return 10; // above 9% → 10
+    return yieldPercent; // scale 0-9
 }

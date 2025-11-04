@@ -436,7 +436,7 @@ function dmitriScoreCustomFn(info: any) {
                 finalScore,
                 'no one is analysing this company',
                 maxScorePossible,
-                noOneIsAnalysingThisCompanyItem,
+                calcNoOneIsAnalysingThisCompany,
                 calcNoOneIsAnalysingThisCompany
             );
         }
