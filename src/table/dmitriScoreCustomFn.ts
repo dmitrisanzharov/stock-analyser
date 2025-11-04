@@ -50,7 +50,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'ARMOUR Residential REIT Inc';
+export const COMPANY_ANALYZED = 'Repsol SA (base company for AI)';
 
 const edgeCase1NotApplicable = -10000000; // banks when they do NOT have current ratios
 
