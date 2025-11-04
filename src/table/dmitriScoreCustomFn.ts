@@ -895,7 +895,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcNetProfit = scoreNetProfitAverage(netProfitMaxScoreItem as number);
         finalScore = finalScore + calcNetProfit * netProfitWeight;
         maxScorePossible = maxScorePossible + netProfitMaxScore * netProfitWeight;
-        consoleLennar(item, finalScore, 'netProfit', maxScorePossible, netProfitMaxScoreItem, calcNetProfit);
+        consoleLennar(item, finalScore, 'netProfit', maxScorePossible, calcNetProfit, calcNetProfit); // 4-Nov-2025: here we do NOT use netProfitMaxScoreItem, cause it can be negative, so we use calcNetProfit instead
 
         // Market Cap
         const marketCapItem =
