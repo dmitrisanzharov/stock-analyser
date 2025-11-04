@@ -17,7 +17,8 @@ export type GuruFocusValuationStatus =
   | "Modestly Overvalued"
   | "Fairly Valued"
   | "Modestly Undervalued"
-  | "Significantly Undervalued";
+  | "Significantly Undervalued"
+  | "NoValuation";
 
 export const guruFocusValuationStatusesArr: GuruFocusValuationStatus[] = [
     "Possible Value Trap, Think Twice",
@@ -25,7 +26,8 @@ export const guruFocusValuationStatusesArr: GuruFocusValuationStatus[] = [
     "Modestly Overvalued",
     "Fairly Valued",
     "Modestly Undervalued",
-    "Significantly Undervalued"
+    "Significantly Undervalued",
+    "NoValuation",
 ];
 
 export const NA_STRING = 'na';
@@ -224,7 +226,7 @@ export type InvestmentRecord = {
     'P/E ratio': number | null;
     'Price / book': number | null;
     'return on equity': number | null;
-    'market cap in Billions EUR (ask AI) (i.e. hype value... total shares X current share value)': number | null;
+    'marketCapInBillionsOfEuro': number;
 
     indexesHoldIt: number | null;
     'is held by Billionaires? ( use percentage of total portfolios, MAX 1)': number | null;

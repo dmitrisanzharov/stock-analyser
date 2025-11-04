@@ -416,7 +416,8 @@ export function scoreMarketCap(marketCapInBillions: number): number {
     if (marketCapInBillions >= 0.4) return 4;
     if (marketCapInBillions >= 0.3) return 3;
     if (marketCapInBillions >= 0.2) return 2;
-    return 1; // <0.2
+    if (marketCapInBillions >= 0.1) return 1;
+    return 0;
 }
 
 export function gradeAgainstEuStem(num: number): number {

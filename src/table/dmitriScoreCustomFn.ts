@@ -19,7 +19,6 @@ import {
     scoreDegiroIncomeStatement,
     degiroAnalystRatingToScore,
     scoreYearStarted,
-    scoreNumberOfEmployees,
     scoreIntegrity,
     scoreTradeVolume,
     yearsForEarningsMatchPrice,
@@ -765,7 +764,6 @@ function dmitriScoreCustomFn(info: any) {
 
         // Year Founded
         const yearFoundedItem = item['year started'];
-        console.log("yearFoundedItem: ", yearFoundedItem);
         const yearFoundedMaxScore = 10;
         const yfWeight = 5;
         const calcYF = scoreYearStarted(yearFoundedItem as number);
@@ -899,7 +897,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // Market Cap
         const marketCapItem =
-            item['market cap in Billions EUR (ask AI) (i.e. hype value... total shares X current share value)'];
+            item['marketCapInBillionsOfEuro'];
         const marketCapMaxScore = 10;
         const mcWeight = 1;
         const calcMC = scoreMarketCap(marketCapItem as number);
