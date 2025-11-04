@@ -584,3 +584,9 @@ export function scorePe5YearAvgToCurrent(currentPe: number, fiveYearAvgPe: numbe
     const score = 10 * (1.5 - diff); // each +0.1 diff reduces score by 1
     return score;
 }
+
+export function dividendScore(yieldPercent: number): number {
+    if (yieldPercent <= 0) return 0;           // no dividends
+    if (yieldPercent >= 10) return 10;           // above 9% → 10
+    return yieldPercent;             // scale 0-9
+}
