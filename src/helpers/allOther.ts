@@ -231,6 +231,11 @@ export function scoreTradeVolume(sharePriceInEuro: number, volumeInMillions: num
 }
 
 export function yearsForEarningsMatchPrice(sharePriceInEuro: number, avgEpsIn10Years: number): number {
+
+    if(avgEpsIn10Years <= 0){
+       return 0;
+    }
+
     const peRatio = sharePriceInEuro / avgEpsIn10Years;
 
     if (peRatio <= 2) return 10;
@@ -242,7 +247,8 @@ export function yearsForEarningsMatchPrice(sharePriceInEuro: number, avgEpsIn10Y
     if (peRatio <= 17) return 4;
     if (peRatio <= 25) return 3;
     if (peRatio <= 30) return 2;
-    return 1; // >40
+    if (peRatio <= 35) return 1;
+    return 0; 
 }
 
 export function scoreNetProfitMargin(companyMargin: number, industryMargin: number): number {
