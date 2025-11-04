@@ -903,7 +903,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcMC = scoreMarketCap(marketCapItem as number);
         finalScore = finalScore + calcMC * mcWeight;
         maxScorePossible = maxScorePossible + marketCapMaxScore * mcWeight;
-        consoleLennar(item, finalScore, 'market cap', maxScorePossible, calcMC, calcMC);
+        consoleLennar(item, finalScore, 'market cap', maxScorePossible, marketCapItem, calcMC);
 
         // Part Of Index
         const partOfIndexItem = item['indexesHoldIt'];
