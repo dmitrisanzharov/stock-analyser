@@ -45,7 +45,8 @@ import {
     scoreGuruFocusValuation,
     scorePERatio10YearAvg,
     scorePe5YearAvgToCurrent,
-    dividendScore
+    dividendScore,
+    scoreNumberOfEmployeesV2
 } from '../helpers/allOther';
 
 import { dmitriScoreConversionNumber } from '../globalVars';
@@ -764,6 +765,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // Year Founded
         const yearFoundedItem = item['year started'];
+        console.log("yearFoundedItem: ", yearFoundedItem);
         const yearFoundedMaxScore = 10;
         const yfWeight = 5;
         const calcYF = scoreYearStarted(yearFoundedItem as number);
@@ -775,7 +777,7 @@ function dmitriScoreCustomFn(info: any) {
         const itemNumberOfEmployees = item['number of employees'];
         const numberOfEmployeesMaxScore = 10;
         const neWeight = 6;
-        const calcNE = scoreNumberOfEmployees(itemNumberOfEmployees as number);
+        const calcNE = scoreNumberOfEmployeesV2(itemNumberOfEmployees as number);
         finalScore = finalScore + calcNE * neWeight;
         maxScorePossible = maxScorePossible + numberOfEmployeesMaxScore * neWeight;
         consoleLennar(item, finalScore, 'number of employees', maxScorePossible, itemNumberOfEmployees, calcNE);

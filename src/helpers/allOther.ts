@@ -177,6 +177,15 @@ export function scoreYearStarted(yearStarted: number, alreadyKnown?: number): nu
 }
 
 export function scoreNumberOfEmployees(numEmployees: number): number {
+
+    if(numEmployees < 500){
+        return 0
+    }
+
+    if(numEmployees >= 100000){
+        return 10;
+    }
+
     if (numEmployees >= 10000) return 10;
     if (numEmployees >= 5000) return 9;
     if (numEmployees >= 2500) return 8;
@@ -189,6 +198,16 @@ export function scoreNumberOfEmployees(numEmployees: number): number {
     if (numEmployees >= 1) return 1;
 
     throw new Error(`scoreNumberOfEmployees error: invalid number of employees ${numEmployees}`);
+}
+
+export function scoreNumberOfEmployeesV2(numEmployees: number): number {
+    const minEmployees = 500;
+    const maxEmployees = 50000;
+
+    if (numEmployees <= minEmployees) return 0;
+    if (numEmployees >= maxEmployees) return 10;
+
+    return ((numEmployees - minEmployees) / (maxEmployees - minEmployees)) * 10;
 }
 
 export function scoreIntegrity(integrity: number): number {
