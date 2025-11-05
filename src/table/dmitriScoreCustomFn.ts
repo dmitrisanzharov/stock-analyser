@@ -68,7 +68,8 @@ function consoleLennar(
     criteria: string,
     currentMaxScore: number,
     itemValue: any, // this is directly from GoogleSheet column
-    itemScore: number // this is after calculation
+    itemScore: number, // this is after calculation,
+    itemMaxPossibleForThisCriteria: number
 ) {
     if (allValues['Company Name'] === COMPANY_ANALYZED) {
         const skippedString = 'SKIPPED';
@@ -84,6 +85,8 @@ function consoleLennar(
             ':',
             'itemScore: ',
             itemScore,
+            'itemMaxPossibleForThisCriteria: ',
+            itemMaxPossibleForThisCriteria,
             '... totalScore: ',
             currentScore,
             '...',
@@ -133,7 +136,8 @@ function dmitriScoreCustomFn(info: any) {
             'dividends',
             maxScorePossible,
             dividendsInterestRateItem,
-            dividendsInterestRateScore
+            dividendsInterestRateScore,
+            dividendsInterestRateMaxScore
         );
 
         // Payment Frequency
@@ -143,7 +147,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcPf = scorePaymentFrequency(paymentFrequencyItem as number);
         finalScore = finalScore + calcPf * pfWeight;
         maxScorePossible = maxScorePossible + paymentFrequencyMaxScore * pfWeight;
-        consoleLennar(item, finalScore, 'payment frequency', maxScorePossible, paymentFrequencyItem, calcPf);
+        consoleLennar(
+            item,
+            finalScore,
+            'payment frequency',
+            maxScorePossible,
+            paymentFrequencyItem,
+            calcPf,
+            paymentFrequencyMaxScore
+        );
 
         // Country Corruption Level
         const countryCorruptionItem = item['country corruption index (100 max)'];
@@ -152,7 +164,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcCC = Number(countryCorruptionItem) / 10;
         finalScore = finalScore + calcCC * ccWeight;
         maxScorePossible = maxScorePossible + countryCorruptionMaxScore * ccWeight;
-        consoleLennar(item, finalScore, 'country corruption', maxScorePossible, countryCorruptionItem, calcCC);
+        consoleLennar(
+            item,
+            finalScore,
+            'country corruption',
+            maxScorePossible,
+            countryCorruptionItem,
+            calcCC,
+            countryCorruptionMaxScore
+        );
 
         // Country science score
         const countryScienceScoreItem = item['Country science score'];
@@ -161,7 +181,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcCS = Number(countryScienceScoreItem);
         finalScore = finalScore + calcCS * csWeight;
         maxScorePossible = maxScorePossible + countryScienceScoreMaxScore * csWeight;
-        consoleLennar(item, finalScore, 'country science score', maxScorePossible, countryScienceScoreItem, calcCS);
+        consoleLennar(
+            item,
+            finalScore,
+            'country science score',
+            maxScorePossible,
+            countryScienceScoreItem,
+            calcCS,
+            countryScienceScoreMaxScore
+        );
 
         // Percentage of Population in Stem in Workforce
         const percentageOfPopulationInStemItem = item['Percentage of Population in Stem in Workforce'];
@@ -176,7 +204,8 @@ function dmitriScoreCustomFn(info: any) {
             'Percentage of Population in Stem in Workforce',
             maxScorePossible,
             percentageOfPopulationInStemItem,
-            calcPOP
+            calcPOP,
+            percentageOfPopulationInStemMaxScore
         );
 
         // WhiteSmartAsianIndex (max 100)
@@ -186,7 +215,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcWSAI = Number(itemWhiteSmartAsianIndex) / 10;
         finalScore = finalScore + calcWSAI * wsaiWeight;
         maxScorePossible = maxScorePossible + whiteSmartAsianIndexMaxScore * wsaiWeight;
-        consoleLennar(item, finalScore, 'WhiteSmartAsianIndex', maxScorePossible, itemWhiteSmartAsianIndex, calcWSAI);
+        consoleLennar(
+            item,
+            finalScore,
+            'WhiteSmartAsianIndex',
+            maxScorePossible,
+            itemWhiteSmartAsianIndex,
+            calcWSAI,
+            whiteSmartAsianIndexMaxScore
+        );
 
         // CompanyMonopolyPowerAndMoat
         const companyMonopolyPowerAndMoatItem = item['CompanyMonopolyPowerAndMoat'];
@@ -201,7 +238,8 @@ function dmitriScoreCustomFn(info: any) {
             'CompanyMonopolyPowerAndMoat',
             maxScorePossible,
             companyMonopolyPowerAndMoatItem,
-            calcCMP
+            calcCMP,
+            companyMonopolyPowerAndMoatMaxScore
         );
 
         // Degiro Category Grade
@@ -211,7 +249,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcDC = scoreDegiroCategory(degiroCategoryItem);
         finalScore = finalScore + calcDC * dcWeight;
         maxScorePossible = maxScorePossible + degiroCategoryMaxScore * dcWeight;
-        consoleLennar(item, finalScore, 'degiro grade', maxScorePossible, degiroCategoryItem, calcDC);
+        consoleLennar(
+            item,
+            finalScore,
+            'degiro grade',
+            maxScorePossible,
+            degiroCategoryItem,
+            calcDC,
+            degiroCategoryMaxScore
+        );
 
         // Auditor
         const auditorItem = item['Auditor Score'];
@@ -220,7 +266,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcAuditor = auditorItem as number;
         finalScore = finalScore + calcAuditor * auditorWeight;
         maxScorePossible = maxScorePossible + auditorMaxScore * auditorWeight;
-        consoleLennar(item, finalScore, 'auditor', maxScorePossible, auditorItem, calcAuditor);
+        consoleLennar(item, finalScore, 'auditor', maxScorePossible, auditorItem, calcAuditor, auditorMaxScore);
 
         // peRatio10YearAvg
         const peRatio10YearAvgItem = item['peRatio10YearAvg'];
@@ -235,7 +281,8 @@ function dmitriScoreCustomFn(info: any) {
             'peRatio10YearAvg',
             maxScorePossible,
             peRatio10YearAvgItem,
-            calcPeRatio10YearAvg
+            calcPeRatio10YearAvg,
+            peRatio10YearAvgMaxScore
         );
 
         // currentPeRatioTo10YearAvg
@@ -254,7 +301,8 @@ function dmitriScoreCustomFn(info: any) {
             'currentPeRatioTo10YearAvgItem',
             maxScorePossible,
             currentPeRatioTo10YearAvgItem,
-            calcCurrentPeRatioTo10YearAvg
+            calcCurrentPeRatioTo10YearAvg,
+            currentPeRatioTo10YearAvgMaxScore
         );
 
         // PE Ratio
@@ -265,7 +313,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcPE = noPeRatio ? 0 : scorePeRatio(item['PE ratio'] as number, item['industry PE'] as number);
         finalScore = finalScore + calcPE * peWeight;
         maxScorePossible = maxScorePossible + peRatioMaxScore * peWeight;
-        consoleLennar(item, finalScore, 'pe ratio', maxScorePossible, itemPeRatio, calcPE);
+        consoleLennar(item, finalScore, 'pe ratio', maxScorePossible, itemPeRatio, calcPE, peRatioMaxScore);
 
         // Net Profit Margin
         const itemNetProfitMargin = item['Net Profit Margin AVG 5 years'];
@@ -896,8 +944,7 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(item, finalScore, 'netProfit', maxScorePossible, calcNetProfit, calcNetProfit); // 4-Nov-2025: here we do NOT use netProfitMaxScoreItem, cause it can be negative, so we use calcNetProfit instead
 
         // Market Cap
-        const marketCapItem =
-            item['marketCapInBillionsOfEuro'];
+        const marketCapItem = item['marketCapInBillionsOfEuro'];
         const marketCapMaxScore = 10;
         const mcWeight = 1;
         const calcMC = scoreMarketCap(marketCapItem as number);
