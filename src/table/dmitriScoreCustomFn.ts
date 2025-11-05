@@ -85,7 +85,7 @@ function consoleLennar(
             ':',
             'itemScore: ',
             itemScore,
-            'itemMaxPossibleForThisCriteria: ',
+            'out of: ',
             itemMaxPossibleForThisCriteria,
             '... totalScore: ',
             Number(currentScore.toFixed(2)),
@@ -97,6 +97,10 @@ function consoleLennar(
 
         if (skip === skippedString) {
             throw new Error('SKIPPED in: ' + criteria);
+        }
+
+        if(itemScore > itemMaxPossibleForThisCriteria) {
+            throw new Error('itemScore > itemMaxPossibleForThisCriteria in: ' + criteria);
         }
     }
 }
