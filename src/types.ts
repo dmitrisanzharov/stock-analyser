@@ -118,7 +118,7 @@ export type InvestmentRecord = {
     Industry: string | null;
 
     // RATIOS
-    'PE ratio': number | null | NotApplicableFields;
+    'PE ratio': number;
     'industry PE': number | null;
     'company to industry': number | null;
 

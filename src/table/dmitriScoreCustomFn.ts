@@ -324,7 +324,7 @@ function dmitriScoreCustomFn(info: any) {
 
         // PE Ratio
         const itemPeRatio = item['PE ratio'];
-        const noPeRatio = itemPeRatio === null || itemPeRatio === 'na';
+        const noPeRatio = itemPeRatio <= 0;
         const peRatioMaxScore = 10;
         const peWeight = 1;
         const calcPE = noPeRatio ? 0 : scorePeRatio(item['PE ratio'] as number, item['industry PE'] as number);
@@ -348,7 +348,7 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(
             item,
             finalScore,
-            'gross margin',
+            'net profit margin',
             maxScorePossible,
             itemNetProfitMargin,
             calcGM,
