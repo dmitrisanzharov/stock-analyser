@@ -34,7 +34,7 @@ const BasicTable = () => {
 
     return (
         <Box>
-            {COMPANY_ANALYZED.length && (
+            {Boolean(COMPANY_ANALYZED.length) && (
                 <>
                     <h2>Company analyzed: {COMPANY_ANALYZED}</h2>
                     <AnalysisTable finalSingleAnalysisData={finalSingleAnalysisData} />

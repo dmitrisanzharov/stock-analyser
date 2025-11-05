@@ -51,7 +51,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'OCI NV';
+export const COMPANY_ANALYZED = '';
 
 const edgeCase1NotApplicable = -10000000; // banks when they do NOT have current ratios
 
