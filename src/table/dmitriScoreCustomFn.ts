@@ -88,10 +88,10 @@ function consoleLennar(
             'itemMaxPossibleForThisCriteria: ',
             itemMaxPossibleForThisCriteria,
             '... totalScore: ',
-            currentScore,
+            Number(currentScore.toFixed(2)),
             '...',
             'maxScore: ',
-            currentMaxScore,
+            Number(currentMaxScore.toFixed(2)),
             skip
         );
 
@@ -328,7 +328,15 @@ function dmitriScoreCustomFn(info: any) {
               );
         finalScore = finalScore + calcGM * netProfitMarginWeight;
         maxScorePossible = maxScorePossible + netProfitMarginMaxScore * netProfitMarginWeight;
-        consoleLennar(item, finalScore, 'gross margin', maxScorePossible, itemNetProfitMargin, calcGM);
+        consoleLennar(
+            item,
+            finalScore,
+            'gross margin',
+            maxScorePossible,
+            itemNetProfitMargin,
+            calcGM,
+            netProfitMarginMaxScore
+        );
 
         // Return on Equity 5ya
         const itemReturnOnEquity5ya = item['Return On Equity 5ya'];
@@ -343,7 +351,15 @@ function dmitriScoreCustomFn(info: any) {
               );
         finalScore = finalScore + calcROE5ya * returnOnEquity5yaWeight;
         maxScorePossible = maxScorePossible + returnOnEquity5yaMaxScore * returnOnEquity5yaWeight;
-        consoleLennar(item, finalScore, 'return on equity 5ya', maxScorePossible, itemReturnOnEquity5ya, calcROE5ya);
+        consoleLennar(
+            item,
+            finalScore,
+            'return on equity 5ya',
+            maxScorePossible,
+            itemReturnOnEquity5ya,
+            calcROE5ya,
+            returnOnEquity5yaMaxScore
+        );
 
         // 5 Year EPS Growth
         const item5YearEPSGrowth = item['5 Year EPS Growth'];
@@ -355,7 +371,15 @@ function dmitriScoreCustomFn(info: any) {
             : scoreNetProfitMargin(item['5 Year EPS Growth'] as number, item['5 Year EPS Growth (industry)'] as number);
         finalScore = finalScore + calcEPSGrowth5ya * epsGrowth5yaWeight;
         maxScorePossible = maxScorePossible + epsGrowth5yaMaxScore * epsGrowth5yaWeight;
-        consoleLennar(item, finalScore, '5 Year EPS Growth', maxScorePossible, item5YearEPSGrowth, calcEPSGrowth5ya);
+        consoleLennar(
+            item,
+            finalScore,
+            '5 Year EPS Growth',
+            maxScorePossible,
+            item5YearEPSGrowth,
+            calcEPSGrowth5ya,
+            epsGrowth5yaMaxScore
+        );
 
         // 5 Year Sales Growth
         const item5YearSalesGrowth = item['5 Year Sales Growth'];
@@ -376,7 +400,8 @@ function dmitriScoreCustomFn(info: any) {
             '5 Year Sales Growth',
             maxScorePossible,
             item5YearSalesGrowth,
-            calcSalesGrowth5ya
+            calcSalesGrowth5ya,
+            salesGrowth5yaMaxScore
         );
 
         // Net Income/Employee
@@ -398,7 +423,8 @@ function dmitriScoreCustomFn(info: any) {
             'net income/employee',
             maxScorePossible,
             itemNetIncomeEmployee,
-            calcNetIncomeEmployee
+            calcNetIncomeEmployee,
+            netIncomeEmployeeMaxScore
         );
 
         // currentRatioCompany
@@ -418,7 +444,8 @@ function dmitriScoreCustomFn(info: any) {
                 'current ratio company',
                 maxScorePossible,
                 currentRatioCompanyItem,
-                calcCRC
+                calcCRC,
+                currentRatioCompanyMaxScore
             );
         }
 
@@ -434,7 +461,15 @@ function dmitriScoreCustomFn(info: any) {
 
             finalScore = finalScore + calcDTE * dteWeight;
             maxScorePossible = maxScorePossible + debtToEquityMaxScore * dteWeight;
-            consoleLennar(item, finalScore, 'debt to equity', maxScorePossible, debtToEquityMaxScoreItem, calcDTE);
+            consoleLennar(
+                item,
+                finalScore,
+                'debt to equity',
+                maxScorePossible,
+                debtToEquityMaxScoreItem,
+                calcDTE,
+                debtToEquityMaxScore
+            );
         }
 
         // 5 Year Growth Analysis - Total (Capital Gains + Dividends)
@@ -447,7 +482,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcTotalGrowth5ya = noItemTotalGrowth5ya ? 0 : growthScore5Years(itemTotalGrowth5ya as number);
         finalScore = finalScore + calcTotalGrowth5ya * totalGrowth5yaWeight;
         maxScorePossible = maxScorePossible + totalGrowth5yaMaxScore * totalGrowth5yaWeight;
-        consoleLennar(item, finalScore, 'total growth 5ya', maxScorePossible, itemTotalGrowth5ya, calcTotalGrowth5ya);
+        consoleLennar(
+            item,
+            finalScore,
+            'total growth 5ya',
+            maxScorePossible,
+            itemTotalGrowth5ya,
+            calcTotalGrowth5ya,
+            totalGrowth5yaMaxScore
+        );
 
         // 5 Year Growth Analysis - Dividends
         const itemTotalGrowth5yaDividends = item['dividendsAsPercentageOfTotalGrowth_till_16/10/2025'];
@@ -467,7 +510,8 @@ function dmitriScoreCustomFn(info: any) {
             'dividends growth 5ya',
             maxScorePossible,
             itemTotalGrowth5yaDividends,
-            calcTotalGrowth5yaDividends
+            calcTotalGrowth5yaDividends,
+            totalGrowth5yaMaxScoreDividends
         );
 
         // noOneIsAnalysingThisCompany
@@ -485,7 +529,8 @@ function dmitriScoreCustomFn(info: any) {
                 'no one is analysing this company',
                 maxScorePossible,
                 calcNoOneIsAnalysingThisCompany,
-                calcNoOneIsAnalysingThisCompany
+                calcNoOneIsAnalysingThisCompany,
+                noOneIsAnalysingThisCompanyMaxScore
             );
         }
 
@@ -498,7 +543,15 @@ function dmitriScoreCustomFn(info: any) {
             const calcFitch = scoreFitchRating(fitchRatingMaxScoreItem as FitchRatingType, 'Fitch');
             finalScore = finalScore + calcFitch * fitchWeight;
             maxScorePossible = maxScorePossible + fitchRatingMaxScore * fitchWeight;
-            consoleLennar(item, finalScore, 'Fitch Rating', maxScorePossible, fitchRatingMaxScoreItem, calcFitch);
+            consoleLennar(
+                item,
+                finalScore,
+                'Fitch Rating',
+                maxScorePossible,
+                fitchRatingMaxScoreItem,
+                calcFitch,
+                fitchRatingMaxScore
+            );
         } else if (isFitchRatingApplicable === null) {
             throw new Error('isFitchRatingApplicable = empty field');
         }
@@ -511,7 +564,15 @@ function dmitriScoreCustomFn(info: any) {
             const calcFitchOutlook = ratingOutlook(fitchOutlookItem as RatingsOutlookType);
             finalScore = finalScore + calcFitchOutlook * fitchOutlookWeight;
             maxScorePossible = maxScorePossible + fitchOutlookMaxScore * fitchOutlookWeight;
-            consoleLennar(item, finalScore, 'Fitch Outlook', maxScorePossible, fitchOutlookItem, calcFitchOutlook);
+            consoleLennar(
+                item,
+                finalScore,
+                'Fitch Outlook',
+                maxScorePossible,
+                fitchOutlookItem,
+                calcFitchOutlook,
+                fitchOutlookMaxScore
+            );
         }
 
         // SP Rating
@@ -523,7 +584,7 @@ function dmitriScoreCustomFn(info: any) {
             const calcSP = scoreFitchRating(spRatingItem as FitchRatingType, 'SP');
             finalScore = finalScore + calcSP * spWeight;
             maxScorePossible = maxScorePossible + spRatingMaxScore * spWeight;
-            consoleLennar(item, finalScore, 'sp', maxScorePossible, spRatingItem, calcSP);
+            consoleLennar(item, finalScore, 'sp', maxScorePossible, spRatingItem, calcSP, spRatingMaxScore);
         } else if (isSpApplicable === null) {
             throw new Error('isSpApplicable = empty field');
         }
@@ -536,7 +597,15 @@ function dmitriScoreCustomFn(info: any) {
             const calcSPOutlook = ratingOutlook(spOutlookItem as RatingsOutlookType);
             finalScore = finalScore + calcSPOutlook * spOutlookWeight;
             maxScorePossible = maxScorePossible + spOutlookMaxScore * spOutlookWeight;
-            consoleLennar(item, finalScore, 'sp outlook', maxScorePossible, spOutlookItem, calcSPOutlook);
+            consoleLennar(
+                item,
+                finalScore,
+                'sp outlook',
+                maxScorePossible,
+                spOutlookItem,
+                calcSPOutlook,
+                spOutlookMaxScore
+            );
         }
 
         // Moody Rating
@@ -548,7 +617,7 @@ function dmitriScoreCustomFn(info: any) {
             const calcMoody = scoreMoodyRatingV2(moodyRatingItem as MoodyRatingType);
             finalScore = finalScore + calcMoody * moodyWeight;
             maxScorePossible = maxScorePossible + moodyRatingMaxScore * moodyWeight;
-            consoleLennar(item, finalScore, 'moody', maxScorePossible, moodyRatingItem, calcMoody);
+            consoleLennar(item, finalScore, 'moody', maxScorePossible, moodyRatingItem, calcMoody, moodyRatingMaxScore);
         } else if (isMoodyApplicable === null) {
             throw new Error('isMoodyApplicable = empty field');
         }
@@ -561,7 +630,15 @@ function dmitriScoreCustomFn(info: any) {
             const calcMoodyOutlook = ratingOutlook(moodyOutlookItem as RatingsOutlookType);
             finalScore = finalScore + calcMoodyOutlook * moodyOutlookWeight;
             maxScorePossible = maxScorePossible + moodyOutlookMaxScore * moodyOutlookWeight;
-            consoleLennar(item, finalScore, 'moody outlook', maxScorePossible, moodyOutlookItem, calcMoodyOutlook);
+            consoleLennar(
+                item,
+                finalScore,
+                'moody outlook',
+                maxScorePossible,
+                moodyOutlookItem,
+                calcMoodyOutlook,
+                moodyOutlookMaxScore
+            );
         }
 
         // Scope Ratings GmbH
@@ -582,7 +659,8 @@ function dmitriScoreCustomFn(info: any) {
                 'Scope Ratings GmbH',
                 maxScorePossible,
                 scopeRatingsGmbHItem,
-                calcScopeRatingsGmbH
+                calcScopeRatingsGmbH,
+                scopeRatingsGmbHMaxScore
             );
         } else if (isScopeRatingsGmbHApplicable === null) {
             throw new Error('isScopeRatingGmbHApplicable = empty field');
@@ -602,7 +680,8 @@ function dmitriScoreCustomFn(info: any) {
                 'Scope Ratings GmbH Outlook',
                 maxScorePossible,
                 scopeRatingsGmbHOutlookItem,
-                calcScopeRatingsGmbHOutlook
+                calcScopeRatingsGmbHOutlook,
+                scopeRatingsGmbHOutlookMaxScore
             );
         }
 
@@ -621,7 +700,8 @@ function dmitriScoreCustomFn(info: any) {
                 'DBRS Morningstar Rating',
                 maxScorePossible,
                 dbrsMorningstarRatingItem,
-                calcDBRSMorningstar
+                calcDBRSMorningstar,
+                dbrsMorningstarRatingMaxScore
             );
         } else if (isDBRSMorningstarApplicable === null) {
             throw new Error('isDBRSMorningstarApplicable = empty field');
@@ -641,7 +721,8 @@ function dmitriScoreCustomFn(info: any) {
                 'DBRS Morningstar Outlook',
                 maxScorePossible,
                 dbrsMorningstarOutlookItem,
-                calcDBRSMorningstarOutlook
+                calcDBRSMorningstarOutlook,
+                dbrsMorningstarOutlookMaxScore
             );
         }
 
@@ -663,7 +744,8 @@ function dmitriScoreCustomFn(info: any) {
                 'Creditreform Rating AG',
                 maxScorePossible,
                 creditreformRatingAGItem,
-                calcCreditreformRatingAG
+                calcCreditreformRatingAG,
+                creditreformRatingAGMaxScore
             );
         } else if (isCreditreformRatingAGApplicable === null) {
             throw new Error('isCreditreformRatingAGApplicable = empty field');
@@ -686,7 +768,8 @@ function dmitriScoreCustomFn(info: any) {
                 'Creditreform Rating AG Outlook',
                 maxScorePossible,
                 creditreformRatingAGOutlookItem,
-                calcCreditreformRatingAGOutlook
+                calcCreditreformRatingAGOutlook,
+                creditreformRatingAGOutlookMaxScore
             );
         }
 
@@ -699,7 +782,15 @@ function dmitriScoreCustomFn(info: any) {
             const calcArcRatings = scoreFitchRating(arcRatingsItem as FitchRatingType, 'ARC Ratings, S.A.');
             finalScore = finalScore + calcArcRatings * arcRatingsWeight;
             maxScorePossible = maxScorePossible + arcRatingsMaxScore * arcRatingsWeight;
-            consoleLennar(item, finalScore, 'ARC Ratings, S.A.', maxScorePossible, arcRatingsItem, calcArcRatings);
+            consoleLennar(
+                item,
+                finalScore,
+                'ARC Ratings, S.A.',
+                maxScorePossible,
+                arcRatingsItem,
+                calcArcRatings,
+                arcRatingsMaxScore
+            );
         } else if (isArcRatingsApplicable === null) {
             throw new Error('isARCRatings,S.A.Applicable = empty field');
         }
@@ -718,7 +809,8 @@ function dmitriScoreCustomFn(info: any) {
                 'ARC Ratings, S.A. Outlook',
                 maxScorePossible,
                 arcRatingsOutlookItem,
-                calcArcRatingsOutlook
+                calcArcRatingsOutlook,
+                arcRatingsOutlookMaxScore
             );
         }
 
@@ -731,7 +823,15 @@ function dmitriScoreCustomFn(info: any) {
             const calcCrifRatings = scoreFitchRating(crifRatingsItem as FitchRatingType, 'CRIF Ratings S.r.l.');
             finalScore = finalScore + calcCrifRatings * crifRatingsWeight;
             maxScorePossible = maxScorePossible + crifRatingsMaxScore * crifRatingsWeight;
-            consoleLennar(item, finalScore, 'CRIF Ratings S.r.l.', maxScorePossible, crifRatingsItem, calcCrifRatings);
+            consoleLennar(
+                item,
+                finalScore,
+                'CRIF Ratings S.r.l.',
+                maxScorePossible,
+                crifRatingsItem,
+                calcCrifRatings,
+                crifRatingsMaxScore
+            );
         } else if (isCrifRatingsApplicable === null) {
             throw new Error('isCRIFRatingsS.r.l.Applicable = empty field');
         }
@@ -750,7 +850,8 @@ function dmitriScoreCustomFn(info: any) {
                 'CRIF Ratings S.r.l. Outlook',
                 maxScorePossible,
                 crifRatingsOutlookItem,
-                calcCrifRatingsOutlook
+                calcCrifRatingsOutlook,
+                crifRatingsOutlookMaxScore
             );
         }
 
@@ -770,7 +871,8 @@ function dmitriScoreCustomFn(info: any) {
             'degiro income statement',
             maxScorePossible,
             degiroIncomeStatementItem,
-            calcDIS
+            calcDIS,
+            degiroIncomeStatementMaxScore
         );
 
         // Degiro Analysts Score
@@ -780,7 +882,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcDAS = degiroAnalystRatingToScore(degiroAnalystsScoreItem as number);
         finalScore = finalScore + calcDAS * dasWeight;
         maxScorePossible = maxScorePossible + degiroAnalystsScoreMaxScore * dasWeight;
-        consoleLennar(item, finalScore, 'degiro analysts score', maxScorePossible, degiroAnalystsScoreItem, calcDAS);
+        consoleLennar(
+            item,
+            finalScore,
+            'degiro analysts score',
+            maxScorePossible,
+            degiroAnalystsScoreItem,
+            calcDAS,
+            degiroAnalystsScoreMaxScore
+        );
 
         // investingComAnalystsScore
         // buy = 2, hold = 1, sell = 0;
@@ -807,7 +917,8 @@ function dmitriScoreCustomFn(info: any) {
             'investing.com analysts score',
             maxScorePossible,
             investingComAnalystsScoreItem,
-            calcIAS
+            calcIAS,
+            investingComAnalystsScoreMaxScore
         );
 
         // Year Founded
@@ -817,7 +928,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcYF = scoreYearStarted(yearFoundedItem as number);
         finalScore = finalScore + calcYF * yfWeight;
         maxScorePossible = maxScorePossible + yearFoundedMaxScore * yfWeight;
-        consoleLennar(item, finalScore, 'year founded', maxScorePossible, yearFoundedItem, calcYF);
+        consoleLennar(item, finalScore, 'year founded', maxScorePossible, yearFoundedItem, calcYF, yearFoundedMaxScore);
 
         // Number Of Employees
         const itemNumberOfEmployees = item['number of employees'];
@@ -826,7 +937,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcNE = scoreNumberOfEmployeesV2(itemNumberOfEmployees as number);
         finalScore = finalScore + calcNE * neWeight;
         maxScorePossible = maxScorePossible + numberOfEmployeesMaxScore * neWeight;
-        consoleLennar(item, finalScore, 'number of employees', maxScorePossible, itemNumberOfEmployees, calcNE);
+        consoleLennar(
+            item,
+            finalScore,
+            'number of employees',
+            maxScorePossible,
+            itemNumberOfEmployees,
+            calcNE,
+            numberOfEmployeesMaxScore
+        );
 
         // Integrity Score
         const integrityScoreItem = item['any dirt on them (0 being clean, 10 dirty)'];
@@ -835,7 +954,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcIS = scoreIntegrity(integrityScoreItem as number);
         finalScore = finalScore + calcIS * isWeight;
         maxScorePossible = maxScorePossible + integrityScoreMaxScore * isWeight;
-        consoleLennar(item, finalScore, 'integrity', maxScorePossible, integrityScoreItem, calcIS);
+        consoleLennar(
+            item,
+            finalScore,
+            'integrity',
+            maxScorePossible,
+            integrityScoreItem,
+            calcIS,
+            integrityScoreMaxScore
+        );
 
         // Held By Big Investors
         const heldByBigInvestorsMaxScoreItem = item['Held By Big Investors'];
@@ -850,7 +977,8 @@ function dmitriScoreCustomFn(info: any) {
             'held by big investors',
             maxScorePossible,
             heldByBigInvestorsMaxScoreItem,
-            calcHBI
+            calcHBI,
+            heldByBigInvestorsMaxScore
         );
 
         // Share Price
@@ -863,7 +991,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcHSP = athValuationScore(sharePrice as number, highestSharePriceItem as number);
         finalScore = finalScore + calcHSP * hspWeight;
         maxScorePossible = maxScorePossible + highestSharePriceMaxScore * hspWeight;
-        consoleLennar(item, finalScore, 'highest share price', maxScorePossible, highestSharePriceItem, calcHSP);
+        consoleLennar(
+            item,
+            finalScore,
+            'highest share price',
+            maxScorePossible,
+            highestSharePriceItem,
+            calcHSP,
+            highestSharePriceMaxScore
+        );
 
         // AnalystsAvgPricePredictionInEuro
         const analystsAvgPricePredictionInEuroItem = item['AnalystsAvgPricePredictionInEuro'];
@@ -878,7 +1014,8 @@ function dmitriScoreCustomFn(info: any) {
             'analysts avg price prediction',
             maxScorePossible,
             analystsAvgPricePredictionInEuroItem,
-            calcAAPP
+            calcAAPP,
+            analystsAvgPricePredictionInEuroMaxScore
         );
 
         // Trading Volume
@@ -888,7 +1025,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcTV = scoreTradeVolume(sharePrice, tradingVolumeItem as number);
         finalScore = finalScore + calcTV * tvWeight;
         maxScorePossible = maxScorePossible + tradingVolumeMaxScore * tvWeight;
-        consoleLennar(item, finalScore, 'trading volume', maxScorePossible, tradingVolumeItem, calcTV);
+        consoleLennar(
+            item,
+            finalScore,
+            'trading volume',
+            maxScorePossible,
+            tradingVolumeItem,
+            calcTV,
+            tradingVolumeMaxScore
+        );
 
         // Years To Earnings Match Share
         const yearsToEarningsMatchShareItem =
@@ -904,7 +1049,8 @@ function dmitriScoreCustomFn(info: any) {
             'years to earnings match share',
             maxScorePossible,
             yearsToEarningsMatchShareItem,
-            calcYTEM
+            calcYTEM,
+            yearsToEarningsMatchShareMaxScore
         );
 
         // Share To Book
@@ -914,7 +1060,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcSTB = scoreShareBookValue(sharePrice, shareToBookMaxScoreItem as number);
         finalScore = finalScore + calcSTB * stbWeight;
         maxScorePossible = maxScorePossible + shareToBookMaxScore * stbWeight;
-        consoleLennar(item, finalScore, 'share to book', maxScorePossible, shareToBookMaxScoreItem, calcSTB);
+        consoleLennar(
+            item,
+            finalScore,
+            'share to book',
+            maxScorePossible,
+            shareToBookMaxScoreItem,
+            calcSTB,
+            shareToBookMaxScore
+        );
 
         // Equity Average
         const equityAverageItem = item['equity average past 10 years in millions euro'];
@@ -923,7 +1077,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcEA = scoreEquityAverage(equityAverageItem as number);
         finalScore = finalScore + calcEA * eaWeight;
         maxScorePossible = maxScorePossible + equityAverageMaxScore * eaWeight;
-        consoleLennar(item, finalScore, 'equity average', maxScorePossible, equityAverageItem, calcEA);
+        consoleLennar(
+            item,
+            finalScore,
+            'equity average',
+            maxScorePossible,
+            equityAverageItem,
+            calcEA,
+            equityAverageMaxScore
+        );
 
         // EBITDA
         const ebitdaMaxScoreItem = item['EBITDA average for the past 10 years in euros in millions?'];
@@ -932,7 +1094,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcEBITDA = scoreEBITDAAverage(ebitdaMaxScoreItem as number);
         finalScore = finalScore + calcEBITDA * ebitdaWeight;
         maxScorePossible = maxScorePossible + ebitdaMaxScore * ebitdaWeight;
-        consoleLennar(item, finalScore, 'ebitda', maxScorePossible, ebitdaMaxScoreItem, calcEBITDA);
+        consoleLennar(item, finalScore, 'ebitda', maxScorePossible, ebitdaMaxScoreItem, calcEBITDA, ebitdaMaxScore);
 
         // Net Profit
         const netProfitMaxScoreItem = item['annual net profit average in the past 10 years, in euros in millions?'];
@@ -941,7 +1103,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcNetProfit = scoreNetProfitAverage(netProfitMaxScoreItem as number);
         finalScore = finalScore + calcNetProfit * netProfitWeight;
         maxScorePossible = maxScorePossible + netProfitMaxScore * netProfitWeight;
-        consoleLennar(item, finalScore, 'netProfit', maxScorePossible, calcNetProfit, calcNetProfit); // 4-Nov-2025: here we do NOT use netProfitMaxScoreItem, cause it can be negative, so we use calcNetProfit instead
+        consoleLennar(item, finalScore, 'netProfit', maxScorePossible, calcNetProfit, calcNetProfit, netProfitMaxScore); // 4-Nov-2025: here we do NOT use netProfitMaxScoreItem, cause it can be negative, so we use calcNetProfit instead
 
         // Market Cap
         const marketCapItem = item['marketCapInBillionsOfEuro'];
@@ -950,7 +1112,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcMC = scoreMarketCap(marketCapItem as number);
         finalScore = finalScore + calcMC * mcWeight;
         maxScorePossible = maxScorePossible + marketCapMaxScore * mcWeight;
-        consoleLennar(item, finalScore, 'market cap', maxScorePossible, marketCapItem, calcMC);
+        consoleLennar(item, finalScore, 'market cap', maxScorePossible, marketCapItem, calcMC, marketCapMaxScore);
 
         // Part Of Index
         const partOfIndexItem = item['indexesHoldIt'];
@@ -959,7 +1121,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcPOIM = partOfIndexItem as number;
         finalScore = finalScore + calcPOIM * poimWeight;
         maxScorePossible = maxScorePossible + partOfIndexMaxScore * poimWeight;
-        consoleLennar(item, finalScore, 'part of index', maxScorePossible, partOfIndexItem, calcPOIM);
+        consoleLennar(
+            item,
+            finalScore,
+            'part of index',
+            maxScorePossible,
+            partOfIndexItem,
+            calcPOIM,
+            partOfIndexMaxScore
+        );
 
         // Held By Billionaires
         const heldByBillionairesItem = item['is held by Billionaires? ( use percentage of total portfolios, MAX 1)'];
@@ -968,7 +1138,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcHBB = heldByBillionairesItem as number;
         finalScore = finalScore + calcHBB * hbbWeight;
         maxScorePossible = maxScorePossible + heldByBillionairesMaxScore * hbbWeight;
-        consoleLennar(item, finalScore, 'held by billionaires', maxScorePossible, heldByBillionairesItem, calcHBB);
+        consoleLennar(
+            item,
+            finalScore,
+            'held by billionaires',
+            maxScorePossible,
+            heldByBillionairesItem,
+            calcHBB,
+            heldByBillionairesMaxScore
+        );
 
         // SIMPLY WALL STREET METRICS
 
@@ -979,7 +1157,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcVal = valuationMaxScoreItem as number;
         finalScore = finalScore + calcVal * valWeight;
         maxScorePossible = maxScorePossible + valuationMaxScore * valWeight;
-        consoleLennar(item, finalScore, 'valuation', maxScorePossible, valuationMaxScoreItem, calcVal);
+        consoleLennar(
+            item,
+            finalScore,
+            'valuation',
+            maxScorePossible,
+            valuationMaxScoreItem,
+            calcVal,
+            valuationMaxScore
+        );
 
         // Future Growth
         const futureGrowthMaxScoreItem = item['future growth, 6 max'];
@@ -988,7 +1174,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcFG = futureGrowthMaxScoreItem as number;
         finalScore = finalScore + calcFG * fgWeight;
         maxScorePossible = maxScorePossible + futureGrowthMaxScore * fgWeight;
-        consoleLennar(item, finalScore, 'future growth', maxScorePossible, futureGrowthMaxScoreItem, calcFG);
+        consoleLennar(
+            item,
+            finalScore,
+            'future growth',
+            maxScorePossible,
+            futureGrowthMaxScoreItem,
+            calcFG,
+            futureGrowthMaxScore
+        );
 
         // Past Performance
         const pastPerformanceItem = item['past performance, 6 mx'];
@@ -997,7 +1191,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcPP = pastPerformanceItem as number;
         finalScore = finalScore + calcPP * ppWeight;
         maxScorePossible = maxScorePossible + pastPerformanceMaxScore * ppWeight;
-        consoleLennar(item, finalScore, 'past performance', maxScorePossible, pastPerformanceItem, calcPP);
+        consoleLennar(
+            item,
+            finalScore,
+            'past performance',
+            maxScorePossible,
+            pastPerformanceItem,
+            calcPP,
+            pastPerformanceMaxScore
+        );
 
         // Financial Health
         const financialHealthItem = item['financial health, max 6'];
@@ -1006,7 +1208,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcFH = financialHealthItem as number;
         finalScore = finalScore + calcFH * fhWeight;
         maxScorePossible = maxScorePossible + financialHealthMaxScore * fhWeight;
-        consoleLennar(item, finalScore, 'financial health', maxScorePossible, financialHealthItem, calcFH);
+        consoleLennar(
+            item,
+            finalScore,
+            'financial health',
+            maxScorePossible,
+            financialHealthItem,
+            calcFH,
+            financialHealthMaxScore
+        );
 
         // Dividends
         const dividendsMaxScoreItem = item['dividends, max 6'];
@@ -1015,7 +1225,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcDiv = dividendsMaxScoreItem as number;
         finalScore = finalScore + calcDiv * divWeight;
         maxScorePossible = maxScorePossible + dividendsMaxScore * divWeight;
-        consoleLennar(item, finalScore, 'dividends, simply wall st.', maxScorePossible, dividendsMaxScoreItem, calcDiv);
+        consoleLennar(
+            item,
+            finalScore,
+            'dividends, simply wall st.',
+            maxScorePossible,
+            dividendsMaxScoreItem,
+            calcDiv,
+            dividendsMaxScore
+        );
 
         // Management
         const managementItem = item['management, 4 max'];
@@ -1024,7 +1242,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcMG = managementItem as number;
         finalScore = finalScore + calcMG * mgWeight;
         maxScorePossible = maxScorePossible + managementMaxScore * mgWeight;
-        consoleLennar(item, finalScore, 'management', maxScorePossible, managementItem, calcMG);
+        consoleLennar(item, finalScore, 'management', maxScorePossible, managementItem, calcMG, managementMaxScore);
 
         // GuruFocusScore
         const guruFocusScoreItem = item['GuruFocusScore'];
@@ -1033,7 +1251,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcGFS = (guruFocusScoreItem as number) / 10;
         finalScore = finalScore + calcGFS * gfsWeight;
         maxScorePossible = maxScorePossible + guruFocusScoreMaxScore * gfsWeight;
-        consoleLennar(item, finalScore, 'GuruFocus Score', maxScorePossible, guruFocusScoreItem, calcGFS);
+        consoleLennar(
+            item,
+            finalScore,
+            'GuruFocus Score',
+            maxScorePossible,
+            guruFocusScoreItem,
+            calcGFS,
+            guruFocusScoreMaxScore
+        );
 
         // GuruFocusValuation
         const guruFocusValuationItem = item['GuruFocusValuation'];
@@ -1042,7 +1268,15 @@ function dmitriScoreCustomFn(info: any) {
         const calcGFV = scoreGuruFocusValuation(guruFocusValuationItem as GuruFocusValuationStatus);
         finalScore = finalScore + calcGFV * gfvWeight;
         maxScorePossible = maxScorePossible + guruFocusValuationMaxScore * gfvWeight;
-        consoleLennar(item, finalScore, 'GuruFocus Valuation', maxScorePossible, guruFocusValuationItem, calcGFV);
+        consoleLennar(
+            item,
+            finalScore,
+            'GuruFocus Valuation',
+            maxScorePossible,
+            guruFocusValuationItem,
+            calcGFV,
+            guruFocusValuationMaxScore
+        );
 
         // AI score
         const aiMaxScoreItem = item['Pure AI Average Grade'];
@@ -1051,7 +1285,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcAI = aiMaxScoreItem as number;
         finalScore = finalScore + calcAI * aiWeight;
         maxScorePossible = maxScorePossible + aiMaxScore * aiWeight;
-        consoleLennar(item, finalScore, 'AI score', maxScorePossible, aiMaxScoreItem, calcAI);
+        consoleLennar(item, finalScore, 'AI score', maxScorePossible, aiMaxScoreItem, calcAI, aiMaxScore);
     }
 
     // end
