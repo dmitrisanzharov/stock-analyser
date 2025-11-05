@@ -51,7 +51,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'Banca Monte dei Paschi di Siena SpA';
+export const COMPANY_ANALYZED = 'OCI NV';
 
 const edgeCase1NotApplicable = -10000000; // banks when they do NOT have current ratios
 

@@ -584,6 +584,11 @@ export function scorePERatio10YearAvg(pe: number): number {
 }
 
 export function scorePe5YearAvgToCurrent(currentPe: number, fiveYearAvgPe: number): number {
+
+    if(currentPe <= 0 || fiveYearAvgPe <= 0) {
+        return 0;
+    }
+
     const diff = currentPe / fiveYearAvgPe;
 
     if (diff <= 0.5) {
