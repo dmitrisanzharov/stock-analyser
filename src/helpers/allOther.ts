@@ -202,7 +202,7 @@ export function scoreNumberOfEmployees(numEmployees: number): number {
 
 export function scoreNumberOfEmployeesV2(numEmployees: number): number {
     const minEmployees = 500;
-    const maxEmployees = 50000;
+    const maxEmployees = 10000;
 
     if (numEmployees <= minEmployees) return 0;
     if (numEmployees >= maxEmployees) return 10;

@@ -502,7 +502,7 @@ function dmitriScoreCustomFn(info: any) {
         consoleLennar(
             item,
             finalScore,
-            'total growth 5ya',
+            'total growth 5ya analysis',
             maxScorePossible,
             itemTotalGrowth5ya,
             calcTotalGrowth5ya,
