@@ -51,7 +51,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'Repsol SA (base company for AI)';
+export const COMPANY_ANALYZED = 'Banca Monte dei Paschi di Siena SpA';
 
 const edgeCase1NotApplicable = -10000000; // banks when they do NOT have current ratios
 
@@ -330,7 +330,7 @@ function dmitriScoreCustomFn(info: any) {
         const calcPE = noPeRatio ? 0 : scorePeRatio(item['PE ratio'] as number, item['industry PE'] as number);
         finalScore = finalScore + calcPE * peWeight;
         maxScorePossible = maxScorePossible + peRatioMaxScore * peWeight;
-        consoleLennar(item, finalScore, 'pe ratio', maxScorePossible, itemPeRatio, calcPE, peRatioMaxScore);
+        consoleLennar(item, finalScore, 'pe ratio to industry', maxScorePossible, itemPeRatio, calcPE, peRatioMaxScore);
 
         // Net Profit Margin
         const itemNetProfitMargin = item['Net Profit Margin AVG 5 years'];
