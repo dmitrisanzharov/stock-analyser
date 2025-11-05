@@ -268,3 +268,11 @@ export type InvestmentRecord = {
     'Pure AI Average Grade': number | null;
     'score was by feel': string | null;
 };
+
+export type SingleCompanyAnalysisType = {
+    criteriaName: string;
+    criteriaScore: number;
+    maxScore: number;
+    currentScore?: number;
+    currentMaxScore?: number;
+};

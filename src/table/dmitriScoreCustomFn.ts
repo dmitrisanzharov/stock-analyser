@@ -7,7 +7,8 @@ import {
     MoodyRatingType,
     CreditreformRatingType,
     GuruFocusValuationStatus,
-    guruFocusValuationStatusesArr
+    guruFocusValuationStatusesArr,
+    SingleCompanyAnalysisType
 } from '../types';
 
 import {
@@ -62,6 +63,8 @@ const allowedArrayItems = [
     ...guruFocusValuationStatusesArr
 ];
 
+export const SINGLE_ANALYSIS_ITEMS_ARR: SingleCompanyAnalysisType[] = [];
+
 function consoleLennar(
     allValues: InvestmentRecord,
     currentScore: number,
@@ -83,10 +86,9 @@ function consoleLennar(
         console.log(
             criteria,
             ':',
-            'itemScore: ',
-            itemScore,
+            Number(itemScore.toFixed(2)),
             'out of: ',
-            itemMaxPossibleForThisCriteria,
+            Number(itemMaxPossibleForThisCriteria.toFixed(2)),
             '... totalScore: ',
             Number(currentScore.toFixed(2)),
             '...',
@@ -102,6 +104,17 @@ function consoleLennar(
         if(itemScore > itemMaxPossibleForThisCriteria) {
             throw new Error('itemScore > itemMaxPossibleForThisCriteria in: ' + criteria);
         }
+
+        // for analysis
+
+        SINGLE_ANALYSIS_ITEMS_ARR.push({
+            criteriaName: criteria,
+            criteriaScore: Number(itemScore.toFixed(2)),
+            maxScore: Number(itemMaxPossibleForThisCriteria.toFixed(2)),
+            currentScore: Number(currentScore.toFixed(2)),
+            currentMaxScore: Number(currentMaxScore.toFixed(2))
+        });
+
     }
 }
 
