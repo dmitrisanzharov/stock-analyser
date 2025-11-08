@@ -202,7 +202,7 @@ export function scoreNumberOfEmployees(numEmployees: number): number {
 
 export function scoreNumberOfEmployeesV2(numEmployees: number): number {
     const minEmployees = 500;
-    const maxEmployees = 50000;
+    const maxEmployees = 10000;
 
     if (numEmployees <= minEmployees) return 0;
     if (numEmployees >= maxEmployees) return 10;
@@ -584,6 +584,11 @@ export function scorePERatio10YearAvg(pe: number): number {
 }
 
 export function scorePe5YearAvgToCurrent(currentPe: number, fiveYearAvgPe: number): number {
+
+    if(currentPe <= 0 || fiveYearAvgPe <= 0) {
+        return 0;
+    }
+
     const diff = currentPe / fiveYearAvgPe;
 
     if (diff <= 0.5) {
