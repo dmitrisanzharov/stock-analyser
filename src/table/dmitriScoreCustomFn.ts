@@ -51,7 +51,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = '';
+export const COMPANY_ANALYZED = 'Alphabet (aka Google) Class A';
 
 const edgeCase1NotApplicable = -10000000; // banks when they do NOT have current ratios
 
@@ -101,7 +101,7 @@ function consoleLennar(
             throw new Error('SKIPPED in: ' + criteria);
         }
 
-        if(itemScore > itemMaxPossibleForThisCriteria) {
+        if (itemScore > itemMaxPossibleForThisCriteria) {
             throw new Error('itemScore > itemMaxPossibleForThisCriteria in: ' + criteria);
         }
 
@@ -114,7 +114,6 @@ function consoleLennar(
             currentScore: Number(currentScore.toFixed(2)),
             currentMaxScore: Number(currentMaxScore.toFixed(2))
         });
-
     }
 }
 
@@ -1152,7 +1151,7 @@ function dmitriScoreCustomFn(info: any) {
         const heldByBillionairesItem = item['is held by Billionaires? ( use percentage of total portfolios, MAX 1)'];
         const heldByBillionairesMaxScore = 1;
         const hbbWeight = 6;
-        const calcHBB = heldByBillionairesItem as number;
+        const calcHBB = heldByBillionairesItem > 1 ? 1 : heldByBillionairesItem as number;
         finalScore = finalScore + calcHBB * hbbWeight;
         maxScorePossible = maxScorePossible + heldByBillionairesMaxScore * hbbWeight;
         consoleLennar(
@@ -1303,6 +1302,79 @@ function dmitriScoreCustomFn(info: any) {
         finalScore = finalScore + calcAI * aiWeight;
         maxScorePossible = maxScorePossible + aiMaxScore * aiWeight;
         consoleLennar(item, finalScore, 'AI score', maxScorePossible, aiMaxScoreItem, calcAI, aiMaxScore);
+
+        // probabilityOfDoublingIn5Years
+        const probabilityOfDoublingIn5YearsItem = item['probabilityOfDoublingIn5Years'];
+        const probabilityOfDoublingIn5YearsMaxScore = 10;
+        const podiyWeight = 10;
+        const calcPODIY = (probabilityOfDoublingIn5YearsItem as number) / 10;
+        finalScore = finalScore + calcPODIY * podiyWeight;
+        maxScorePossible = maxScorePossible + probabilityOfDoublingIn5YearsMaxScore * podiyWeight;
+        consoleLennar(
+            item,
+            finalScore,
+            'probabilityOfDoublingIn5Years',
+            maxScorePossible,
+            probabilityOfDoublingIn5YearsItem,
+            calcPODIY,
+            probabilityOfDoublingIn5YearsMaxScore
+        );
+
+        // probabilityOfMaintainingValueIn5Years
+        const probabilityOfMaintainingValueIn5YearsItem = item['probabilityOfMaintainingValueIn5Years'];
+        const probabilityOfMaintainingValueIn5YearsMaxScore = 10;
+        const pmvWeight = 10;
+        const calcPMV = (probabilityOfMaintainingValueIn5YearsItem as number) / 10;
+        finalScore = finalScore + calcPMV * pmvWeight;
+        maxScorePossible = maxScorePossible + probabilityOfMaintainingValueIn5YearsMaxScore * pmvWeight;
+        consoleLennar(
+            item,
+            finalScore,
+            'probabilityOfMaintainingValueIn5Years',
+            maxScorePossible,
+            probabilityOfMaintainingValueIn5YearsItem,
+            calcPMV,
+            probabilityOfMaintainingValueIn5YearsMaxScore
+        );
+
+        // probabilityOfLosing50pcOfSharePriceIn5Years
+        const probabilityOfLosing50pcOfSharePriceIn5YearsItem = item['probabilityOfLosing50pcOfSharePriceIn5Years'];
+        const probabilityOfLosing50pcOfSharePriceIn5YearsMaxScore = 10;
+        const plpWeight = 10;
+        const calcPLP = scoreIntegrity(probabilityOfLosing50pcOfSharePriceIn5YearsItem as number / 10);
+        finalScore = finalScore + calcPLP * plpWeight;
+        maxScorePossible = maxScorePossible + probabilityOfLosing50pcOfSharePriceIn5YearsMaxScore * plpWeight;
+        consoleLennar(
+            item,
+            finalScore,
+            'probabilityOfLosing50pcOfSharePriceIn5Years (high is good)',
+            maxScorePossible,
+            probabilityOfLosing50pcOfSharePriceIn5YearsItem,
+            calcPLP,
+            probabilityOfLosing50pcOfSharePriceIn5YearsMaxScore
+        );
+
+        // probabilityOfMaintainingTheirDividendPaymentsOver5YearPeriod
+        const isDividendsStock = item['isDividendsStock'];
+        if (isDividendsStock) {
+            const probabilityOfMaintainingTheirDividendPaymentsOver5YearPeriodItem =
+                item['probabilityOfMaintainingTheirDividendPaymentsOver5YearPeriod'];
+            const probabilityOfMaintainingTheirDividendPaymentsOver5YearPeriodMaxScore = 10;
+            const pdpWeight = 10;
+            const calcPDP = (probabilityOfMaintainingTheirDividendPaymentsOver5YearPeriodItem as number) / 10;
+            finalScore = finalScore + calcPDP * pdpWeight;
+            maxScorePossible =
+                maxScorePossible + probabilityOfMaintainingTheirDividendPaymentsOver5YearPeriodMaxScore * pdpWeight;
+            consoleLennar(
+                item,
+                finalScore,
+                'probabilityOfMaintainingTheirDividendPaymentsOver5YearPeriod',
+                maxScorePossible,
+                probabilityOfMaintainingTheirDividendPaymentsOver5YearPeriodItem,
+                calcPDP,
+                probabilityOfMaintainingTheirDividendPaymentsOver5YearPeriodMaxScore
+            );
+        }
     }
 
     // end

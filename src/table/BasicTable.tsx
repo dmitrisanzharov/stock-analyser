@@ -38,7 +38,7 @@ const BasicTable = () => {
                 <>
                     <h2>Company analyzed: {COMPANY_ANALYZED}</h2>
                     <AnalysisTable finalSingleAnalysisData={finalSingleAnalysisData} />
-                    <hr />
+                    <Box sx={{ height: '50px' }}></Box>
                 </>
             )}
             <Table>

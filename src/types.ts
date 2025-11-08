@@ -229,7 +229,7 @@ export type InvestmentRecord = {
     'marketCapInBillionsOfEuro': number;
 
     indexesHoldIt: number | null;
-    'is held by Billionaires? ( use percentage of total portfolios, MAX 1)': number | null;
+    'is held by Billionaires? ( use percentage of total portfolios, MAX 1)': number;
 
     'valuation, max 6': number | null;
     'future growth, 6 max': number | null;
@@ -267,6 +267,14 @@ export type InvestmentRecord = {
 
     'Pure AI Average Grade': number | null;
     'score was by feel': string | null;
+
+    // Probabilities of SharePrice and Dividends
+    probabilityOfDoublingIn5Years: number;
+    probabilityOfMaintainingValueIn5Years: number;
+    probabilityOfLosing50pcOfSharePriceIn5Years: number;
+    isDividendsStock: boolean;
+    probabilityOfMaintainingTheirDividendPaymentsOver5YearPeriod: number;
+
 };
 
 export type SingleCompanyAnalysisType = {
