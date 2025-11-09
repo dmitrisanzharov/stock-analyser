@@ -51,7 +51,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'Alphabet (aka Google) Class A';
+export const COMPANY_ANALYZED = 'Repsol SA (base company for AI)';
 
 const edgeCase1NotApplicable = -10000000; // banks when they do NOT have current ratios
 
@@ -140,9 +140,9 @@ function dmitriScoreCustomFn(info: any) {
         console.log('============================');
 
         // Dividends Interest Rate
-        const dividendsInterestRateItem = item['Yield as % (pref, degiro, 5 years)'];
+        const dividendsInterestRateItem = item['dividendYieldAfterTax'];
         const dividendsInterestRateMaxScore = 10;
-        const dividendsInterestRateWeight = 4;
+        const dividendsInterestRateWeight = 5;
         const dividendsInterestRateScore = dividendScore(Number(dividendsInterestRateItem));
         finalScore = finalScore + dividendsInterestRateScore * dividendsInterestRateWeight;
         maxScorePossible = maxScorePossible + dividendsInterestRateMaxScore * dividendsInterestRateWeight;
