@@ -51,7 +51,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'Repsol SA (base company for AI)';
+export const COMPANY_ANALYZED = 'LG Electronics';
 
 const edgeCase1NotApplicable = -10000000; // banks when they do NOT have current ratios
 
@@ -922,9 +922,10 @@ function dmitriScoreCustomFn(info: any) {
         const investingComAnalystsScoreMaxScore = 10;
         const iasWeight = 4;
         const calcIAS =
-            ((buy_investingComAnalysts * buyWeightIeMax + hold_investingComAnalysts) /
-                (investingComAnalystsScoreTotalVotes * buyWeightIeMax)) *
+            ((Number(buy_investingComAnalysts) * Number(buyWeightIeMax) + Number(hold_investingComAnalysts)) /
+                (Number(investingComAnalystsScoreTotalVotes) * Number(buyWeightIeMax))) *
             10;
+        console.log('calcIAS: ', calcIAS);
         finalScore = finalScore + calcIAS * iasWeight;
         maxScorePossible = maxScorePossible + investingComAnalystsScoreMaxScore * iasWeight;
         consoleLennar(
@@ -1151,7 +1152,7 @@ function dmitriScoreCustomFn(info: any) {
         const heldByBillionairesItem = item['is held by Billionaires? ( use percentage of total portfolios, MAX 1)'];
         const heldByBillionairesMaxScore = 1;
         const hbbWeight = 6;
-        const calcHBB = heldByBillionairesItem > 1 ? 1 : heldByBillionairesItem as number;
+        const calcHBB = heldByBillionairesItem > 1 ? 1 : (heldByBillionairesItem as number);
         finalScore = finalScore + calcHBB * hbbWeight;
         maxScorePossible = maxScorePossible + heldByBillionairesMaxScore * hbbWeight;
         consoleLennar(
@@ -1341,7 +1342,7 @@ function dmitriScoreCustomFn(info: any) {
         const probabilityOfLosing50pcOfSharePriceIn5YearsItem = item['probabilityOfLosing50pcOfSharePriceIn5Years'];
         const probabilityOfLosing50pcOfSharePriceIn5YearsMaxScore = 10;
         const plpWeight = 10;
-        const calcPLP = scoreIntegrity(probabilityOfLosing50pcOfSharePriceIn5YearsItem as number / 10);
+        const calcPLP = scoreIntegrity((probabilityOfLosing50pcOfSharePriceIn5YearsItem as number) / 10);
         finalScore = finalScore + calcPLP * plpWeight;
         maxScorePossible = maxScorePossible + probabilityOfLosing50pcOfSharePriceIn5YearsMaxScore * plpWeight;
         consoleLennar(
