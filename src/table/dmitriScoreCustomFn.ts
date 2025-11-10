@@ -921,10 +921,10 @@ function dmitriScoreCustomFn(info: any) {
         const buyWeightIeMax = 2;
         const investingComAnalystsScoreMaxScore = 10;
         const iasWeight = 4;
-        const calcIAS =
+        const calcIAS = investingComAnalystsScoreTotalVotes > 0 ?
             ((Number(buy_investingComAnalysts) * Number(buyWeightIeMax) + Number(hold_investingComAnalysts)) /
                 (Number(investingComAnalystsScoreTotalVotes) * Number(buyWeightIeMax))) *
-            10;
+            10 : 0;
         console.log('calcIAS: ', calcIAS);
         finalScore = finalScore + calcIAS * iasWeight;
         maxScorePossible = maxScorePossible + investingComAnalystsScoreMaxScore * iasWeight;
