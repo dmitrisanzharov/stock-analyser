@@ -51,7 +51,7 @@ import {
 
 import { dmitriScoreConversionNumber } from '../globalVars';
 
-export const COMPANY_ANALYZED = 'LG Electronics';
+export const COMPANY_ANALYZED = '';
 
 const edgeCase1NotApplicable = -10000000; // banks when they do NOT have current ratios
 
@@ -925,7 +925,6 @@ function dmitriScoreCustomFn(info: any) {
             ((Number(buy_investingComAnalysts) * Number(buyWeightIeMax) + Number(hold_investingComAnalysts)) /
                 (Number(investingComAnalystsScoreTotalVotes) * Number(buyWeightIeMax))) *
             10 : 0;
-        console.log('calcIAS: ', calcIAS);
         finalScore = finalScore + calcIAS * iasWeight;
         maxScorePossible = maxScorePossible + investingComAnalystsScoreMaxScore * iasWeight;
         consoleLennar(
